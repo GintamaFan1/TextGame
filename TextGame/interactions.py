@@ -20,21 +20,50 @@ def melee_attack(attacker, defender):
     power = attacker.str
     defence = defender.str
     damage = 4
+    skill = None
     
     if attacker.skills:
+        physical_skills = []
         for ski in attacker.skills:
             if ski.category == "Physical":
-                
+                physical_skills.append(ski)
+        if physical_skills:
+            if len(physical_skills) > 1:
+                skill = random.choice(physical_skills)
+            else:
+                print(physical_skills, "skills")
+                skill = physical_skills[0]
 
-    if power >= defence:
-        difference = power - defence
-        damage += (damage * .5) + (difference * .2)
+            
+    
+    if skill != None:
+        if attacker.MP >= skill.cost:
+            print(colored((f"{attacker.name} uses {skill.name}, DMG: {skill.damage}, Cost:{skill.cost}"), "blue"))
+            if power >= defence:
+                difference = power - defence
+                damage += (damage * .5) + (difference * .2)
+                damage += skill.damage
+                attacker.MP -= skill.cost
+            
+            else:
+                difference = defence - power
+                damage -= (damage * .5) + (difference * .2)
+                damage += skill.damage
+                attacker.MP -= skill.cost
     
     else:
-        difference = defence - power
-        damage -= (damage * .5) + (difference * .2)
-    
-    defender.HP -= damage
+        print(colored((f"{attacker.name} gains 5 MP")))
+        if power >= defence:
+            difference = power - defence
+            damage += (damage * .5) + (difference * .2)
+            attacker.MP += 5
+        
+        else:
+            difference = defence - power
+            damage -= (damage * .5) + (difference * .2)
+            attacker.MP += 5
+        
+        
 
     return round(damage,1)
 
@@ -42,17 +71,46 @@ def magical_attack(attacker, defender):
     power = attacker.int
     defence = defender.int
     damage = 4
-    
+    skill = None
 
-    if power >= defence:
-        difference = power - defence
-        damage += (damage * .5) + (difference * .2)
+    if attacker.skills:
+        magical_skills = []
+        for ski in attacker.skills:
+            if ski.category == "Magical":
+                magical_skills.append(ski)
+        if magical_skills:
+            if len(magical_skills) > 1:
+                skill = random.choice(magical_skills)
+            else:
+                skill = magical_skills[0]
+
+
+    if skill != None:
+        if attacker.MP >= skill.cost:
+            print(colored((f"{attacker.name} uses {skill.name}, DMG: {skill.damage}, Cost:{skill.cost}"), "blue"))
+            if power >= defence:
+                difference = power - defence
+                damage += (damage * .5) + (difference * .2)
+                damage += skill.damage
+                attacker.MP -= skill.cost
+            
+            else:
+                difference = defence - power
+                damage -= (damage * .5) + (difference * .2)
+                damage += skill.damage
+                attacker.MP -= skill.cost
     
     else:
-        difference = defence - power
-        damage -= (damage * .5) + (difference * .2)
-    
-    defender.HP -= damage
+        print(colored((f"{attacker.name} gains 5 MP")))
+        if power >= defence:
+            difference = power - defence
+            damage += (damage * .5) + (difference * .2)
+            attacker.MP += 5
+        
+        else:
+            difference = defence - power
+            damage -= (damage * .5) + (difference * .2)
+            attacker.MP += 5
 
     return round(damage,1)
 
@@ -128,7 +186,7 @@ def killed(place, initiator, defender, initiator_cords, defender_coords):
 
 
 def battle(char1, char2, place, coords, start, heroes, villains):
-    exp = 3
+    exp = 2
     damage = 0
     if char1.str >= char1.int:
         damage = melee_attack(char1, char2)

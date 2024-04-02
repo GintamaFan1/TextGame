@@ -173,11 +173,26 @@ class AIAgent:
         start = self.pick_move()
         
         if start:
+            needs_removal = None
             location = self.location()
             if location == None:
-                return
+                if self.character.nature == "Hero":
+                    for hero in self.heroes:
+                        if hero == self.character:
+                            needs_removal.append(hero)
+                else:
+                    for vil in self.villains:
+                        if vil == self.character:
+                            needs_removal.append(vil)
+            if needs_removal != None:
+                if self.character.nature == "Hero":
+                    self.heroes.remove(needs_removal)
+                else:
+                    self.villains.remove(needs_removal)
+
             coords, player = location
-            
+
+           
             print(coords, "start")
             territory_objects = self.place.tiles[start[0]].objects
             if territory_objects:

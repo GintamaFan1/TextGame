@@ -153,6 +153,10 @@ def main():
         Agaroth.show_map()
 
         time.sleep(1)
+        for char in Heroes:
+            print(char.name)
+        for char in Villains:
+            print(char.name)
         turns += 1
 
     if len(Heroes) == 0:
