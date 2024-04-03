@@ -172,8 +172,8 @@ def killed(place, initiator, defender, initiator_cords, defender_coords):
                 open_space = [tile for tile in place.tiles.values() if len(tile.objects) == 0]
                 random.shuffle(open_space)
                 open_space[0].add_object(item)
-            for item in defender.items:
-                item.unequip_from(defender)
+            for item in initiator.items:
+                item.unequip_from(initiator)
 
         if len(initiator.skills) > 0:
             print(f"{initiator.name} dropped skills")
@@ -181,12 +181,12 @@ def killed(place, initiator, defender, initiator_cords, defender_coords):
                 open_space = [tile for tile in place.tiles.values() if len(tile.objects) == 0]
                 random.shuffle(open_space)
                 open_space[0].add_object(skill)
-            for skill in defender.skills:
-                defender.skills.remove(skill)
+                print(open_space[0].tile, "open skill")
+            for skill in initiator.skills:
+                initiator.skills.remove(skill)
 
 
-def battle(char1, char2, place, coords, start, heroes, villains):
-    exp = 2
+def battle(char1, char2):
     damage = 0
     if char1.str >= char1.int:
         damage = melee_attack(char1, char2)
@@ -194,50 +194,15 @@ def battle(char1, char2, place, coords, start, heroes, villains):
         damage = magical_attack(char1, char2)
     
     char2.HP -= damage
+    round(char2.HP, 1)
     print(colored((f"{char1.name} dealt {damage} points of damage to {char2.name}"), "red"))
     
-    if char2.HP <= 0:
-    
-        killed(place, char1, char2, coords, start)
-        if char2.nature == "Hero":
-            for char in heroes:
-                if char == char2:
-                    heroes.remove(char2)
-        else:
-            for char in villains:
-                if char == char2:
-                    villains.remove(char2)
-        
-    else:
-        if char1.nature == "Hero":
-            char1.gain_exp(exp) 
-            print(colored((f"{char1.name} gained {exp} Exp "), "green"))
-        else:
-            char2.gain_exp(exp) 
-            print(colored((f"{char2.name} gained {exp} Exp"), "green"))
-    
-        if char2.str >= char2.int:
-            damage = melee_attack(char2, char1)
-        else:
-            damage = magical_attack(char2, char1)
-        
-        char1.HP -= damage
 
-        print(colored((f"{char2.name} dealt {damage} to {char1.name}"), "red"))
-
-        if char1.HP <= 0:
+    
         
-            killed(place, char1, char2, coords, start)
-            if char1.nature == "Hero":
-                for char in heroes:
-                    if char == char1:
-                        heroes.remove(char1)
-                        return
-            else:
-                for char in villains:
-                    if char == char1:
-                        villains.remove(char1)
-                        return
+    
+
+       
 
 
 

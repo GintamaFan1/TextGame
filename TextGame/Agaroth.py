@@ -141,23 +141,21 @@ def main():
         for char in characters:
             char.make_move()
             
-        
-            
         for char in Heroes:
+            char.HP = round(char.HP, 1)
             if char.HP <= 0:
                 Heroes.remove(char)
         for char in Villains:
+            char.HP = round(char.HP, 1)
             if char.HP <= 0:
                 Villains.remove(char)
-        
+        print(turns, "turns")
         Agaroth.show_map()
 
         time.sleep(1)
-        for char in Heroes:
-            print(char.name)
-        for char in Villains:
-            print(char.name)
+        
         turns += 1
+        
 
     if len(Heroes) == 0:
         print("Villains win")
