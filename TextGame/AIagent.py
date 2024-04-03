@@ -67,15 +67,10 @@ class AIAgent:
 
     def move_score(self, sorted_value, neighbor_values):
         move_score = {}
-        
-        
         for value in sorted_value:
             if neighbor_values[value]:
                 for Current_location in neighbor_values[value]:
-                
                     move_score[(Current_location)] = value
-        
-
         return move_score
     
     def predicter(self, Moving_to):

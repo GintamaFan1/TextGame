@@ -105,7 +105,7 @@ def main():
             Skill.append(Skills(name, category, damage, cost))
 
 
-    Agaroth = Map("Agaroth", 20, 20)
+    Agaroth = Map("Agaroth", 10, 40)
     Agaroth.create_map()
 
     random.shuffle(Villains)
@@ -145,10 +145,26 @@ def main():
             char.HP = round(char.HP, 1)
             if char.HP <= 0:
                 Heroes.remove(char)
+            
         for char in Villains:
             char.HP = round(char.HP, 1)
             if char.HP <= 0:
                 Villains.remove(char)
+
+        for char in Heroes:
+            max_HP = 100
+            char.HP += 10
+            if char.HP > max_HP:
+                char.HP = max_HP
+
+        for char in Villains:
+            max_HP = 150
+            char.HP += 10
+            if char.HP > max_HP:
+                char.HP = max_HP
+
+
+
         print(turns, "turns")
         Agaroth.show_map()
 
