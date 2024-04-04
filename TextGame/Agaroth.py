@@ -56,6 +56,18 @@ def place_items(self, skills, items):
     for tile in tiles_to_use[items_to_place:]:
         tile.add_object(skills.pop(0))
 
+def pick_character(all_characters):
+    for char in all_characters:
+        print(char.name, char.nature, all_characters.index(char))
+    
+    char = int(input("Choose a character"))
+
+    return all_characters[char].name
+
+    
+    
+
+
 def main():
     Heroes = []
     
@@ -105,7 +117,7 @@ def main():
             Skill.append(Skills(name, category, damage, cost))
 
 
-    Agaroth = Map("Agaroth", 10, 40)
+    Agaroth = Map("Agaroth", 10, 20)
     Agaroth.create_map()
 
     random.shuffle(Villains)
@@ -135,12 +147,22 @@ def main():
     place_characters(Agaroth, Heroes,Villains)
     place_items(Agaroth, Skill, Items)
     Agaroth.show_map()
+    player_character = pick_character(combined_characters)
 
     while len(Heroes) > 0 and len(Villains) > 0:
         
+        for vil in Villains:
+                vil.buff()
+
         for char in characters:
-            char.make_move()
+            if char.character.name != player_character:
+                char.make_move()
+            else:
+                char.player_move()
             
+        for vil in Villains:
+                vil.unbuff()
+                
         for char in Heroes:
             char.HP = round(char.HP, 1)
             if char.HP <= 0:
@@ -153,15 +175,21 @@ def main():
 
         for char in Heroes:
             max_HP = 100
-            char.HP += 10
+            max_MP = 200
+            char.HP += 3
             if char.HP > max_HP:
                 char.HP = max_HP
+            if char.MP > max_MP:
+                char.MP = max_MP
 
         for char in Villains:
             max_HP = 150
-            char.HP += 10
+            max_MP = 300
+            char.HP += 1
             if char.HP > max_HP:
                 char.HP = max_HP
+            if char.MP > max_MP:
+                char.MP = max_MP
 
 
 
@@ -180,7 +208,6 @@ def main():
     else:
         for hero in Heroes:
             print(colored(hero.name, "green"))
-            print(hero.str, hero.agi, hero.int,  hero.level, hero.items, hero.skills, hero.exp)
         print("Heroes win")
 
 

@@ -14,6 +14,7 @@ class Hero:
         self.items = []
         self.skills = []
         self.nature = "Hero"
+        self.is_player = False
     
     def add_item(self, item):
         if item not in self.item:
@@ -34,7 +35,7 @@ class Hero:
             self.skills.remove(skill)
 
     def check_level(self):
-        limit = self.level * 10
+        limit = self.level * 15
         if self.exp >= limit:
             self.str += 1
             self.int += 1
@@ -47,12 +48,10 @@ class Hero:
                 self.HP = 100
             if self.MP > 200:
                 self.MP = 200
-
-            
-            print(colored((f"    {self.name} Has Leveled Up! And has {self.HP} HP"), "green"))
+            print(colored((f"    {self.name} Has Leveled Up! And has {self.HP} HP, level: {self.level, self.exp}"), "green"))
     
     def gain_exp(self, exp):
-        if self.level == 5:
+        if self.level == 7:
             print(colored((f"    {self.name} has reached max level"), "magenta"))
         else:
             
@@ -74,6 +73,8 @@ class Villain:
         self.kills = []
         self.skills = []
         self.nature = "Villain"
+        self.buff_on = False
+        self.is_player = False
 
     def add_item(self, item):
         if item not in self.item:
@@ -94,4 +95,20 @@ class Villain:
     def remove_skill(self, skill):
         if skill in self.skills:
             self.skills.remove(skill)
+
+    def buff(self):
+        if len(self.kills) > 0:
+            self.buff_on = True
+            increase = len(self.kills)
+            print(colored((f"{self.name} is empowered by the blood of enemies, plus {increase} to stats"), "light_cyan"))
+            self.str += increase
+            self.int += increase
+            self.agi += increase
     
+    def unbuff(self):
+        if self.buff_on == True:
+            increase = len(self.kills)
+            self.str -= increase
+            self.int -= increase
+            self.agi -= increase
+        self.buff_on = False

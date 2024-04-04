@@ -50,6 +50,18 @@ def melee_attack(attacker, defender):
                 damage -= (damage * .5) + (difference * .2)
                 damage += skill.damage
                 attacker.MP -= skill.cost
+        else:
+            print(colored((f"{attacker.name} gains 5 MP")))
+            if power >= defence:
+                difference = power - defence
+                damage += (damage * .5) + (difference * .2)
+                attacker.MP += 5
+            
+            else:
+                difference = defence - power
+                damage -= (damage * .5) + (difference * .2)
+                attacker.MP += 5
+
     
     else:
         print(colored((f"{attacker.name} gains 5 MP")))
@@ -99,6 +111,17 @@ def magical_attack(attacker, defender):
                 damage -= (damage * .5) + (difference * .2)
                 damage += skill.damage
                 attacker.MP -= skill.cost
+        else:
+            print(colored((f"{attacker.name} gains 5 MP")))
+            if power >= defence:
+                difference = power - defence
+                damage += (damage * .5) + (difference * .2)
+                attacker.MP += 5
+            
+            else:
+                difference = defence - power
+                damage -= (damage * .5) + (difference * .2)
+                attacker.MP += 5
     
     else:
         print(colored((f"{attacker.name} gains 5 MP")))
@@ -123,6 +146,10 @@ def killed(place, initiator, defender, initiator_cords, defender_coords):
         
         else:
             initiator.kills.append(defender)
+            if initiator.HP < 200:
+                initiator.HP + 20
+            if initiator.HP > 200:
+                initiator.HP = 200
             print(colored((f"{initiator.name} killed {defender.name} "), "red"))
         
         
@@ -161,6 +188,10 @@ def killed(place, initiator, defender, initiator_cords, defender_coords):
         
         else:
             defender.kills.append(initiator)
+            if defender.HP < 200:
+                defender.HP + 20
+            if defender.HP > 200:
+                defender.HP = 200
             print(colored((f"{defender.name} killed {initiator.name} "), "red"))
 
         place.tiles[initiator_cords].remove_object(initiator)
@@ -188,14 +219,18 @@ def killed(place, initiator, defender, initiator_cords, defender_coords):
 
 def battle(char1, char2):
     damage = 0
+        
     if char1.str >= char1.int:
         damage = melee_attack(char1, char2)
     else:
         damage = magical_attack(char1, char2)
     
+    if damage <= 1:
+        damage = 1
+    
     char2.HP -= damage
     round(char2.HP, 1)
-    print(colored((f"{char1.name} dealt {damage} points of damage to {char2.name}"), "red"))
+    print(colored((f"{char1.name} dealt {damage} points of damage to {char2.name}"), "light_green"))
     
 
     

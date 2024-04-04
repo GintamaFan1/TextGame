@@ -13,7 +13,7 @@ class Map:
         self.hero_explored = []
         self.villain_explored = []
     
-    def create_map(self, block_percentage=0.06):
+    def create_map(self, block_percentage=0.1):
         for i in range(self.height):
             for j in range(self.width):
                 self.tiles[(i,j)] = Tile((i,j))
@@ -29,10 +29,16 @@ class Map:
         for i in range(self.height):
             for j in range(self.width):
                 has_item_or_skill = False
+                is_player = False
                 for obj in self.tiles[(i,j)].objects:
                     if isinstance(obj, Item) or isinstance(obj,Skills):
                         has_item_or_skill = True
                         break
+                    if isinstance(obj, Hero) or isinstance(obj, Villain):
+                        if obj.is_player == True:
+                            is_player = True
+                            break
+                    
 
                 if "Blocked" in self.tiles[(i,j)].objects:
                     print("X ",end="")
@@ -40,6 +46,8 @@ class Map:
                     print("_ ", end="")
                 elif has_item_or_skill == True:
                     print(colored("I ", "yellow"), end="")
+                elif is_player == True:
+                    print(colored("P ", "green"), end="")
                 elif isinstance(obj, Hero):
                     print(colored("P ", "blue"), end="")
                 else:
