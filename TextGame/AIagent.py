@@ -8,6 +8,7 @@ import copy
 import math
 import numpy as np
 from termcolor import colored
+import pygame
 class AIAgent:
     def __init__(self, place, character, heroes, villains):
         self.place = place
@@ -15,11 +16,18 @@ class AIAgent:
         self.moves_made = []
         self.heroes = heroes
         self.villains = villains
+        self.x = None
+        self.y = None
 
     def location(self):
         for tile in self.place.tiles.values():
             if self.character in tile.objects:
-                return (tile.tile, self.character)
+                self.x = tile.x
+                self.y = tile.y
+                return ((tile.x, tile.y), self.character)
+        self.x = None
+        self.y = None
+        return None
 
     
     def get_neighbors(self, x, y, radius=2):
@@ -29,9 +37,7 @@ class AIAgent:
             for j in range(-radius, radius + 1):
                 if i == 0 and j == 0:
                     continue
-                
                 new_i, new_j = i + x, j + y
-
                 if new_i >= 0 and new_i <= self.place.height - 1 and new_j >= 0 and new_j <= self.place.width - 1:
                     neighbors.append((new_i, new_j))
         
@@ -166,10 +172,8 @@ class AIAgent:
     
     def simulate_attack(self, initiator, defender):
         damage = 6
-        
         if damage >= initiator.HP:
             return True
-        
         return False
     
     def run_away(self):
@@ -206,70 +210,60 @@ class AIAgent:
         Moving_to = (move_x, move_y)
         available_moves.remove(Moving_to)
 
-        territory_objects = self.place.tiles[Moving_to]
+        territory_objects = self.place.tiles[Moving_to].objects
+
         
         if territory_objects:
-            territory = territory_objects
-            print(f"Player tries to move to {territory}")
+            territory = territory_objects[0]
+        else:
+            territory = None
+        print(f"Player tries to move to {territory}")
 
-            if isinstance(territory, Item) or isinstance(territory, Skills):
-                print("player encounters an item")
-                self.place.tiles[Moving_to].remove_object(territory)
-                self.place.tiles[Current_location].remove_object(self.character)
-                self.place.tiles[Moving_to].add_object(self.character)
-                pick_up_item(territory, self.character)
+        if isinstance(territory, Item) or isinstance(territory, Skills):
+            print("player encounters an item")
+            self.place.tiles[Moving_to].remove_object(territory)
+            self.place.tiles[Current_location].remove_object(self.character)
+            self.place.tiles[Moving_to].add_object(self.character)
+            pick_up_item(territory, self.character)
+        
+            print(colored((f"The Player picks up {territory.name}"), "cyan"))
             
-                print(colored((f"The Player picks up {territory.name}"), "cyan"))
-                
-                return
-            
-            elif isinstance(territory, Hero) or isinstance(territory, Villain):
-                print(self.character.name, self.character.HP, self.character.str, self.character.MP,
-                       self.character.int, self.character.agi)
+            return
+        
+        elif isinstance(territory, Hero) or isinstance(territory, Villain):
+            print(self.character.name, self.character.HP, self.character.str, self.character.MP,
+                    self.character.int, self.character.agi)
 
-                print(f"Enemy: {territory.name}, {territory.HP}, {territory.MP}, {territory.str}, {territory.int}, {territory.agi}")
+            print(f"Enemy: {territory.name}, {territory.HP}, {territory.MP}, {territory.str}, {territory.int}, {territory.agi}")
 
-                choice = input("will you fight? Enter yes or no")
+            choice = input("will you fight? Enter yes or no ")
 
-                if choice == "Yes" or choice == "YES" or choice == "yes":
-                    print(f"{self.character.name} Attacks {territory.name} ")
-                    exp = 2
+            if choice == "Yes" or choice == "YES" or choice == "yes":
+                print(f"{self.character.name} Attacks {territory.name} ")
+                exp = 2
 
-                    if self.character.agi >= territory.agi:
-                        battle(self.character, territory)
+                if self.character.agi >= territory.agi:
+                    battle(self.character, territory)
 
-                        if territory.HP <= 0:
-                            killed(self.place, self.character, territory, Current_location, Moving_to)
-                            if territory.nature == "Hero":
-                                for char in self.heroes:
-                                    if char == territory:
-                                        self.heroes.remove(territory)
-                            else:
-                                for char in self.villains:
-                                    if char == territory:
-                                        self.villains.remove(territory)
-                        
+                    if territory.HP <= 0:
+                        killed(self.place, self.character, territory, Current_location, Moving_to)
+                        if territory.nature == "Hero":
+                            for char in self.heroes:
+                                if char == territory:
+                                    self.heroes.remove(territory)
                         else:
-                            if self.character.nature == "Hero":
-                                self.character.gain_exp(exp) 
-                                print(colored((f"{self.character.name} gained {exp} Exp "), "green"))
-                            else:
-                                territory.gain_exp(exp) 
-                                print(colored((f"{territory.name} gained {exp} Exp"), "green"))
-                        
-                            battle(territory, self.character)
-
-                            if self.character.HP <= 0:
-                                killed(self.place, self.character, territory, Current_location, Moving_to)
-                                if self.character.nature == "Hero":
-                                    for char in self.heroes:
-                                        if char == self.character:
-                                            self.heroes.remove(self.character)
-                                else:
-                                    for char in self.villains:
-                                        if char == self.character:
-                                            self.villains.remove(self.character)
+                            for char in self.villains:
+                                if char == territory:
+                                    self.villains.remove(territory)
+                    
                     else:
+                        if self.character.nature == "Hero":
+                            self.character.gain_exp(exp) 
+                            print(colored((f"{self.character.name} gained {exp} Exp "), "green"))
+                        else:
+                            territory.gain_exp(exp) 
+                            print(colored((f"{territory.name} gained {exp} Exp"), "green"))
+                    
                         battle(territory, self.character)
 
                         if self.character.HP <= 0:
@@ -282,61 +276,73 @@ class AIAgent:
                                 for char in self.villains:
                                     if char == self.character:
                                         self.villains.remove(self.character)
-                        
-                        else:
-                            if territory.nature == "Hero":
-                                territory.gain_exp(exp) 
-                                print(colored((f"{territory.name} gained {exp} Exp "), "green"))
-                            else:
-                                self.character.gain_exp(exp) 
-                                print(colored((f"{self.character.name} gained {exp} Exp"), "green"))
-                        
-                            battle(self.character, territory)
-
-                            if territory.HP <= 0:
-                                killed(self.place, self.character, territory, Current_location, Moving_to)
-                                if territory.nature == "Hero":
-                                    for char in self.heroes:
-                                        if char == territory:
-                                            self.heroes.remove(territory)
-                                else:
-                                    for char in self.villains:
-                                        if char == territory:
-                                            self.villains.remove(territory)
-                
                 else:
-                    safe_move = self.run_away()
-                    if safe_move and self.character.MP >= 20:
-                        print(colored((f"Player runs away to {safe_move}"), "light_magenta"))
-                        self.character.MP -= 20
-                        self.place.tiles[Current_location].remove_object(self.character)
-                        self.place.tiles[safe_move].add_object(self.character)
-                        if safe_move not in self.moves_made:
-                            self.moves_made.append(safe_move)
+                    battle(territory, self.character)
+
+                    if self.character.HP <= 0:
+                        killed(self.place, self.character, territory, Current_location, Moving_to)
                         if self.character.nature == "Hero":
-                            if safe_move not in self.place.hero_explored:
-                                self.place.hero_explored.append(safe_move)
+                            for char in self.heroes:
+                                if char == self.character:
+                                    self.heroes.remove(self.character)
                         else:
-                            if safe_move not in self.place.villain_explored:
-                                self.place.villain_explored.append(safe_move)
-                        return
+                            for char in self.villains:
+                                if char == self.character:
+                                    self.villains.remove(self.character)
+                    
+                    else:
+                        if territory.nature == "Hero":
+                            territory.gain_exp(exp) 
+                            print(colored((f"{territory.name} gained {exp} Exp "), "green"))
+                        else:
+                            self.character.gain_exp(exp) 
+                            print(colored((f"{self.character.name} gained {exp} Exp"), "green"))
+                    
+                        battle(self.character, territory)
+
+                        if territory.HP <= 0:
+                            killed(self.place, self.character, territory, Current_location, Moving_to)
+                            if territory.nature == "Hero":
+                                for char in self.heroes:
+                                    if char == territory:
+                                        self.heroes.remove(territory)
+                            else:
+                                for char in self.villains:
+                                    if char == territory:
+                                        self.villains.remove(territory)
             
             else:
-                print(f"Player moves to {Moving_to}")
-                self.place.tiles[Current_location].remove_object(self.character)
-                self.place.tiles[Moving_to].add_object(self.character)
-                if Moving_to not in self.moves_made:
-                    self.moves_made.append(Moving_to)
-                if self.character.nature == "Hero":
-                    if Moving_to not in self.place.hero_explored:
-                        self.place.hero_explored.append(Moving_to)
-                else:
-                    if Moving_to not in self.place.villain_explored:
-                        self.place.villain_explored.append(Moving_to)
-                return
-
+                safe_move = self.run_away()
+                if safe_move and self.character.MP >= 20:
+                    print(colored((f"Player runs away to {safe_move}"), "light_magenta"))
+                    self.character.MP -= 20
+                    self.place.tiles[Current_location].remove_object(self.character)
+                    self.place.tiles[safe_move].add_object(self.character)
+                    if safe_move not in self.moves_made:
+                        self.moves_made.append(safe_move)
+                    if self.character.nature == "Hero":
+                        if safe_move not in self.place.hero_explored:
+                            self.place.hero_explored.append(safe_move)
+                    else:
+                        if safe_move not in self.place.villain_explored:
+                            self.place.villain_explored.append(safe_move)
+                    return
+        
         else:
-            print("Error getting territory")
+            print(f"Player moves to {Moving_to}")
+            self.place.tiles[Current_location].remove_object(self.character)
+            self.place.tiles[Moving_to].add_object(self.character)
+            if Moving_to not in self.moves_made:
+                self.moves_made.append(Moving_to)
+            if self.character.nature == "Hero":
+                if Moving_to not in self.place.hero_explored:
+                    self.place.hero_explored.append(Moving_to)
+            else:
+                if Moving_to not in self.place.villain_explored:
+                    self.place.villain_explored.append(Moving_to)
+            return
+
+         
 
 
 
@@ -368,6 +374,7 @@ class AIAgent:
            
             print(Current_location, "Start")
             territory_objects = self.place.tiles[Moving_to[0]].objects
+            
             if territory_objects:
                 territory = territory_objects[0]
             else:
@@ -501,7 +508,19 @@ class AIAgent:
                 return
         else:
             return
-        
+
+    def draw(self, surface):
+        TILE_SIZE = 1
+        if self.x is not None and self.y is not None:
+            # Render the AI agent on the Pygame surface
+            agent_rect = pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+            if self.character.nature == "Hero":
+                pygame.draw.rect(surface, (0, 255, 0), agent_rect)
+            else:
+                pygame.draw.rect(surface, (255, 0, 0), agent_rect)
+            font = pygame.font.Font(None, 18)
+            text = font.render(self.character.name, True, (255, 255, 255))
+            surface.blit(text, (self.x * TILE_SIZE + 10, self.y * TILE_SIZE + 10))
                         
 
                         

@@ -1,5 +1,6 @@
 import random
 from termcolor import colored
+import pygame
 
 class Hero:
     def __init__(self, name, Str, Int, Agi):
@@ -15,6 +16,8 @@ class Hero:
         self.skills = []
         self.nature = "Hero"
         self.is_player = False
+        self.x = None
+        self.y = None
     
     def add_item(self, item):
         if item not in self.item:
@@ -58,6 +61,15 @@ class Hero:
             self.exp += exp
             print(colored((f"{self.name} has {self.exp} exp points and has {self.HP} HP"), "grey"))
             self.check_level()
+    
+    def draw(self, surface, x, y):
+        TILE_SIZE = 1
+        # Render the character on the Pygame surface
+        char_rect = pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+        pygame.draw.rect(surface, (255, 0, 0), char_rect)
+        font = pygame.font.Font(None, 24)
+        text = font.render(self.name, True, (255, 255, 255))
+        surface.blit(text, (self.x * TILE_SIZE + 10, self.y * TILE_SIZE + 10))
             
                 
 class Villain:
@@ -75,6 +87,8 @@ class Villain:
         self.nature = "Villain"
         self.buff_on = False
         self.is_player = False
+        self.x = None
+        self.y = None
 
     def add_item(self, item):
         if item not in self.item:
@@ -112,3 +126,12 @@ class Villain:
             self.int -= increase
             self.agi -= increase
         self.buff_on = False
+        
+    def draw(self, surface, x, y):
+        TILE_SIZE = 1
+        # Render the character on the Pygame surface
+        char_rect = pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+        pygame.draw.rect(surface, (255, 0, 0), char_rect)
+        font = pygame.font.Font(None, 24)
+        text = font.render(self.name, True, (255, 255, 255))
+        surface.blit(text, (self.x * TILE_SIZE + 10, self.y * TILE_SIZE + 10))
