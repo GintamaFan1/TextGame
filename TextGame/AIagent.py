@@ -510,7 +510,7 @@ class AIAgent:
             return
 
     def draw(self, surface):
-        TILE_SIZE = 1
+        TILE_SIZE = 32
         if self.x is not None and self.y is not None:
             # Render the AI agent on the Pygame surface
             agent_rect = pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)

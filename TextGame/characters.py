@@ -63,7 +63,7 @@ class Hero:
             self.check_level()
     
     def draw(self, surface, x, y):
-        TILE_SIZE = 1
+        TILE_SIZE = 32
         # Render the character on the Pygame surface
         char_rect = pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
         pygame.draw.rect(surface, (255, 0, 0), char_rect)

@@ -52,6 +52,9 @@ class Game:
 
             for agent in self.ai_agents:
                 agent.make_move()
+
+            if len(self.heroes) == 0 or len(self.villains) == 0:
+                running = False 
             
             time.sleep(1)
             
@@ -66,9 +69,9 @@ class Game:
         for villain in self.villains:
             villain.draw(self.window, villain.x, villain.y)
         for item in self.items:
-            item.draw(self.window)
+            item.draw(self.window, item.x, item.y)
         for skill in self.skills:
-            skill.draw(self.window)
+            skill.draw(self.window, skill.x, skill.y)
         for agent in self.ai_agents:
             agent.draw(self.window)
 

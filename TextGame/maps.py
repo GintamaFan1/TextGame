@@ -145,7 +145,7 @@ class Tile:
             return False
     
     def draw(self, surface):
-        TILE_SIZE = 2
+        TILE_SIZE = 32
         tile_rect = pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
         pygame.draw.rect(surface, (128, 128, 128), tile_rect)
 
