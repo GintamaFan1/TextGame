@@ -212,7 +212,7 @@ def killed(place, initiator, defender, initiator_cords, defender_coords):
                 open_space = [tile for tile in place.tiles.values() if len(tile.objects) == 0]
                 random.shuffle(open_space)
                 open_space[0].add_object(skill)
-                print(open_space[0].tile, "open skill")
+                
             for skill in initiator.skills:
                 initiator.skills.remove(skill)
 

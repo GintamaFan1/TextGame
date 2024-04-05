@@ -29,7 +29,7 @@ class Game:
         self.height = height
         self.window = pygame.display.set_mode((self.width, self.height))
         pygame.font.init()
-        self.map = Map("Agaroth", 15, 15)
+        self.map = Map("Agaroth", 10, 30)
         self.map.create_map()
         self.map.place_characters(heroes, villains)
         self.map.place_items(skills, items)
@@ -43,23 +43,41 @@ class Game:
 
     def run(self):
         running = True
+        turn = 1
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
             
             self.map.show_map()
+            
 
             for agent in self.ai_agents:
                 agent.make_move()
+                agent.character.HP = round(agent.character.HP, 1)
 
-            if len(self.heroes) == 0 or len(self.villains) == 0:
-                running = False 
+                agent.character.HP += 2
+
+                if agent.character.nature == "Hero":
+                    if agent.character.HP > 100:
+                        agent.character.HP = 100
+                else:
+                    if agent.character.HP > 150:
+                        agent.character.HP = 150
             
-            time.sleep(1)
+            
             
             self.draw()
             pygame.display.flip()
+            print("turn",turn)
+            turn += 1
+
+            if len(self.heroes) == 0:
+                running = False
+                print("Villains Win")
+            if len(self.villains) == 0:
+                running = False
+                print("Heroes Win") 
 
     def draw(self):
         self.window.fill((0, 0, 0))
@@ -69,9 +87,9 @@ class Game:
         for villain in self.villains:
             villain.draw(self.window, villain.x, villain.y)
         for item in self.items:
-            item.draw(self.window, item.x, item.y)
+            item.draw(self.window)
         for skill in self.skills:
-            skill.draw(self.window, skill.x, skill.y)
+            skill.draw(self.window)
         for agent in self.ai_agents:
             agent.draw(self.window)
 
@@ -128,6 +146,7 @@ def main():
     
     
     game.run()
+    
     
 main()
 
