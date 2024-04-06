@@ -8,53 +8,90 @@ from operator import attrgetter
 import copy
 import time
 from termcolor import colored
-def place_characters(self,heroes, villains):
-        row = 4
-        col = 4
-        heroes_copy = heroes.copy()
-        villains_copy = villains.copy()
-        for i in range(row  ):
-            for j in range(col ):
-                if len(self.tiles[(i,j)].objects) == 0 and len(heroes_copy) != 0:
-                    random.shuffle(heroes_copy)
-                    random_hero = heroes_copy.pop(0)
-                    self.tiles[(i,j)].add_object(random_hero)
-                    
-        
-        for i in range(self.height - row  , self.height ):
-            for j in range(self.width - col  , self.width ):
-                if len(self.tiles[(i,j)].objects) == 0 and len(villains_copy) != 0:
-                    random.shuffle(villains_copy)
-                    random_villain = villains_copy.pop(0)
-                    self.tiles[(i,j)].add_object(random_villain)
+import pygame
 
-def place_items(self, skills, items):
-    # Get a list of all empty tiles
-    empty_tiles = [tile for tile in self.tiles.values() if len(tile.objects) == 0]
+
+
+
+
+def pick_character(all_characters):
+    for char in all_characters:
+        print(char.name, char.nature, all_characters.index(char))
     
-    # Shuffle the lists of skills and items
-    random.shuffle(skills)
-    random.shuffle(items)
+    char = int(input("Choose a character "))
+
+    return all_characters[char].name
+
     
-    # Combine skills and items into a single list
-    objects_to_place = skills + items
-    
-    # Calculate the number of items and skills to place
-    items_to_place = len(items)
-    skills_to_place = len(skills)
-    total_objects_to_place = items_to_place + skills_to_place
-    
-    # Get a random sample of empty tiles
-    num_tiles_to_use = min(total_objects_to_place, len(empty_tiles))
-    tiles_to_use = random.sample(empty_tiles, num_tiles_to_use)
-    
-    # Place items on the randomly selected tiles
-    for tile in tiles_to_use[:items_to_place]:
-        tile.add_object(items.pop(0))
-    
-    # Place skills on the remaining randomly selected tiles
-    for tile in tiles_to_use[items_to_place:]:
-        tile.add_object(skills.pop(0))
+class Game:
+    def __init__(self,width, height, heroes, villains, items, skills):
+        self.width = width
+        self.height = height
+        self.window = pygame.display.set_mode((self.width, self.height))
+        pygame.font.init()
+        self.map = Map("Agaroth", 10, 30)
+        self.map.create_map()
+        self.map.place_characters(heroes, villains)
+        self.map.place_items(skills, items)
+        self.heroes = heroes
+        self.villains = villains
+        self.items = items
+        self.skills = skills
+        self.ai_agents = [AIAgent(self.map, hero, self.heroes, self.villains) for hero in self.heroes] + \
+                        [AIAgent(self.map, villain, self.heroes, self.villains) for villain in self.villains]
+
+
+    def run(self):
+        running = True
+        turn = 1
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+            
+            self.map.show_map()
+            
+
+            for agent in self.ai_agents:
+                agent.make_move()
+                agent.character.HP = round(agent.character.HP, 1)
+
+                agent.character.HP += 2
+
+                if agent.character.nature == "Hero":
+                    if agent.character.HP > 100:
+                        agent.character.HP = 100
+                else:
+                    if agent.character.HP > 150:
+                        agent.character.HP = 150
+            
+            
+            
+            self.draw()
+            pygame.display.flip()
+            print("turn",turn)
+            turn += 1
+
+            if len(self.heroes) == 0:
+                running = False
+                print("Villains Win")
+            if len(self.villains) == 0:
+                running = False
+                print("Heroes Win") 
+
+    def draw(self):
+        self.window.fill((0, 0, 0))
+        self.map.draw(self.window)
+        for hero in self.heroes:
+            hero.draw(self.window, hero.x, hero.y)
+        for villain in self.villains:
+            villain.draw(self.window, villain.x, villain.y)
+        for item in self.items:
+            item.draw(self.window)
+        for skill in self.skills:
+            skill.draw(self.window)
+        for agent in self.ai_agents:
+            agent.draw(self.window)
 
 def main():
     Heroes = []
@@ -104,70 +141,13 @@ def main():
 
             Skill.append(Skills(name, category, damage, cost))
 
-
-    Agaroth = Map("Agaroth", 15, 12)
-    Agaroth.create_map()
-
-    random.shuffle(Villains)
-
-    one_hero = []
-    one_hero.append(Heroes[0])
-    short_villains = []
-    need = 3
-
-    for vil in Villains:
-        if len(short_villains) > need:
-            break
-        else:
-            short_villains.append(vil)
-        
     
-    combined_characters = Heroes + Villains
-
-    character_order = sorted(combined_characters, key=attrgetter("agi"), reverse=True)
-    characters = []
-    for character in character_order:
-        new_agent = AIAgent(Agaroth, character, Heroes, Villains)
-        characters.append(new_agent)
-
-    turns = 1
-
-    place_characters(Agaroth, Heroes,Villains)
-    place_items(Agaroth, Skill, Items)
-    Agaroth.show_map()
-
-    while len(Heroes) > 0 and len(Villains) > 0:
-        
-        for char in characters:
-            char.make_move()
-            
-        
-            
-        for char in Heroes:
-            if char.HP <= 0:
-                Heroes.remove(char)
-        for char in Villains:
-            if char.HP <= 0:
-                Villains.remove(char)
-        
-        Agaroth.show_map()
-
-        time.sleep(1)
-        turns += 1
-
-    if len(Heroes) == 0:
-        print("Villains win")
-        for vil in Villains:
-            print(colored(vil.name, "red"))
-    else:
-        for hero in Heroes:
-            print(colored(hero.name, "green"))
-        print("Heroes win")
-
-
+    game = Game(800, 600, Heroes, Villains, Items, Skill)
     
-
-
+    
+    game.run()
+    
+    
 main()
 
 
