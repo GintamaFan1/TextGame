@@ -28,13 +28,13 @@ class Item:
 
 
     def draw(self, surface, x, y):
-        TILE_SIZE = 1
+        TILE_SIZE = 64
         self.x = x
         self.y = y
         item_rect = pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
         pygame.draw.rect(surface, (0, 255, 0), item_rect)
-        font = pygame.font.Font(None, 18)
+        font = pygame.font.Font(None, 13)
         text = font.render(self.name, True, (255, 255, 255))
         surface.blit(text, (x * TILE_SIZE + 10, y * TILE_SIZE + 10))
-        text = font.render(f"STR: {self.str}, INT: {self.int}, AGI: {self.agi}", True, (255, 255, 255))
+        text = font.render(f"STR: {self.str}, INT: {self.int}, AGI: {self.agi}", True, (200, 133, 165))
         surface.blit(text, (x * TILE_SIZE + 10, y * TILE_SIZE + 30))

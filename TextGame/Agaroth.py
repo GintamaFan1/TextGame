@@ -29,7 +29,7 @@ class Game:
         self.height = height
         self.window = pygame.display.set_mode((self.width, self.height))
         pygame.font.init()
-        self.map = Map("Agaroth", 10, 30)
+        self.map = Map("Agaroth", 21, 15)
         self.map.create_map()
         self.map.place_characters(heroes, villains)
         self.map.place_items(skills, items)
@@ -54,6 +54,9 @@ class Game:
 
             for agent in self.ai_agents:
                 agent.make_move()
+                
+                
+
                 agent.character.HP = round(agent.character.HP, 1)
 
                 agent.character.HP += 2
@@ -67,9 +70,11 @@ class Game:
             
             
             
-            self.draw()
-            pygame.display.flip()
+                self.draw()
+                pygame.display.flip()
+                time.sleep(.3)
             print("turn",turn)
+            
             turn += 1
 
             if len(self.heroes) == 0:
@@ -80,18 +85,12 @@ class Game:
                 print("Heroes Win") 
 
     def draw(self):
+    
         self.window.fill((0, 0, 0))
         self.map.draw(self.window)
-        for hero in self.heroes:
-            hero.draw(self.window, hero.x, hero.y)
-        for villain in self.villains:
-            villain.draw(self.window, villain.x, villain.y)
-        for item in self.items:
-            item.draw(self.window)
-        for skill in self.skills:
-            skill.draw(self.window)
         for agent in self.ai_agents:
             agent.draw(self.window)
+            
 
 def main():
     Heroes = []
@@ -142,7 +141,7 @@ def main():
             Skill.append(Skills(name, category, damage, cost))
 
     
-    game = Game(800, 600, Heroes, Villains, Items, Skill)
+    game = Game(1440, 1080, Heroes, Villains, Items, Skill)
     
     
     game.run()
