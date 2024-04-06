@@ -510,18 +510,33 @@ class AIAgent:
             return
 
     def draw(self, surface):
-        TILE_SIZE = 32
+        TILE_SIZE = 64
         if self.x is not None and self.y is not None:
             # Render the AI agent on the Pygame surface
             agent_rect = pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
             if self.character.nature == "Hero":
-                pygame.draw.rect(surface, (0, 255, 0), agent_rect)
+                pygame.draw.rect(surface, (0, 255, 100), agent_rect)
             else:
-                pygame.draw.rect(surface, (255, 0, 0), agent_rect)
+                pygame.draw.rect(surface, (255, 123, 67), agent_rect)
+            
+            ID = None
+            if self.character.nature == "Hero":
+                ID = self.character.level
+            else:
+                ID = self.character.rank
+            font = pygame.font.Font(None, 20)
+            text = font.render(f"{ID}", True, (100, 200, 100))
+            surface.blit(text, (self.x * TILE_SIZE + 10, self.y * TILE_SIZE + 1))
+            
             font = pygame.font.Font(None, 18)
-            text = font.render(self.character.name, True, (255, 255, 255))
+            text = font.render(self.character.name, True, (100, 100, 100))
             surface.blit(text, (self.x * TILE_SIZE + 10, self.y * TILE_SIZE + 10))
-                        
+            font = pygame.font.Font(None, 13)
+            text = font.render(f"HP:{self.character.HP}, MP:{self.character.MP}", True, (100, 100, 100))
+            surface.blit(text, (self.x * TILE_SIZE, self.y * TILE_SIZE + 20))
+            text = font.render(f"STR:{self.character.str}, INT:{self.character.int}, AGI:{self.character.agi}", True, (100, 100, 100))
+            surface.blit(text, (self.x * TILE_SIZE, self.y * TILE_SIZE + 30))
+                          
 
                         
 

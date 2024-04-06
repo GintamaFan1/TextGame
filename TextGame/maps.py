@@ -145,14 +145,23 @@ class Tile:
             return False
     
     def draw(self, surface):
-        TILE_SIZE = 32
+        TILE_SIZE = 64
         tile_rect = pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
-        pygame.draw.rect(surface, (128, 128, 128), tile_rect)
+        if (self.y + self.x) % 2 == 0:
+            pygame.draw.rect(surface, (128, 128, 200), tile_rect)
+        else:
+            pygame.draw.rect(surface, (156,165,133), tile_rect)
+        font = pygame.font.Font(None, 18)
+        text = font.render(f"{self.x, self.y}", True, (100, 100, 100))
+        surface.blit(text, (self.x * TILE_SIZE + 10, self.y * TILE_SIZE + 10))
 
         for obj in self.objects:
-            if obj != "Blocked":
-                print(obj, "obj")
-                obj.draw(surface, self.x, self.y)
+            if obj != "Blocked" and not isinstance(obj, Hero) and not isinstance(obj, Villain):
+                obj.draw(surface, obj.x, obj.y)
+            elif obj == "Blocked":
+                font = pygame.font.Font(None, 80)
+                text = font.render(f"X", True, (0, 0, 0))
+                surface.blit(text, (self.x * TILE_SIZE + 10, self.y * TILE_SIZE + 10))
 
     
         
