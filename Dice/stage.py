@@ -6,7 +6,11 @@ class Stage:
         self.height = height
         self.width = width
         self.tiles = {}
+        self.paths = []
         self.create_stage()
+        self.top_connect = []
+        self.bottom_connect = []
+        self.define_connects()
     
     def __str__(self):
         print(f"Game Stage")
@@ -21,6 +25,13 @@ class Stage:
 
     def unplace_artifact(self, obj):
         self.tiles[(obj.x, obj.y)].remove_artifact(obj)
+
+    def define_connects(self):
+        for i in range(self.width):
+            self.top_connect.append((i,0))
+        
+        for j in range(self.width):
+            self.bottom_connect.append((j,self.width - 1))
 
 
 
