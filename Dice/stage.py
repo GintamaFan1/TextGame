@@ -1,4 +1,6 @@
-
+from creatures import Creature
+from box import Box
+from termcolor import colored
 
 class Stage:
 
@@ -19,6 +21,27 @@ class Stage:
         for i in range(self.height):
             for j in range(self.width):
                 self.tiles[(i,j)] = Tile(i,j)
+
+    def show_stage(self):
+        for i in range(self.height):
+            for j in range(self.width):
+                
+                tile = self.tiles[(i,j)]
+                
+
+                if tile.artifact == None:
+                    print("_ ", end="")
+                elif isinstance(tile.artifact, Creature):
+                    print("P ", end="")
+                elif isinstance(tile.artifact, Box):
+                    if tile.artifact.owner.is_player1 == True:
+                        print(colored("O ", "green"), end="")
+                    else:
+                        print(colored("O ", "blue"), end="")
+            print("")
+
+
+
 
     def place_artifact(self, obj, coords):
         self.tiles[coords].add_artifact(obj)
@@ -46,12 +69,11 @@ class Tile:
         print(f"Tile at {self.x, self.y}")
     
     def add_artifact(self, obj):
-        if obj != self.artifact:
-            self.artifact = obj
-            obj.x = self.x
-            obj.y = self.y
-        else:
-            print(f"{obj} already in tile")
+        self.artifact = obj
+        obj.x = self.x
+        obj.y = self.y
+        
+    
 
     def remove_artifact(self, obj):
         if obj == self.artifact:

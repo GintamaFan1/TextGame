@@ -3,11 +3,13 @@ class Player:
 
     def __init__(self, stage, name, bool):
         self.name = name
-        self.tiles = []
+        self.stage = stage
         self.is_player1 = bool
         self.connects = []
         self.connect()
         self.path = []
+        self.is_AI = True
+        self.creatures = []
     
     def connect(self):
         if self.is_player1 == True:
