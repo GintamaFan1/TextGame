@@ -13,6 +13,8 @@ class Box:
         self.x = None
         self.y = None
         self.placed = False
+    
+    
         
     
     def define_shapes(self):
@@ -43,11 +45,11 @@ class Box:
         for move in neighbors_not_in_path:
             return move
             
-    def fit_shape_to_path(self, result):
-        
-        
+    def fit_shape_to_path(self, result, point):
         fit = True
         out_of_bounds = False
+        touches_path = False
+        tiles_to_connect = self.find_neighbors(point)
         
         blocks = self.shape_tiles[result]
         center = (self.x, self.y)
@@ -58,64 +60,65 @@ class Box:
         for sets in blocks:
             if sets not in self.stage.tiles: 
                 out_of_bounds = True
-
-        print(len(blocks), "blocks")
-        print(blocks)
-        if fit == True and out_of_bounds == False:
+        for sets in blocks:
+            if sets in tiles_to_connect:
+                touches_path = True
+    
+        if fit == True and out_of_bounds == False and touches_path == True:
             for sets in blocks:
                 if sets != center:
                     self.stage.place_artifact(self.path, sets)
                     
-                    print(f"placing in {sets} ")
+                    
                 else:
                     self.stage.place_artifact(self.creature, sets)
-                    print("placing creature")
+
                     
                 if sets not in self.owner.path:
                     self.owner.add_path(sets)
+                if sets not in self.stage.paths:
+                    self.stage.paths.append(sets)
             self.placed = True
             
-        else:
-            print("fit equals false or out of bounds")
+    
         
     
     
     def fit_shape_to_connect(self, shape):
         blocks = self.shape_tiles[shape]
-        touches_connect = True
+        touches_connect = False
         out_of_bounds = False
         overlaps_path = False
         center = (self.x, self.y)
 
         for sets in blocks:
-            if sets not in self.owner.connects:
-                touches_connect = False
+            if sets in self.owner.connects:
+                touches_connect = True
         for sets in blocks:
             if sets not in self.stage.tiles:
                 out_of_bounds = True
         for sets in blocks:
             if sets in self.stage.paths:
                 overlaps_path = True
-
-        
-
         
         if touches_connect == True and out_of_bounds == False and overlaps_path == False:
             for sets in blocks:
                 if sets != center:
-                    self.stage.place_artifact(self.path)
+                    self.stage.place_artifact(self.path, sets)
+                    
                 else:
-                    self.stage.place_artifact(self.creature)
+                    self.stage.place_artifact(self.creature, sets)
+
+                if sets not in self.owner.path:
+                    self.owner.add_path(sets)
+                if sets not in self.stage.paths:
+                    self.stage.paths.append(sets)
+                
 
             self.placed = True
         
         
-
-
-
-        
-            
-
+    
     def available_moves(self):
         available_moves = []
 
@@ -125,11 +128,11 @@ class Box:
                     continue
                 if i == -1 and j == 1:
                     continue
-                if i == 2 and j == -1:
+                if i == 1 and j == -1:
                     continue
-                if i == -1 and j == 2:
+                if i == -1 and j == 1:
                     continue
-                if i == 2 and j == 2:
+                if i == 1 and j == 1:
                     continue
 
                 new_i, new_j = i + self.x, j + self.y
@@ -146,16 +149,16 @@ class Box:
             for j in range(-1, 2):
                 if i == 0 and j == 0:
                     continue
+                if i == -1 and j == -1:
+                    continue
+                if i == 1 and j == -1:
+                    continue
                 if i == -1 and j == 1:
                     continue
-                if i == 2 and j == -1:
-                    continue
-                if i == -1 and j == 2:
-                    continue
-                if i == 2 and j == 2:
+                if i == 1 and j == 1:
                     continue
 
-                new_i, new_j = i + point.x, j + point.y
+                new_i, new_j = i + point[0], j + point[1]
 
                 if new_i >= 0 and new_i < self.stage.height and new_j >= 0 and new_j < self.stage.width and (new_i,new_j) not in self.stage.paths:
                     available_moves.append((new_i, new_j))

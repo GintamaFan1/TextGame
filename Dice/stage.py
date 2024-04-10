@@ -1,6 +1,7 @@
 from creatures import Creature
 from box import Box
 from termcolor import colored
+import random
 
 class Stage:
 
@@ -13,6 +14,8 @@ class Stage:
         self.top_connect = []
         self.bottom_connect = []
         self.define_connects()
+        self.opponents_connected = False
+        self.game_over = False
     
     def __str__(self):
         print(f"Game Stage")
@@ -23,21 +26,32 @@ class Stage:
                 self.tiles[(i,j)] = Tile(i,j)
 
     def show_stage(self):
+        color_dict = {}
+        colors = ["red", "grey", "magenta", "yellow", "blue", "cyan", "light_green", "light_yellow", "light_blue", "red",
+                  "grey", "magenta", "yellow", "blue", "cyan", "light_green"]
         for i in range(self.height):
             for j in range(self.width):
                 
                 tile = self.tiles[(i,j)]
                 
+                if isinstance(tile.artifact, Box):
+                    if tile.artifact.creature not in color_dict:
+                        
+                        color_dict[tile.artifact.creature] = random.choice(colors)
 
                 if tile.artifact == None:
                     print("_ ", end="")
                 elif isinstance(tile.artifact, Creature):
-                    print("P ", end="")
+                    if tile.artifact.owner.is_player1:
+                        print(colored("P ", "green"), end="")
+                    else:
+                        print("P ", end="")
+                    
                 elif isinstance(tile.artifact, Box):
                     if tile.artifact.owner.is_player1 == True:
-                        print(colored("O ", "green"), end="")
+                        print(colored("O ", color_dict[tile.artifact.creature]), end="")
                     else:
-                        print(colored("O ", "blue"), end="")
+                        print(colored("O ", color_dict[tile.artifact.creature]), end="")
             print("")
 
 
@@ -66,7 +80,9 @@ class Tile:
         self.artifact = None
 
     def __str__(self):
-        print(f"Tile at {self.x, self.y}")
+        if self.artifact != None:
+            return print(f"Tile containing {self.artifact}")
+            
     
     def add_artifact(self, obj):
         self.artifact = obj

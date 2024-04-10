@@ -43,16 +43,29 @@ def main():
 
     stage.show_stage()
 
-    while agent1.life > 0 and agent2.life > 0:
+    for creature in creature_set1:
+        creature.owner = player1
+
+    for creature in creature_set2:
+        creature.owner = player2
+
+    while stage.game_over == False:
         
 
         agent1.run()
 
         agent2.run()
 
-        agent1.life -= 1
 
+        turns += 1
+        print(turns)
         stage.show_stage()
+
+
+        if len(agent1.creature_storage) == 0 and len(agent2.creature_storage) == 0 and stage.opponents_connected == False:
+            print("Game tied, failed to connect paths")
+            break
+    
 
 
     

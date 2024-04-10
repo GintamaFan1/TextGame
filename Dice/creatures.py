@@ -12,9 +12,8 @@ class Creature:
         self.flavor = ""
         self.owner = None
         
-    def __str__(self):
-        print(f"Name: {self.name}, HP:{self.HP}, AP:{self.AP}, Attack:{self.a}, Defence:{self.d}, Owner: {self.owner}")
-        print(f"Description: {self.flavor}")
+   
+        
 
     
 
