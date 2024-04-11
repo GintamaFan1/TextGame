@@ -4,6 +4,7 @@ from dice import *
 from player import Player
 from stage import Stage, Tile
 from agent import Ai_Agent, Crawler
+from ability import *
 import random
 import csv
 import time
@@ -42,6 +43,8 @@ def main():
     agent1 = Ai_Agent(stage, player1, creature_set1, player2, movement_die, summon_die, ability_die)
     agent2 = Ai_Agent(stage, player2, creature_set2, player1, movement_die, summon_die, ability_die)
 
+    
+
     stage.show_stage()
 
     for creature in creature_set1:
@@ -58,6 +61,7 @@ def main():
 
         turns += 1
         print(turns)
+        time.sleep(.2)
         stage.show_stage()
 
 

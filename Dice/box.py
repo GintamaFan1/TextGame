@@ -8,7 +8,7 @@ class Box:
         self.path = self
         self.stage = stage
         self.shape_tiles = {}
-        self.shapes = ["t", "w", "T", "z"]
+        self.shapes = ["t", "w", "T", "z", "twist"]
         self.owner = owner
         self.x = None
         self.y = None
@@ -26,6 +26,8 @@ class Box:
                                  (self.x, self.y - 1), (self.x + 1, self.y - 1), (self.x + 1, self.y - 2)]
         self.shape_tiles["z"] = [(self.x, self.y), (self.x, self.y + 1), (self.x, self.y + 2),
                                  (self.x + 1, self.y + 2), (self.x - 1, self.y), (self.x - 2, self.y)]
+        self.shape_tiles["twist"] = [(self.x, self.y), (self.x, self.y - 1), (self.x, self.y +1),
+                                     (self.x, self.y + 2), (self.x - 1, self.y - 1), (self.x + 1, self.y)]
         
     def pick_shape(self):
         return random.choice(self.shapes)
@@ -67,22 +69,15 @@ class Box:
         if fit == True and out_of_bounds == False and touches_path == True:
             for sets in blocks:
                 if sets != center:
-                    self.stage.place_artifact(self.path, sets)
-                    
-                    
+                    self.stage.place_artifact(self.path, sets)  
                 else:
                     self.stage.place_artifact(self.creature, sets)
-
-                    
                 if sets not in self.owner.path:
                     self.owner.add_path(sets)
                 if sets not in self.stage.paths:
                     self.stage.paths.append(sets)
             self.placed = True
             
-    
-        
-    
     
     def fit_shape_to_connect(self, shape):
         blocks = self.shape_tiles[shape]
@@ -105,20 +100,15 @@ class Box:
             for sets in blocks:
                 if sets != center:
                     self.stage.place_artifact(self.path, sets)
-                    
                 else:
                     self.stage.place_artifact(self.creature, sets)
-
                 if sets not in self.owner.path:
                     self.owner.add_path(sets)
                 if sets not in self.stage.paths:
                     self.stage.paths.append(sets)
-                
-
             self.placed = True
         
         
-    
     def available_moves(self):
         available_moves = []
 

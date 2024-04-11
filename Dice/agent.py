@@ -9,6 +9,7 @@ from box import Box
 from interactions import *
 import time
 from collections import deque
+from ability import *
 
 class Ai_Agent:
 
@@ -46,11 +47,9 @@ class Ai_Agent:
         if empty_tiles:
             random.shuffle(empty_tiles)
             choice = empty_tiles[0]
-
             if choice not in self.stage.paths:
                 self.pick_empty()
             return choice
-        
         else:
             print(empty_tiles,"trouble obtaining empty tiles" )
         return None
@@ -114,8 +113,6 @@ class Ai_Agent:
     def place_box_on_path(self, creature):
         creature_box = Box(creature, self.stage, self.player)
         tries = 6
-        
-
         while tries > 0 and creature_box.placed == False:
             shape = creature_box.pick_shape()
             point = random.choice(self.player.path)
@@ -203,9 +200,15 @@ class Ai_Agent:
                     self.make_move(creature, target)
 
 
-        if has_ability == True:
-            print("abilities are avaiable")
-            print(self.points,self.player.name, "points")
+        if has_ability == True and self.stage.opponent_connected == True:
+            creature = random.choice(self.creatures)
+
+            fire_storm = Firestorm(self.stage, "Fire Storm", 50, self)
+            heal_shot = HealShot(self.stage, "Heal Shot", 20, self)
+            teleport = Teleport(self.stage, "Teleport", 50, self)
+            push = Push(self.stage, "Push", 20, self)
+            
+
 
         if has_summon == True and len(self.creature_storage) > 0:
             if len(self.creatures) == 0:
@@ -274,7 +277,8 @@ class Ai_Agent:
             starting_tile = (creature.x, creature.y)
             object = self.stage.tiles[move].artifact
             if not isinstance(object, Creature):
-            
+                
+                
                 self.stage.unplace_artifact(creature)
                 self.stage.place_artifact(object, starting_tile)
                 self.stage.place_artifact(creature, move)
