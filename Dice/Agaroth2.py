@@ -6,6 +6,7 @@ from stage import Stage, Tile
 from agent import Ai_Agent, Crawler
 import random
 import csv
+import time
 
 def main():
     Creatures = []
@@ -53,9 +54,7 @@ def main():
         
 
         agent1.run()
-
         agent2.run()
-
 
         turns += 1
         print(turns)

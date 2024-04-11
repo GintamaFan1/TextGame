@@ -16,6 +16,7 @@ class Stage:
         self.define_connects()
         self.opponents_connected = False
         self.game_over = False
+        self.color_dict = {}
     
     def __str__(self):
         print(f"Game Stage")
@@ -26,7 +27,7 @@ class Stage:
                 self.tiles[(i,j)] = Tile(i,j)
 
     def show_stage(self):
-        color_dict = {}
+        
         colors = ["red", "grey", "magenta", "yellow", "blue", "cyan", "light_green", "light_yellow", "light_blue", "red",
                   "grey", "magenta", "yellow", "blue", "cyan", "light_green"]
         for i in range(self.height):
@@ -35,9 +36,9 @@ class Stage:
                 tile = self.tiles[(i,j)]
                 
                 if isinstance(tile.artifact, Box):
-                    if tile.artifact.creature not in color_dict:
+                    if tile.artifact.creature not in self.color_dict:
                         
-                        color_dict[tile.artifact.creature] = random.choice(colors)
+                        self.color_dict[tile.artifact.creature] = random.choice(colors)
 
                 if tile.artifact == None:
                     print("_ ", end="")
@@ -49,9 +50,9 @@ class Stage:
                     
                 elif isinstance(tile.artifact, Box):
                     if tile.artifact.owner.is_player1 == True:
-                        print(colored("O ", color_dict[tile.artifact.creature]), end="")
+                        print(colored("O ", self.color_dict[tile.artifact.creature]), end="")
                     else:
-                        print(colored("O ", color_dict[tile.artifact.creature]), end="")
+                        print(colored("O ", self.color_dict[tile.artifact.creature]), end="")
             print("")
 
 

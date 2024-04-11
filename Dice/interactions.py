@@ -11,3 +11,5 @@ def died(creature):
     creature.owner.creatures.remove(creature)
     print(f"{creature.name} died")
 
+
+
