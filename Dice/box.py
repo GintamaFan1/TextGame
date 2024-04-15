@@ -13,6 +13,9 @@ class Box:
         self.x = None
         self.y = None
         self.placed = False
+
+    def __str__(self):
+        return f"{self.creature.name}'s box path at {self.x, self.y} belongs to {self.owner}"
     
     
         

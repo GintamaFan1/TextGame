@@ -7,7 +7,8 @@ def main():
     creatures = []
     Names = ["Lao", "Lien", "Krez", "Mien", "Dro", "Ikzel", "Mer", "Plid", "Swar", "Qer",
              "Jin", "Vum", "Far", "Bern", "Xer", "Zemmy", "Artp", "Clort", "Urd", "Natsu", "Grey",
-             "Erza", "Elf-man", "Nirvana", "Mirajane", "Lizzana", "Tsukyo", "Sawada", "Chomu", "Indra"]
+             "Erza", "Elf-man", "Nirvana", "Mirajane", "Lizzana", "Tsukyo", "Sawada", "Chomu", "Indra",
+             "Mix", "Troy", "Wart", "Blope", "Squat"]
     
     HP = [25,26,27,28,29,30]
     AP = [15,16,17,18,19]

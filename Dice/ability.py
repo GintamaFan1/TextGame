@@ -10,6 +10,9 @@ class Ability:
         self.cost = cost
         self.agent = ai_agent
 
+    def __str__(self):
+        return f"{self.name}, cost:{self.cost}"
+
     def activate(self, user, target):
         pass
 
@@ -54,7 +57,7 @@ class Ability:
         nx = target_loc[0] - user_loc[0]
         ny = target_loc[1] - user_loc[1]
 
-        return(target_loc + nx, target_loc + ny)
+        return(target_loc[0] + nx, target_loc[1] + ny)
 
 
 
@@ -68,6 +71,7 @@ class Firestorm(Ability):
                 obj = self.stage.tiles[move].artifact
                 if isinstance(obj, Creature):
                     obj.HP -= 10
+                    print(f"{user.name} deals fire damage to {obj.name}")
         
         self.agent.points["Ability"] -= self.cost
 
@@ -78,14 +82,17 @@ class Push(Ability):
 
         if isinstance(obj, Box):
             self.stage.unplace_artifact(target)
-            self.stage.place_artifact(target, obj)
+            self.stage.place_artifact(target, opposite_tile)
             target.HP -= 5
+            print(f"{user.name} pushes {target.name} to {opposite_tile} ")
         
         elif isinstance(obj, Creature):
             target.HP -= 5
             obj.HP -= 5
+            print(f"{user.name} pushes {target.name} into {obj.name}")
         else:
             target.HP -= 10
+            print(f"{user.name} pushes {target.name} into a wall, double damage!")
         self.agent.points["Ability"] -= self.cost
 
 class HealShot(Ability):
@@ -93,10 +100,14 @@ class HealShot(Ability):
         avaiable_neighbors = self.get_neighbors((user.x, user.y))
         if target in avaiable_neighbors:
             target.HP += 5
+            print(f"{user.name} heals {target.name}")
+            if target.HP > target.maxHP:
+                target.HP = target.maxHP
+
         self.agent.points["Ability"] -= self.cost
 
 class Teleport(Ability):
-    def actiave(self, user):
+    def activate(self, user):
         possible_tiles = [tile for tile in self.stage.paths if not isinstance(self.stage.tiles[tile].artifact, Creature)]
         choice = random.choice(possible_tiles)
 
@@ -104,6 +115,8 @@ class Teleport(Ability):
             self.stage.unplaced_artifact(user)
             self.stage.place_artifact(user, choice)
             self.agent.point["Ability"] -= self.cost
+
+            print(f"{user.name}, teleports to {choice}")
 
         
 

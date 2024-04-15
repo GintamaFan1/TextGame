@@ -1,4 +1,4 @@
-from dice import Dice, roll_three, evaluator
+from dice import Dice, roll_three
 from box import Box
 from creatures import Creature
 from stage import Stage, Tile
@@ -138,6 +138,60 @@ class Ai_Agent:
             self.points["Summon"] -= 10
             print("creature placed")
     
+    def pick_ability(self, creature, abilities):
+        push_available = False
+        fire_storm_available = False
+        heal_shot_available = False
+        Teleport_available = False
+        four_tiles = self.get_tile_neighbors((creature.x, creature.y))
+        for tile in four_tiles:
+            if tile in self.stage.paths:
+                if isinstance(self.stage.tiles[tile].artifact, Creature):
+                    if creature.owner != self.stage.tiles[tile].artifact.owner:
+                        push_available = True
+        
+        long_tile = self.get_long_neighbors((creature.x, creature.y))
+        number_of_enemies = 0
+
+        for tile in long_tile:
+            obj = self.stage.tiles[tile].artifact
+
+            if isinstance(obj, Creature):
+                if obj.owner != creature.owner:
+                    number_of_enemies += 1
+        
+        if number_of_enemies > 1:
+            fire_storm_available = True
+
+        if fire_storm_available == False and push_available == False:
+            heal_shot_available = True
+        
+        if fire_storm_available == False and push_available == False and heal_shot_available == False:
+            Teleport_available = True
+
+        if push_available == True:
+            for abi in abilities:
+                if abi.name == "Push":
+                    return abi
+        
+        elif fire_storm_available == True:
+            for abi in abilities:
+                if abi.name == "Fire Storm":
+                    return abi
+        
+        elif heal_shot_available == True:
+            for abi in abilities:
+                if abi.name == "Heal Shot":
+                    return abi
+        
+        else:
+            for abi in abilities:
+                if abi.name == "Teleport":
+                    return abi
+
+        
+
+    
     def run(self):
         self.rolling()
         has_movement = False
@@ -200,13 +254,56 @@ class Ai_Agent:
                     self.make_move(creature, target)
 
 
-        if has_ability == True and self.stage.opponent_connected == True:
-            creature = random.choice(self.creatures)
+        if has_ability == True and self.stage.opponents_connected == True:
+            print(colored(f"calling on ability", "red"))
+            if len(self.creatures) > 0:
+                creature = random.choice(self.creatures)
 
+            
             fire_storm = Firestorm(self.stage, "Fire Storm", 50, self)
             heal_shot = HealShot(self.stage, "Heal Shot", 20, self)
             teleport = Teleport(self.stage, "Teleport", 50, self)
             push = Push(self.stage, "Push", 20, self)
+
+            abilities = [fire_storm, heal_shot, teleport, push]
+            ability = self.pick_ability(creature, abilities)
+
+            points = self.points["Ability"]
+
+            if ability.name == push.name and points >= ability.cost and creature:
+                four_tiles = self.get_tile_neighbors((creature.x, creature.y))
+
+                for tile in four_tiles:
+                    obj = self.stage.tiles[tile].artifact
+                    if isinstance(obj, Creature):
+                        if obj.owner != creature.owner and points >= ability.cost:
+                            ability.activate(creature, obj)
+            elif ability.name == fire_storm.name and points >= ability.cost and creature:
+                long_tiles = self.get_long_neighbors((creature.x, creature.y))
+
+                for tile in long_tiles:
+                    obj = self.stage.tiles[tile].artifact
+                    if isinstance(obj, Creature):
+                        if obj.owner != creature.owner and points >= ability.cost:
+                            ability.activate(creature)
+            elif ability.name == heal_shot.name and points >= ability.cost and creature:
+                if len(self.creatures) >= 2:
+                    for char in self.creatures:
+                        if creature.name != char.name and points >= ability.cost:
+                            ability.activate(creature, char)
+            
+            else:
+                if points >= ability.cost and creature:
+                    ability.activate(creature)
+                else:
+                    print("not enough AP")
+
+            self.stage.show_stage()
+
+            time.sleep(2)
+
+
+            
             
 
 
@@ -224,6 +321,8 @@ class Ai_Agent:
                     self.place_box_on_path(creature)
                 else:
                     self.place_box_on_path(creature)
+        
+        print(self.points, "points")
         
 
     def connect_fitter(self, box, shape, tile):
@@ -264,9 +363,23 @@ class Ai_Agent:
                 if i == 1 and j == 1:
                     continue
                 new_i, new_j = i + point[0], j + point[1]
-                if new_i >= 0 and new_i < self.stage.height and new_j >= 0 and new_j < self.stage.width and (new_i,new_j):
+                if new_i >= 0 and new_i < self.stage.height and new_j >= 0 and new_j < self.stage.width and (new_i,new_j) in self.stage.paths:
+                    neighbors.append((new_i, new_j))
+        return neighbors
+
+    def get_long_neighbors(self, point, radius=2):
+        neighbors = []
+        for i in range(-radius, radius + 1):
+            for j in range(-radius, radius + 1):
+                if i == 0 and j == 0:
+                    continue
+               
+                
+                new_i, new_j = i + point[0], j + point[1]
+                if new_i >= 0 and new_i < self.stage.height and new_j >= 0 and new_j < self.stage.width and (new_i,new_j) in self.stage.paths:
                     neighbors.append((new_i, new_j))
         return neighbors    
+    
 
     def creature_move(self, creature, moves):
         moves_made = 0
@@ -277,13 +390,10 @@ class Ai_Agent:
             starting_tile = (creature.x, creature.y)
             object = self.stage.tiles[move].artifact
             if not isinstance(object, Creature):
-                
-                
                 self.stage.unplace_artifact(creature)
                 self.stage.place_artifact(object, starting_tile)
                 self.stage.place_artifact(creature, move)
-                self.stage.show_stage()
-                time.sleep(.2)
+                
                 moves_made += 1
 
             else:
@@ -291,17 +401,28 @@ class Ai_Agent:
                     moves_made += 1
                     continue
                 battle(creature, object)
-                died(object)
+                
+                if object.HP <= 0:
+                    path = Box(Creature, self.stage, self.player)
+                    self.stage.unplace_artifact(object)
+                    self.stage.unplace_artifact(creature)
+                    self.stage.place_artifact(path, starting_tile)
+                    self.stage.place_artifact(creature, move)
+                    
 
-                path = Box(Creature, self.stage, self.player)
-                self.stage.unplace_artifact(object)
-                self.stage.unplace_artifact(creature)
-                self.stage.place_artifact(path, starting_tile)
-                self.stage.place_artifact(creature, move)
-                self.stage.show_stage()
-                time.sleep(.2)
+                    break
+                elif creature.HP <= 0:
+                    path = Box(Creature, self.stage, self.player)
+                    self.stage.unplace_artifact(creature)
+                    self.stage.place_artifact(path, starting_tile)
+                    
 
-                break
+                    break
+                
+                else:
+                    break
+
+
         
         return moves_made
 

@@ -19,7 +19,7 @@ class Stage:
         self.color_dict = {}
     
     def __str__(self):
-        print(f"Game Stage")
+        return f"Game Stage"
 
     def create_stage(self):
         for i in range(self.height):
@@ -32,14 +32,10 @@ class Stage:
                   "grey", "magenta", "yellow", "blue", "cyan", "light_green"]
         for i in range(self.height):
             for j in range(self.width):
-                
                 tile = self.tiles[(i,j)]
-                
                 if isinstance(tile.artifact, Box):
                     if tile.artifact.creature not in self.color_dict:
-                        
                         self.color_dict[tile.artifact.creature] = random.choice(colors)
-
                 if tile.artifact == None:
                     print("_ ", end="")
                 elif isinstance(tile.artifact, Creature):
@@ -54,8 +50,6 @@ class Stage:
                     else:
                         print(colored("O ", self.color_dict[tile.artifact.creature]), end="")
             print("")
-
-
 
 
     def place_artifact(self, obj, coords):
@@ -82,7 +76,7 @@ class Tile:
 
     def __str__(self):
         if self.artifact != None:
-            return print(f"Tile containing {self.artifact}")
+            return f"Tile containing {self.artifact} at {self.x, self.y}"
             
     
     def add_artifact(self, obj):
