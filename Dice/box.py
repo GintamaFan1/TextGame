@@ -72,9 +72,10 @@ class Box:
         if fit == True and out_of_bounds == False and touches_path == True:
             for sets in blocks:
                 if sets != center:
-                    self.stage.place_artifact(self.path, sets)  
+                    self.stage.tiles[sets].board = self  
                 else:
                     self.stage.place_artifact(self.creature, sets)
+                    self.stage.tiles[sets].board = self
                 if sets not in self.owner.path:
                     self.owner.add_path(sets)
                 if sets not in self.stage.paths:
@@ -102,9 +103,10 @@ class Box:
         if touches_connect == True and out_of_bounds == False and overlaps_path == False:
             for sets in blocks:
                 if sets != center:
-                    self.stage.place_artifact(self.path, sets)
+                    self.stage.tiles[sets].board = self
                 else:
                     self.stage.place_artifact(self.creature, sets)
+                    self.stage.tiles[sets].board = self
                 if sets not in self.owner.path:
                     self.owner.add_path(sets)
                 if sets not in self.stage.paths:

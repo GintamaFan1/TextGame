@@ -202,6 +202,8 @@ class Ai_Agent:
             print("no moves left")
             self.stage.game_over = True
             return
+        
+        print(self.points, self.player.name)
 
         for cat in self.points:
             if cat == "Summon":
@@ -258,7 +260,6 @@ class Ai_Agent:
             print(colored(f"calling on ability", "red"))
             if len(self.creatures) > 0:
                 creature = random.choice(self.creatures)
-
             
             fire_storm = Firestorm(self.stage, "Fire Storm", 50, self)
             heal_shot = HealShot(self.stage, "Heal Shot", 20, self)
@@ -268,43 +269,45 @@ class Ai_Agent:
             abilities = [fire_storm, heal_shot, teleport, push]
             ability = self.pick_ability(creature, abilities)
 
-            points = self.points["Ability"]
+            
 
-            if ability.name == push.name and points >= ability.cost and creature:
+            
+
+            if ability.name == push.name and self.points["Ability"] >= ability.cost and creature:
                 four_tiles = self.get_tile_neighbors((creature.x, creature.y))
 
                 for tile in four_tiles:
                     obj = self.stage.tiles[tile].artifact
                     if isinstance(obj, Creature):
-                        if obj.owner != creature.owner and points >= ability.cost:
+                        if obj.owner != creature.owner and self.points["Ability"] >= ability.cost:
                             ability.activate(creature, obj)
-            elif ability.name == fire_storm.name and points >= ability.cost and creature:
+                            
+            elif ability.name == fire_storm.name and self.points["Ability"] >= ability.cost and creature:
                 long_tiles = self.get_long_neighbors((creature.x, creature.y))
 
                 for tile in long_tiles:
                     obj = self.stage.tiles[tile].artifact
                     if isinstance(obj, Creature):
-                        if obj.owner != creature.owner and points >= ability.cost:
+                        if obj.owner != creature.owner and self.points["Ability"] >= ability.cost:
                             ability.activate(creature)
-            elif ability.name == heal_shot.name and points >= ability.cost and creature:
+                            
+            elif ability.name == heal_shot.name and self.points["Ability"] >= ability.cost and creature:
                 if len(self.creatures) >= 2:
                     for char in self.creatures:
-                        if creature.name != char.name and points >= ability.cost:
+                        if creature.name != char.name and self.points["Ability"] >= ability.cost:
                             ability.activate(creature, char)
+                            
             
             else:
-                if points >= ability.cost and creature:
+                if self.points["Ability"] >= ability.cost and creature:
                     ability.activate(creature)
+                    
                 else:
                     print("not enough AP")
 
             self.stage.show_stage()
 
             time.sleep(2)
-
-
-            
-            
 
 
         if has_summon == True and len(self.creature_storage) > 0:
@@ -391,7 +394,6 @@ class Ai_Agent:
             object = self.stage.tiles[move].artifact
             if not isinstance(object, Creature):
                 self.stage.unplace_artifact(creature)
-                self.stage.place_artifact(object, starting_tile)
                 self.stage.place_artifact(creature, move)
                 
                 moves_made += 1
@@ -403,20 +405,19 @@ class Ai_Agent:
                 battle(creature, object)
                 
                 if object.HP <= 0:
-                    path = Box(Creature, self.stage, self.player)
+                    
                     self.stage.unplace_artifact(object)
                     self.stage.unplace_artifact(creature)
-                    self.stage.place_artifact(path, starting_tile)
+                    
                     self.stage.place_artifact(creature, move)
                     
 
                     break
                 elif creature.HP <= 0:
-                    path = Box(Creature, self.stage, self.player)
-                    self.stage.unplace_artifact(creature)
-                    self.stage.place_artifact(path, starting_tile)
                     
-
+                    self.stage.unplace_artifact(creature)
+                
+                    
                     break
                 
                 else:

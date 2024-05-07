@@ -33,10 +33,10 @@ class Stage:
         for i in range(self.height):
             for j in range(self.width):
                 tile = self.tiles[(i,j)]
-                if isinstance(tile.artifact, Box):
-                    if tile.artifact.creature not in self.color_dict:
-                        self.color_dict[tile.artifact.creature] = random.choice(colors)
-                if tile.artifact == None:
+                if isinstance(tile.board, Box):
+                    if tile.board.creature not in self.color_dict:
+                        self.color_dict[tile.board.creature] = random.choice(colors)
+                if tile.artifact == None and tile.board == None:
                     print("_ ", end="")
                 elif isinstance(tile.artifact, Creature):
                     if tile.artifact.owner.is_player1:
@@ -44,11 +44,11 @@ class Stage:
                     else:
                         print("P ", end="")
                     
-                elif isinstance(tile.artifact, Box):
-                    if tile.artifact.owner.is_player1 == True:
-                        print(colored("O ", self.color_dict[tile.artifact.creature]), end="")
+                elif tile.artifact == None and isinstance(tile.board, Box):
+                    if tile.board.owner.is_player1 == True:
+                        print(colored("O ", self.color_dict[tile.board.creature]), end="")
                     else:
-                        print(colored("O ", self.color_dict[tile.artifact.creature]), end="")
+                        print(colored("O ", self.color_dict[tile.board.creature]), end="")
             print("")
 
 
@@ -73,6 +73,7 @@ class Tile:
         self.x = x
         self.y = y
         self.artifact = None
+        self.board = None
 
     def __str__(self):
         if self.artifact != None:
