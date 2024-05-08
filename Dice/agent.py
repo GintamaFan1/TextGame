@@ -203,6 +203,9 @@ class Ai_Agent:
             self.stage.game_over = True
             return
         
+        self.player.check_creatures()
+        self.creatures = self.player.creatures
+        
         print(self.points, self.player.name)
 
         for cat in self.points:
@@ -224,9 +227,12 @@ class Ai_Agent:
 
         
         if has_movement == True:
+            self.player.check_creatures()
+            self.creatures = self.player.creatures
             if len(self.creatures) > 0:
                 random.shuffle(self.creatures)
                 creature = self.creatures[0]
+                
                 empty = ""
                 enemy = "enemy"
                 endzone = "endzone"
@@ -258,56 +264,57 @@ class Ai_Agent:
 
         if has_ability == True and self.stage.opponents_connected == True:
             print(colored(f"calling on ability", "red"))
+            self.player.check_creatures()
+            self.creatures = self.player.creatures
+            
             if len(self.creatures) > 0:
                 creature = random.choice(self.creatures)
+            if creature:
+                print(f"{creature.name, creature.HP, creature.x, creature.y}")
+                fire_storm = Firestorm(self.stage, "Fire Storm", 50, self)
+                heal_shot = HealShot(self.stage, "Heal Shot", 20, self)
+                teleport = Teleport(self.stage, "Teleport", 50, self)
+                push = Push(self.stage, "Push", 20, self)
+
+                abilities = [fire_storm, heal_shot, teleport, push]
+                ability = self.pick_ability(creature, abilities)
+
             
-            fire_storm = Firestorm(self.stage, "Fire Storm", 50, self)
-            heal_shot = HealShot(self.stage, "Heal Shot", 20, self)
-            teleport = Teleport(self.stage, "Teleport", 50, self)
-            push = Push(self.stage, "Push", 20, self)
+                if ability.name == push.name and self.points["Ability"] >= ability.cost and creature:
+                    four_tiles = self.get_tile_neighbors((creature.x, creature.y))
 
-            abilities = [fire_storm, heal_shot, teleport, push]
-            ability = self.pick_ability(creature, abilities)
+                    for tile in four_tiles:
+                        obj = self.stage.tiles[tile].artifact
+                        if isinstance(obj, Creature):
+                            if obj.owner != creature.owner and self.points["Ability"] >= ability.cost:
+                                ability.activate(creature, obj)
+                                
+                elif ability.name == fire_storm.name and self.points["Ability"] >= ability.cost and creature:
+                    long_tiles = self.get_long_neighbors((creature.x, creature.y))
 
-            
-
-            
-
-            if ability.name == push.name and self.points["Ability"] >= ability.cost and creature:
-                four_tiles = self.get_tile_neighbors((creature.x, creature.y))
-
-                for tile in four_tiles:
-                    obj = self.stage.tiles[tile].artifact
-                    if isinstance(obj, Creature):
-                        if obj.owner != creature.owner and self.points["Ability"] >= ability.cost:
-                            ability.activate(creature, obj)
-                            
-            elif ability.name == fire_storm.name and self.points["Ability"] >= ability.cost and creature:
-                long_tiles = self.get_long_neighbors((creature.x, creature.y))
-
-                for tile in long_tiles:
-                    obj = self.stage.tiles[tile].artifact
-                    if isinstance(obj, Creature):
-                        if obj.owner != creature.owner and self.points["Ability"] >= ability.cost:
-                            ability.activate(creature)
-                            
-            elif ability.name == heal_shot.name and self.points["Ability"] >= ability.cost and creature:
-                if len(self.creatures) >= 2:
-                    for char in self.creatures:
-                        if creature.name != char.name and self.points["Ability"] >= ability.cost:
-                            ability.activate(creature, char)
-                            
-            
-            else:
-                if self.points["Ability"] >= ability.cost and creature:
-                    ability.activate(creature)
-                    
+                    for tile in long_tiles:
+                        obj = self.stage.tiles[tile].artifact
+                        if isinstance(obj, Creature):
+                            if obj.owner != creature.owner and self.points["Ability"] >= ability.cost:
+                                ability.activate(creature)
+                                
+                elif ability.name == heal_shot.name and self.points["Ability"] >= ability.cost and creature:
+                    if len(self.creatures) >= 2:
+                        for char in self.creatures:
+                            if creature.name != char.name and self.points["Ability"] >= ability.cost:
+                                ability.activate(creature, char)
+                                
+                
                 else:
-                    print("not enough AP")
+                    if self.points["Ability"] >= ability.cost and creature:
+                        ability.activate(creature)
+                        
+                    else:
+                        print("not enough AP")
 
             self.stage.show_stage()
 
-            time.sleep(2)
+        
 
 
         if has_summon == True and len(self.creature_storage) > 0:
@@ -390,7 +397,7 @@ class Ai_Agent:
             if moves_made >= self.points["Movement"]:
                 return moves_made
 
-            starting_tile = (creature.x, creature.y)
+            
             object = self.stage.tiles[move].artifact
             if not isinstance(object, Creature):
                 self.stage.unplace_artifact(creature)
@@ -407,6 +414,7 @@ class Ai_Agent:
                 if object.HP <= 0:
                     
                     self.stage.unplace_artifact(object)
+                    
                     self.stage.unplace_artifact(creature)
                     
                     self.stage.place_artifact(creature, move)

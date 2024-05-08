@@ -31,7 +31,10 @@ def battle(attacker, defender):
 
 
 def died(creature):
-    creature.owner.creatures.remove(creature)
+    if creature in creature.owner.creatures:
+        creature.owner.creatures.remove(creature)
+    creature.died = True
+    creature.owner.check_creatures()
     print(f"{creature.name} died")
 
 def attack(attacker, defender):

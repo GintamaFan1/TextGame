@@ -17,6 +17,9 @@ class Stage:
         self.opponents_connected = False
         self.game_over = False
         self.color_dict = {}
+        self.colors = ["red", "grey", "magenta", "yellow", "blue", "cyan", "light_green", "light_yellow", "light_blue", "red",
+                  "grey", "magenta", "yellow", "blue", "cyan", "light_green","red", "grey", "magenta", "yellow", "blue", "cyan", "light_green",
+                  "grey", "magenta", "yellow", "blue", "cyan", "light_green","light_green", "light_yellow", "light_blue"]
     
     def __str__(self):
         return f"Game Stage"
@@ -28,27 +31,32 @@ class Stage:
 
     def show_stage(self):
         
-        colors = ["red", "grey", "magenta", "yellow", "blue", "cyan", "light_green", "light_yellow", "light_blue", "red",
-                  "grey", "magenta", "yellow", "blue", "cyan", "light_green"]
+        
+        
+        print("x: ",end="")
+        for i in range(self.width):
+            print(f"{i}".ljust(3), end="")
+        print("")
         for i in range(self.height):
+            print(f"{i}:".ljust(3), end="")
             for j in range(self.width):
                 tile = self.tiles[(i,j)]
                 if isinstance(tile.board, Box):
                     if tile.board.creature not in self.color_dict:
-                        self.color_dict[tile.board.creature] = random.choice(colors)
+                        self.color_dict[tile.board.creature] = self.colors.pop(0)
                 if tile.artifact == None and tile.board == None:
-                    print("_ ", end="")
+                    print("_  ".ljust(2), end="")
                 elif isinstance(tile.artifact, Creature):
                     if tile.artifact.owner.is_player1:
-                        print(colored("P ", "green"), end="")
+                        print(colored("P  ".ljust(2), "green"), end="")
                     else:
-                        print("P ", end="")
+                        print("P  ".ljust(2), end="")
                     
                 elif tile.artifact == None and isinstance(tile.board, Box):
                     if tile.board.owner.is_player1 == True:
-                        print(colored("O ", self.color_dict[tile.board.creature]), end="")
+                        print(colored("O  ", self.color_dict[tile.board.creature]), end="")
                     else:
-                        print(colored("O ", self.color_dict[tile.board.creature]), end="")
+                        print(colored("O  ", self.color_dict[tile.board.creature]), end="")
             print("")
 
 
@@ -59,7 +67,7 @@ class Stage:
         self.tiles[(obj.x, obj.y)].remove_artifact(obj)
 
     def define_connects(self):
-        for i in range(self.width):
+        for i in range(self.height):
             self.top_connect.append((i,0))
         
         for j in range(self.width):

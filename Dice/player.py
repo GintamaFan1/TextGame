@@ -21,3 +21,17 @@ class Player:
     def add_path(self, coord):
         if coord not in self.path:
             self.path.append(coord)
+    def check_creatures(self):
+        creatures = []
+        for creature in self.creatures:
+            if creature.died == True:
+                continue
+            elif creature.HP <= 0:
+                creature.died = True
+                continue
+            else:
+                creatures.append(creature)
+    
+        self.creatures = creatures
+        
+                

@@ -2,6 +2,7 @@ from creatures import Creature
 from dice import *
 from stage import *
 from player import Player
+from interactions import *
 
 class Ability:
     def __init__(self, stage, name, cost, ai_agent):
@@ -65,44 +66,64 @@ class Ability:
 class Firestorm(Ability):
     def activate(self, user):
         
-        avaiable_targets = self.get_neighbors((user.x, user.y))
+        
+        available_targets = self.get_neighbors((user.x, user.y))
+        activated = False
 
-        for move in avaiable_targets:
+        for move in available_targets:
             if move is not None:
                 obj = self.stage.tiles[move].artifact
                 if isinstance(obj, Creature):
-                    obj.HP -= 10
-                    print(f"{user.name} deals fire damage to {obj.name}")
-                    self.agent.points["Ability"] -= self.cost
+                    if obj.owner != user.owner:
+                        obj.HP -= 10
+                        print(f"{user.name} deals fire damage to {obj.name}")
+                        activated = True
+                        if obj.HP <= 0:
+                            died(obj)
+                            self.stage.unplace_artifact(obj)
+        if activated == True:
+            self.agent.points["Ability"] -= self.cost
         
         
 
 class Push(Ability):
     def activate(self, user, target):
         
-        opposite_tile = self.get_opposite((target.x, target.y), (user.x, user.y))
-        obj = self.stage.tiles[opposite_tile].artifact
-
-        if isinstance(obj, Box):
-            self.stage.unplace_artifact(target)
-            self.stage.place_artifact(target, opposite_tile)
-            target.HP -= 5
-            print(f"{user.name} pushes {target.name} to {opposite_tile} ")
-            self.agent.points["Ability"] -= self.cost
         
-        elif isinstance(obj, Creature):
-            target.HP -= 5
-            obj.HP -= 5
-            print(f"{user.name} pushes {target.name} into {obj.name}")
-            self.agent.points["Ability"] -= self.cost
-        else:
-            target.HP -= 10
-            print(f"{user.name} pushes {target.name} into a wall, double damage!")
-            self.agent.points["Ability"] -= self.cost
+        opposite_tile = self.get_opposite((target.x, target.y), (user.x, user.y))
+        if opposite_tile in self.stage.tiles:
+            obj = self.stage.tiles[opposite_tile].artifact
+
+            if isinstance(obj, Box):
+                self.stage.unplace_artifact(target)
+                self.stage.place_artifact(target, opposite_tile)
+                target.HP -= 5
+                print(f"{user.name} pushes {target.name} to {opposite_tile} ")
+                self.agent.points["Ability"] -= self.cost
+                if target.HP <= 0:
+                    died(target)
+                    self.stage.unplace_artifact(target)
+            
+            elif isinstance(obj, Creature):
+                target.HP -= 5
+                obj.HP -= 5
+                print(f"{user.name} pushes {target.name} into {obj.name}")
+                self.agent.points["Ability"] -= self.cost
+                if target.HP <= 0:
+                    died(target)
+                    self.stage.unplace_artifact(target)
+            else:
+                target.HP -= 10
+                print(f"{user.name} pushes {target.name} into a wall, double damage!")
+                self.agent.points["Ability"] -= self.cost
+                if target.HP <= 0:
+                    died(target)
+                    self.stage.unplace_artifact(target)
         
 
 class HealShot(Ability):
     def activate(self, user, target):
+        
     
         avaiable_neighbors = self.get_neighbors((user.x, user.y))
         if target in avaiable_neighbors:
@@ -116,6 +137,7 @@ class HealShot(Ability):
 
 class Teleport(Ability):
     def activate(self, user):
+        print("trying to teleport")
         
         possible_tiles = [tile for tile in self.stage.paths if not isinstance(self.stage.tiles[tile].artifact, Creature)]
         choice = random.choice(possible_tiles)
