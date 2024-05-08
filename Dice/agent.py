@@ -512,6 +512,348 @@ class Crawler:
         sorted_value = dict(sorted_value)
         return sorted_value
     
+    def player_turn(self):
+        print("press any key to roll: ")
+
+        j = input("")
+
+        while j == None:
+            j = input("")
+
+        self.rolling()
+
+        print("Result: ",self.points)
+
+        end_turn = False
+
+        while end_turn == False:
+            print(self.points)
+
+            print("what would you like to do next? ")
+
+            print("enter 1 to move: ")
+            print("enter 2 to activate abilities: ")
+            print("enter 3 to summon: ")
+            print("enter 4 to end_turn")
+
+            x = int(input(""))
+
+            while x not in [1, 2, 3]:
+                print("enter valid input")
+                x = int(input(""))
+
+            if x == 1:
+                self.player.check_creatures()
+                self.creatures = self.player.creatures
+
+                if len(self.creatures) > 0:
+                    for creature in self.creatures:
+                        index = self.creature.index(creature)
+                        print(f"{index}: {creature}")
+                    print("Select creature to move: ")
+
+                    creature_index = int(input(""))
+
+                    while creature_index not in range(len(self.creatures)):
+                        print("enter valid creature")
+
+                        for creature in self.creatures:
+                            index = self.creature.index(creature)
+                            print(f"{index}: {creature}")
+                        print("select creature to move: ")
+
+                        creature_index = int(input(""))
+
+                    creature = self.creatures[creature_index]
+                    print(self.stage.paths, "available paths")
+
+                    print("enter destination i: ")
+
+                    i = int(input(""))
+
+                    print("enter destination j: ")
+
+                    j = int(input(""))
+
+                    while (i,j) not in self.stage.paths:
+                        print(self.stage.paths, "available paths")
+                        print("enter valid destination: ")
+                        print("enter destination i: ")
+
+                        i = int(input(""))
+
+                        print("enter destination j: ")
+
+                        j = int(input(""))
+                    
+                    self.make_move(creature, (i,j))
+                else:
+                    print("no creatures to move")
+            
+            if x == 2:
+                fire_storm = Firestorm(self.stage, "Fire Storm", 50, self)
+                heal_shot = HealShot(self.stage, "Heal Shot", 20, self)
+                teleport = Teleport(self.stage, "Teleport", 50, self)
+                push = Push(self.stage, "Push", 20, self)
+
+                abilities = [fire_storm, heal_shot, teleport, push]
+
+                print(abilities, "select from available abilities, from 0 t0 3: ")
+
+                ab_index = int(input(""))
+
+                while ab_index not in range(len(ab_index)):
+                    abilities = [fire_storm, heal_shot, teleport, push]
+
+                    print(abilities, "select from available abilities, from 0 to 3: ")
+
+                    ab_index = int(input(""))
+                
+                ability = abilities[ab_index]
+                self.player.check_creatures()
+                self.creatures = self.player.creatures
+
+                if ability.cost > self.points["Ability"]:
+                    print("not enout points to use ability")
+
+                elif len(self.creatures) == 0:
+                    print("no avaiable creatures to use ability")
+
+                else:
+                    for creature in self.creatures:
+                        index = self.creatures.index(creature)
+                        print(f"{index}: {creature}")
+
+                    print("select creature")
+
+                    creature_index = int(input(""))
+
+                    while creature_index not in self.range(self.creatures):
+                        for creature in self.creatures:
+                            index = self.creatures.index(creature)
+                            print(f"{index}: {creature}")
+
+                        print("select creature")
+
+                        creature_index = int(input(""))
+                    
+                    creature = self.creatures[creature_index]
+
+                    if ability.name == fire_storm.name:
+                        self.stage.show_stage()
+
+                        print("activate ability? yes or no:  ")
+
+                        answer = input("")
+
+                        if answer == "yes" or answer == "Yes" or answer == "YES":
+                            ability.activate(creature)
+                        else:
+                            continue
+                    
+                    elif ability.name == push.name:
+                        four_tiles = self.get_tile_neighbors((creature.x, creature.y))
+                        enemies = []
+
+                        for art in four_tiles:
+                            if isinstance(art, Creature):
+                                enemies.append(art)
+                        if len(enemies) > 0:
+                            print(enemies, "choose target, starting from 0")
+
+                            enemy_index = int(input(""))
+
+                            while enemy_index not in range(len(enemies)):
+                                print(enemies, "choose target, starting from 0")
+
+                                enemy_index = int(input(""))
+                            
+                            target = enemies[enemy_index]
+
+                            ability.activate(creature, target)
+                        else:
+                            print("no available targets")
+
+                    elif ability.name == heal_shot.name:
+                        self.player.check_creatures()
+
+                        self.creatures = self.player.creatures
+
+                        if len(self.creatures) > 1 :
+                            for creatures in self.creatures:
+                                if creature.name != creatures.name:
+                                    index = self.creatures.index(creatures)
+                                    print(f"{index}: {creatures}")
+                            
+                            print("select a creature")
+
+                            target_index = int(input(""))
+
+                            while target_index not in range(len(self.creatures)) or target_index == self.creatures.index(creature):
+                                for creatures in self.creatures:
+                                    if creature.name != creatures.name:
+                                        index = self.creatures.index(creatures)
+                                        print(f"{index}: {creatures}")
+                            
+                                print("select a creature")
+
+                                target_index = int(input(""))
+
+                            ability.activate(creature, self.creatures[target_index])
+                        else:
+                            print("no avaialble target")
+
+                    else:
+                        print("enter tile to teleport to: ")
+
+                        print("enter i: ")
+
+                        i = int(input(""))
+
+                        print("enter j: ")
+
+                        j = int(input(""))
+
+                        if (i,j) not in self.paths:
+                            print("enter tile to teleport to: ")
+
+                            print("enter i: ")
+
+                            i = int(input(""))
+
+                            print("enter j: ")
+
+                            j = int(input(""))
+
+                        ability.activate(creature, (i,j))
+            if x == 3:
+                if self.points["Summon"] < 10:
+                    print("not enough points to summon")
+                else:
+                    for creature in self.creature_storage:
+                        index = self.creature_storage.index(creature)
+                        print(f"{index}: creature")
+
+                    print("select creature to summon")
+
+                    summon_index = int(input(""))
+
+                    while summon_index not in range(len(self.creature_storage)):
+                        for creature in self.creature_storage:
+                            index = self.creature_storage.index(creature)
+                            print(f"{index}: creature")
+
+                        print("select creature to summon")
+
+                        summon_index = int(input(""))
+
+                    creature = self.creature_storage.pop(summon_index)
+
+                    box = Box(creature, self.stage, self.player)
+
+                    print(box.shapes)
+
+                    print("Pick box shape: ")
+
+                    shape = input("")
+
+                    while shape not in box.shapes:
+                        print(box.shapes)
+
+                        print("Pick box shape: ")
+
+                        shape = input("")
+                    
+                    
+
+                    while box.placed == False:
+
+                        self.stage.show_stage()
+
+                        print("pick a point")
+
+                        print("enter i: ")
+
+                        i = int(input(""))
+
+                        print("enter j: ")
+
+                        j = int(input(""))
+
+                        while (i,j) not in self.stage.tiles or (i,j) in self.stage.paths:
+                            self.stage.show_stage()
+
+                            print("pick a point")
+
+                            print("enter i: ")
+
+                            i = int(input(""))
+
+                            print("enter j: ")
+
+                            j = int(input(""))
+                        
+                        point = (i,j)
+
+                        four_tiles = self.get_tile_neighbors((i,j))
+
+                        touches = False
+
+                        for tile in four_tiles:
+                            if tile in self.paths or tile in self.player.connects:
+                                touches = True
+                        
+                        if touches == False:
+                            continue
+                        else:
+                            self.path_fitter(box, shape, (i,j))
+
+                            if box.placed == True:
+                                break
+                            else:
+                                self.connect_fitter(box, shape, (i,j))
+
+                                if box.placed == True:
+                                    break
+
+                                else:
+                                    continue
+            if x == 4:
+                print("player turn ends")
+
+
+
+
+                        
+
+
+
+
+
+
+                        
+                        
+
+
+
+
+
+
+                
+
+
+
+
+
+
+
+                
+            
+
+        
+
+        
+    
     
 
     

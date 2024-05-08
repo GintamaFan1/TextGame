@@ -33,6 +33,7 @@ def main():
 
     player1 = Player(stage, "one", True)
     player2 = Player(stage, "two", False)
+    player2.is_AI == False
 
     movement_die = Dice(6, "Movement")
     ability_die = Dice(6, "Ability")
@@ -42,6 +43,7 @@ def main():
 
     agent1 = Ai_Agent(stage, player1, creature_set1, player2, movement_die, summon_die, ability_die)
     agent2 = Ai_Agent(stage, player2, creature_set2, player1, movement_die, summon_die, ability_die)
+    agents = [agent1, agent2]
 
     
 
@@ -56,8 +58,11 @@ def main():
     while stage.game_over == False:
         
 
-        agent1.run()
-        agent2.run()
+        for agent in agents:
+            if agent.player.is_AI == True:
+                agent.run()
+            else:
+                agent.player_turn()
 
         turns += 1
         print(turns)
