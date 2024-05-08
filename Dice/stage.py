@@ -73,6 +73,38 @@ class Stage:
         for j in range(self.width):
             self.bottom_connect.append((j,self.width - 1))
 
+    def get_empty_touching_tiles(self, player):
+        empty = []
+        for tile in self.paths:
+            if self.tiles[tile].board.owner == player:
+                neighbors = self.get_four_neighbors(tile)
+                for neigh in neighbors:
+                    if self.tiles[neigh].board == None:
+                        empty.append(neigh)
+        return empty
+
+
+
+    def get_four_neighbors(self, point):
+        neighbors = []
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                if i == 0 and j == 0:
+                    continue
+                if i == -1 and j == -1:
+                    continue
+                if i == 1 and j == -1:
+                    continue
+                if i == -1 and j == 1:
+                    continue
+                if i == 1 and j == 1:
+                    continue
+                new_i, new_j = i + point[0], j + point[1]
+                if new_i >= 0 and new_i < self.height and new_j >= 0 and new_j < self.width:
+                    neighbors.append((new_i, new_j))
+        return neighbors
+
+
 
 
 class Tile:

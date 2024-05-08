@@ -21,15 +21,15 @@ class Box:
         
     
     def define_shapes(self):
-        self.shape_tiles["t"] = [(self.x - 1, self.y), (self.x, self.y), (self.x, self.y - 1),
-                                 (self.x + 1, self.y), (self.x, self.y + 1), (self.x, self.y + 2)]
-        self.shape_tiles["T"] = [(self.x - 1, self.y), (self.x, self.y), (self.x + 1, self.y),
+        self.shape_tiles["t"] = [(self.x, self.y), (self.x - 1, self.y), (self.x, self.y - 1),
+                                  (self.x + 1, self.y), (self.x, self.y + 1), (self.x, self.y + 2)]
+        self.shape_tiles["T"] = [(self.x, self.y), (self.x - 1, self.y), (self.x + 1, self.y), 
                                  (self.x, self.y + 1), (self.x, self.y + 2), (self.x, self.y + 3)]
-        self.shape_tiles["w"] = [(self.x - 1, self.y + 1), (self.x, self.y + 1), (self.x, self.y),
-                                 (self.x, self.y - 1), (self.x + 1, self.y - 1), (self.x + 1, self.y - 2)]
-        self.shape_tiles["z"] = [(self.x, self.y), (self.x, self.y + 1), (self.x, self.y + 2),
+        self.shape_tiles["w"] = [(self.x, self.y), (self.x - 1, self.y + 1), (self.x, self.y - 1), 
+                                 (self.x, self.y + 1), (self.x + 1, self.y - 1), (self.x + 1, self.y - 2)]
+        self.shape_tiles["z"] = [(self.x, self.y), (self.x, self.y + 1), (self.x, self.y + 2), 
                                  (self.x + 1, self.y + 2), (self.x - 1, self.y), (self.x - 2, self.y)]
-        self.shape_tiles["twist"] = [(self.x, self.y), (self.x, self.y - 1), (self.x, self.y +1),
+        self.shape_tiles["twist"] = [(self.x, self.y), (self.x, self.y - 1), (self.x, self.y + 1), 
                                      (self.x, self.y + 2), (self.x - 1, self.y - 1), (self.x + 1, self.y)]
         
     def pick_shape(self):

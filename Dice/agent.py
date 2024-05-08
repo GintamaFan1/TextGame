@@ -263,10 +263,14 @@ class Ai_Agent:
 
 
         if has_ability == True and self.stage.opponents_connected == True:
-            print(colored(f"calling on ability", "red"))
-            self.player.check_creatures()
-            self.creatures = self.player.creatures
+            print(colored(f"calling on ability, {self.player.name}", "red"))
             
+            self.player.check_creatures()
+           
+            self.creatures = self.player.creatures
+
+            
+            creature = None
             if len(self.creatures) > 0:
                 creature = random.choice(self.creatures)
             if creature:
@@ -410,6 +414,9 @@ class Ai_Agent:
                     moves_made += 1
                     continue
                 battle(creature, object)
+                self.player.check_creatures()
+
+                self.creatures = self.player.creatures
                 
                 if object.HP <= 0:
                     
@@ -434,84 +441,7 @@ class Ai_Agent:
 
         
         return moves_made
-
-                
-class Crawler:
-
-    def __init__(self, stage, creature, ending):
-        self.stage = stage
-        self.creature = creature
-        self.moves_made = []
-        self.current_search = []
-        self.ending = ending
-        self.x = creature.x
-        self.y = creature.y
-        self.solved = False
-
-    def available_moves(self):
-        available_moves = []
-
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                if i == 0 and j == 0:
-                    continue
-                if i == -1 and j == -1:
-                    continue
-                if i == 1 and j == -1:
-                    continue
-                if i == -1 and j == 1:
-                    continue
-                if i == 1 and j == 1:
-                    continue
-
-                new_i, new_j = i + self.x, j + self.y
-                if new_i >= 0 and new_i < self.stage.height  and new_j >= 0 and new_j < self.stage.width and (new_i, new_j) in self.stage.paths:
-                    available_moves.append((new_i, new_j))
         
-        return available_moves
-
-    def find_move(self):
-        available = self.available_moves()
-        sorted_value = self.distance_value(available)
-        queue = deque([(move, [move]) for move in sorted_value])
-        self.moves_made = []
-        self.current_search = []
-
-        while queue:
-            current_move, path = queue.popleft()
-            self.x, self.y = current_move
-            self.moves_made.append(current_move)
-            self.current_search = path
-
-            if self.x == self.ending[0] and self.y == self.ending[1]:
-                self.solved = True
-                return path
-
-            available = self.available_moves()
-            sorted_value = self.distance_value(available)
-
-            for move in sorted_value:
-                if move not in self.moves_made:
-                    queue.append((move, path + [move]))
-
-        print("no path available for this crawler")
-        return None
-
-    
-        
-    def distance(self, point1, point2):
-        distance = math.sqrt((point2[0] - point1[0])** 2 + (point2[1] - point1[1])** 2)
-        return distance
-    
-    def distance_value(self, list):
-        dictio = {}
-        for move in list:
-            distance = self.distance(move, self.ending)
-            dictio[move] = distance
-        sorted_value = sorted(dictio.items(), key=lambda x: x[1])
-        sorted_value = dict(sorted_value)
-        return sorted_value
-    
     def player_turn(self):
         print("press any key to roll: ")
 
@@ -538,7 +468,7 @@ class Crawler:
 
             x = int(input(""))
 
-            while x not in [1, 2, 3]:
+            while x not in [1, 2, 3, 4]:
                 print("enter valid input")
                 x = int(input(""))
 
@@ -732,7 +662,7 @@ class Crawler:
                 else:
                     for creature in self.creature_storage:
                         index = self.creature_storage.index(creature)
-                        print(f"{index}: creature")
+                        print(f"{index}: {creature}")
 
                     print("select creature to summon")
 
@@ -770,7 +700,7 @@ class Crawler:
 
                         self.stage.show_stage()
 
-                        print("pick a point")
+                        print("pick a point1")
 
                         print("enter i: ")
 
@@ -783,7 +713,7 @@ class Crawler:
                         while (i,j) not in self.stage.tiles or (i,j) in self.stage.paths:
                             self.stage.show_stage()
 
-                            print("pick a point")
+                            print("pick a point2")
 
                             print("enter i: ")
 
@@ -795,31 +725,185 @@ class Crawler:
                         
                         point = (i,j)
 
-                        four_tiles = self.get_tile_neighbors((i,j))
+                        touching_empty = self.stage.get_empty_touching_tiles(self.player)
 
-                        touches = False
-
-                        for tile in four_tiles:
-                            if tile in self.paths or tile in self.player.connects:
-                                touches = True
                         
-                        if touches == False:
-                            continue
-                        else:
-                            self.path_fitter(box, shape, (i,j))
 
-                            if box.placed == True:
-                                break
-                            else:
-                                self.connect_fitter(box, shape, (i,j))
+                        self.stage.place_artifact(box, point)
+                        box.define_shapes()
 
-                                if box.placed == True:
-                                    break
+                        box_position = box.shape_tiles[shape]
+
+                        accepted = False
+                        
+
+                        while accepted == False:
+                            print(box_position, "current box position")
+
+                            print("move position left, right, up or down until it fits and touches")
+
+                            direction = input("").lower()
+
+                            while direction not in ["down", "up", "right", "left"]:
+                                print(box_position, "current box position")
+
+                                print("move position left, right, up or down until it fits and touches")
+
+                                direction = input("").lower()
+
+                            new_position = []
+                            
+                            for set in box_position:
+                                if direction == "down":
+                                    new_cords = (set[0] + 1, set[1])
+                                elif direction == "up":
+                                    new_cords = (set[0] - 1, set[1])
+
+                                elif direction == "right":
+                                    new_cords = (set[0], set[1] + 1)
 
                                 else:
-                                    continue
+                                    new_cords = (set[0], set[1] - 1)
+                                new_position.append(new_cords)
+                            
+                            box_position = new_position
+
+                            print(box_position, "current box position")
+
+                            print("do you accept this? ")
+
+                            answer = input("").lower()
+
+                            if answer == "yes":
+                                accepted = True
+                            else:
+                                continue
+                        
+                        fits = True
+                        overlaps = False
+                        touches = False
+
+                        for set in box_position:
+                            if set not in self.stage.tiles:
+                                fits = False
+                                print("box wont fit")
+                            if set in self.stage.paths:
+                                overlaps = True
+                            
+
+                                
+                        if fits == False or overlaps == True:
+                            self.creature_storage.append(creature)
+                            self.stage.unplace_artifact(box)
+                            break
+
+                        for set in box_position:
+                            if set == box_position[0]:
+                                self.stage.place_artifact(creature, set)
+                            
+                            self.stage.tiles[set].board = box
+                            if set not in box.owner.path:
+                                box.owner.add_path(set)
+                            if set not in box.stage.paths:
+                                self.stage.paths.append(set)
+                            
+                        self.stage.unplace_artifact(box)
+                        box.placed = True
+                        self.points["Summon"] -= 10
+                            
+
+
+
+                    
+
+                    
+
+        
+                        
+
+                        
             if x == 4:
                 print("player turn ends")
+                end_turn = True
+
+                
+class Crawler:
+
+    def __init__(self, stage, creature, ending):
+        self.stage = stage
+        self.creature = creature
+        self.moves_made = []
+        self.current_search = []
+        self.ending = ending
+        self.x = creature.x
+        self.y = creature.y
+        self.solved = False
+
+    def available_moves(self):
+        available_moves = []
+
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                if i == 0 and j == 0:
+                    continue
+                if i == -1 and j == -1:
+                    continue
+                if i == 1 and j == -1:
+                    continue
+                if i == -1 and j == 1:
+                    continue
+                if i == 1 and j == 1:
+                    continue
+
+                new_i, new_j = i + self.x, j + self.y
+                if new_i >= 0 and new_i < self.stage.height  and new_j >= 0 and new_j < self.stage.width and (new_i, new_j) in self.stage.paths:
+                    available_moves.append((new_i, new_j))
+        
+        return available_moves
+
+    def find_move(self):
+        available = self.available_moves()
+        sorted_value = self.distance_value(available)
+        queue = deque([(move, [move]) for move in sorted_value])
+        self.moves_made = []
+        self.current_search = []
+
+        while queue:
+            current_move, path = queue.popleft()
+            self.x, self.y = current_move
+            self.moves_made.append(current_move)
+            self.current_search = path
+
+            if self.x == self.ending[0] and self.y == self.ending[1]:
+                self.solved = True
+                return path
+
+            available = self.available_moves()
+            sorted_value = self.distance_value(available)
+
+            for move in sorted_value:
+                if move not in self.moves_made:
+                    queue.append((move, path + [move]))
+
+        print("no path available for this crawler")
+        return None
+
+    
+        
+    def distance(self, point1, point2):
+        distance = math.sqrt((point2[0] - point1[0])** 2 + (point2[1] - point1[1])** 2)
+        return distance
+    
+    def distance_value(self, list):
+        dictio = {}
+        for move in list:
+            distance = self.distance(move, self.ending)
+            dictio[move] = distance
+        sorted_value = sorted(dictio.items(), key=lambda x: x[1])
+        sorted_value = dict(sorted_value)
+        return sorted_value
+    
+    
 
 
 
