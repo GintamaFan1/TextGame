@@ -38,6 +38,7 @@ def evaluator(dice1, dict):
 
     dice1.roll()
     result = dice1.value
+    print(f"{dice1.category}, {result}")
     if dice1.category not in dict:
         dict[dice1.category] = result
     else:

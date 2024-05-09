@@ -443,16 +443,7 @@ class Ai_Agent:
         return moves_made
         
     def player_turn(self):
-        if self.stage.opponents_connected == False:
-            connected = self.check_connection()
-            if connected:
-                self.stage.opponents_connected = True
-                print(colored("connected", "magenta"))
-
-        if len(self.creature_storage) == 0 and len(self.creatures) == 0:
-            print("no moves left")
-            self.stage.game_over = True
-            return
+        
         
         print("press any key to roll: ")
 
@@ -468,6 +459,17 @@ class Ai_Agent:
         end_turn = False
 
         while end_turn == False:
+            connected = False
+            if self.stage.opponents_connected == False:
+                connected = self.check_connection()
+            if connected:
+                self.stage.opponents_connected = True
+                print(colored("connected", "magenta"))
+
+            if len(self.creature_storage) == 0 and len(self.creatures) == 0:
+                print("no moves left")
+                self.stage.game_over = True
+                return
             print(self.points)
 
             print("what would you like to do next? ")
@@ -506,7 +508,20 @@ class Ai_Agent:
                         creature_index = int(input(""))
 
                     creature = self.creatures[creature_index]
-                    print(self.stage.paths, "available paths")
+                    tile_color = {}
+                    colors = ["red"]
+
+                    for tile in self.stage.paths:
+                        if isinstance(self.stage.tiles[tile].artifact, Creature):
+                            tile_color[tile] = colors[0]
+                    for tile in self.stage.paths:
+                        if tile in tile_color:
+                            print(colored(f"{tile}", tile_color[tile] ), end="")
+                        else:
+                            print(tile, end="")
+                    print("")
+
+
 
                     print("enter destination i: ")
 
@@ -688,6 +703,7 @@ class Ai_Agent:
 
                         summon_index = int(input(""))
 
+
                     creature = self.creature_storage.pop(summon_index)
 
                     box = Box(creature, self.stage, self.player)
@@ -737,15 +753,33 @@ class Ai_Agent:
                         point = (i,j)
 
                         touching_empty = self.stage.get_empty_touching_tiles(self.player)
+                        tile_color = {}
+                        colors = ["green", "red", "yellow"]
+                        for tile in touching_empty:
+                            tile_color[tile] = colors[0]
 
-                        
+                        for tile in self.stage.paths:
+                            tile_color[tile] = colors[1]
+
+                        for tile in self.player.connects:
+                            if tile not in self.stage.paths:
+                                tile_color[tile] = colors[2]
+
 
                         self.stage.place_artifact(box, point)
                         box.define_shapes()
 
                         box_position = box.shape_tiles[shape]
 
-                        print(box_position, "Current box position")
+                        for tile in box_position:
+                            if tile in tile_color:
+                                print(colored(f"{tile}", tile_color[tile]),end="")
+                            else:
+                                print(tile, end="")
+
+                        print("")
+
+                            
 
                         accepted = False
 
@@ -757,7 +791,12 @@ class Ai_Agent:
                             accepted = True
 
                         while accepted == False:
-                            print(box_position, "current box position")
+                            for tile in box_position:
+                                if tile in tile_color:
+                                    print(colored(f"{tile}", tile_color[tile]),end="")
+                                else:
+                                    print(tile, end="")
+                            print("")
 
                             
 
@@ -766,30 +805,54 @@ class Ai_Agent:
                             direction = input("").lower()
 
                             while direction not in ["down", "up", "right", "left"]:
-                                print(box_position, "current box position")
+                                for tile in box_position:
+                                    if tile in tile_color:
+                                        print(colored(f"{tile}", tile_color[tile]),end="")
+                                    else:
+                                        print(tile, end="")
+
+                                print("")
 
                                 print("move position left, right, up or down until it fits and touches")
 
                                 direction = input("").lower()
 
+                            amount = 1
+
+                            print("By what amount? ")
+
+                            amount = int(input(""))
+
+                            while not isinstance(amount, int):
+                                print("By what amount? ")
+
+                                amount = int(input(""))
+
+
                             new_position = []
                             
                             for set in box_position:
                                 if direction == "down":
-                                    new_cords = (set[0] + 1, set[1])
+                                    new_cords = (set[0] + amount, set[1])
                                 elif direction == "up":
-                                    new_cords = (set[0] - 1, set[1])
+                                    new_cords = (set[0] - amount, set[1])
 
                                 elif direction == "right":
-                                    new_cords = (set[0], set[1] + 1)
+                                    new_cords = (set[0], set[1] + amount)
 
                                 else:
-                                    new_cords = (set[0], set[1] - 1)
+                                    new_cords = (set[0], set[1] - amount)
                                 new_position.append(new_cords)
                             
                             box_position = new_position
 
-                            print(box_position, "current box position")
+                            for tile in box_position:
+                                if tile in tile_color:
+                                    print(colored(f"{tile}", tile_color[tile]),end="")
+                                else:
+                                    print(tile, end="")
+
+                            print("")
 
                             print("do you accept this? ")
 
@@ -808,18 +871,24 @@ class Ai_Agent:
                             rotated = False
 
                             while rotated == False:
-                                print("Enter degree to rotate: 90, 180, 270 ")
+                                print("Enter degree to rotate:0, 90, 180, 270 ")
 
                                 degree = int(input(""))
 
-                                while degree not in [90, 180, 270]:
+                                while degree not in [0, 90, 180, 270]:
                                     print("Enter degree to rotate: 90, 180, 270 ")
 
                                     degree = int(input(""))
 
                                 box_position = box.rotate_shape(shape, degree)
 
-                                print(box_position, "Current box tiles")
+                                for tile in box_position:
+                                    if tile in tile_color:
+                                        print(colored(f"{tile}", tile_color[tile]),end="")
+                                    else:
+                                        print(tile, end="")
+
+                                print("")
 
                                 print("Do you accept? yes or no")
 
@@ -830,10 +899,6 @@ class Ai_Agent:
                                     break
                                 else:
                                     continue
-
-                                
-
-
 
                         
                         fits = True
@@ -848,6 +913,7 @@ class Ai_Agent:
                             if set in self.stage.paths:
                                 overlaps = True
                             if set in touching_empty:
+
                                 touches_path = True
                             if set in self.player.connects:
                                 touches_connect = True

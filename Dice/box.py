@@ -16,48 +16,86 @@ class Box:
         self.placed = False
 
     def __str__(self):
-        return f"{self.creature.name}'s box path at {self.x, self.y} belongs to {self.owner}"
+        return f"{self.creature.name}'s box path at {self.x, self.y} belongs to {self.owner.name}"
     
     
         
     
     def define_shapes(self):
-        self.shape_tiles["t"] = [(self.x, self.y), (self.x - 1, self.y), (self.x, self.y - 1),
-                                  (self.x + 1, self.y), (self.x, self.y + 1), (self.x, self.y + 2)]
-        self.shape_tiles["T"] = [(self.x, self.y), (self.x - 1, self.y), (self.x + 1, self.y), 
-                                 (self.x, self.y + 1), (self.x, self.y + 2), (self.x, self.y + 3)]
-        self.shape_tiles["w"] = [(self.x, self.y), (self.x - 1, self.y + 1), (self.x, self.y - 1), 
-                                 (self.x, self.y + 1), (self.x + 1, self.y - 1), (self.x + 1, self.y - 2)]
-        self.shape_tiles["z"] = [(self.x, self.y), (self.x, self.y + 1), (self.x, self.y + 2), 
-                                 (self.x + 1, self.y + 2), (self.x - 1, self.y), (self.x - 2, self.y)]
-        self.shape_tiles["twist"] = [(self.x, self.y), (self.x, self.y - 1), (self.x, self.y + 1), 
-                                     (self.x, self.y + 2), (self.x - 1, self.y - 1), (self.x + 1, self.y)]
+        def mirror_coords(coords, player_num):
+            mirrored_coords = []
+            stage_center_y = self.stage.width // 2
+            for x, y in coords:
+                if player_num == True:
+                    mirrored_coords.append((x, y))
+                else:
+                    mirrored_coords.append((x,y))
+            return mirrored_coords
+        
+        
+        self.shape_tiles["t"] = mirror_coords([(self.x, self.y), (self.x - 1, self.y), (self.x, self.y - 1),
+                                  (self.x + 1, self.y), (self.x, self.y + 1), (self.x, self.y + 2)], self.owner.is_player1)
+        self.shape_tiles["T"] = mirror_coords([(self.x, self.y), (self.x - 1, self.y), (self.x + 1, self.y), 
+                                 (self.x, self.y + 1), (self.x, self.y + 2), (self.x, self.y + 3)], self.owner.is_player1)
+        self.shape_tiles["w"] = mirror_coords([(self.x, self.y), (self.x - 1, self.y + 1), (self.x, self.y - 1), 
+                                 (self.x, self.y + 1), (self.x + 1, self.y - 1), (self.x + 1, self.y - 2)], self.owner.is_player1)
+        self.shape_tiles["z"] = mirror_coords([(self.x, self.y), (self.x, self.y + 1), (self.x, self.y + 2), 
+                                 (self.x + 1, self.y + 2), (self.x - 1, self.y), (self.x - 2, self.y)], self.owner.is_player1)
+        self.shape_tiles["twist"] = mirror_coords([(self.x, self.y), (self.x, self.y - 1), (self.x, self.y + 1), 
+                                     (self.x, self.y + 2), (self.x - 1, self.y - 1), (self.x + 1, self.y)], self.owner.is_player1)
         
         self.shape_rotations["t"] = {
-            90: [(self.x, self.y), (self.x, self.y - 1), (self.x - 1, self.y), (self.x, self.y + 1), (self.x + 1, self.y), (self.x + 2, self.y)],
-            180: [(self.x, self.y), (self.x + 1, self.y), (self.x, self.y + 1), (self.x - 1, self.y), (self.x, self.y - 1), (self.x, self.y - 2)],
-            270: [(self.x, self.y), (self.x, self.y + 1), (self.x + 1, self.y), (self.x, self.y - 1), (self.x - 1, self.y), (self.x - 2, self.y)]
+            0: self.shape_tiles["t"],
+            90: mirror_coords([(self.x, self.y), (self.x, self.y - 1), (self.x - 1, self.y), (self.x, self.y + 1), (self.x + 1, self.y), (self.x + 2, self.y)], self.owner.is_player1),
+            180: mirror_coords([(self.x, self.y), (self.x + 1, self.y), (self.x, self.y + 1), (self.x - 1, self.y), (self.x, self.y - 1), (self.x, self.y - 2)], self.owner.is_player1),
+            270: mirror_coords([(self.x, self.y), (self.x, self.y + 1), (self.x + 1, self.y), (self.x, self.y - 1), (self.x - 1, self.y), (self.x - 2, self.y)], self.owner.is_player1)
         }
         self.shape_rotations["T"] = {
-            90: [(self.x, self.y), (self.x, self.y - 1), (self.x, self.y + 1), (self.x + 1, self.y), (self.x + 2, self.y), (self.x + 3, self.y)],
-            180: [(self.x, self.y), (self.x + 1, self.y), (self.x - 1, self.y), (self.x, self.y - 1), (self.x, self.y - 2), (self.x, self.y - 3)],
-            270: [(self.x, self.y), (self.x, self.y + 1), (self.x, self.y - 1), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 3, self.y)]
+            0: self.shape_tiles["T"],
+            90: mirror_coords([(self.x, self.y), (self.x, self.y - 1), (self.x, self.y + 1), (self.x + 1, self.y), (self.x + 2, self.y), (self.x + 3, self.y)], self.owner.is_player1),
+            180: mirror_coords([(self.x, self.y), (self.x + 1, self.y), (self.x - 1, self.y), (self.x, self.y - 1), (self.x, self.y - 2), (self.x, self.y - 3)], self.owner.is_player1),
+            270: mirror_coords([(self.x, self.y), (self.x, self.y + 1), (self.x, self.y - 1), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 3, self.y)], self.owner.is_player1)
         }
         self.shape_rotations["w"] = {
-            90: [(self.x, self.y), (self.x + 1, self.y), (self.x + 2, self.y), (self.x + 2, self.y + 1), (self.x, self.y - 1), (self.x - 1, self.y - 2)],
-            180: [(self.x, self.y), (self.x , self.y - 1), (self.x, self.y - 2), (self.x + 1, self.y - 2), (self.x - 1, self.y), (self.x - 1, self.y + 1)],
-            270: [(self.x, self.y), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 2, self.y - 1), (self.x, self.y + 1), (self.x + 1, self.y + 1)]
+            0: self.shape_tiles["w"],
+            90: mirror_coords([(self.x, self.y), (self.x + 1, self.y), (self.x + 2, self.y), (self.x + 2, self.y + 1), (self.x, self.y - 1), (self.x - 1, self.y - 2)], self.owner.is_player1),
+            180: mirror_coords([(self.x, self.y), (self.x , self.y - 1), (self.x, self.y - 2), (self.x + 1, self.y - 2), (self.x - 1, self.y), (self.x - 1, self.y + 1)], self.owner.is_player1),
+            270: mirror_coords([(self.x, self.y), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 2, self.y - 1), (self.x, self.y + 1), (self.x + 1, self.y + 1)], self.owner.is_player1)
         }
         self.shape_rotations["z"] = {
-            90: [(self.x, self.y), (self.x, self.y + 1), (self.x , self.y + 2), (self.x - 2, self.y - 1), (self.x -2, self.y), (self.x - 1, self.y)],
-            180: [(self.x, self.y), (self.x, self.y - 1), (self.x, self.y - 2), (self.x - 1, self.y - 2), (self.x + 1, self.y), (self.x + 2, self.y)],
-            270: [(self.x, self.y), (self.x, self.y - 1), (self.x, self.y - 2), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 2, self.y + 1)]
+            0: self.shape_tiles["z"],
+            90: mirror_coords([(self.x, self.y), (self.x, self.y + 1), (self.x , self.y + 2), (self.x - 2, self.y - 1), (self.x -2, self.y), (self.x - 1, self.y)], self.owner.is_player1),
+            180: mirror_coords([(self.x, self.y), (self.x, self.y - 1), (self.x, self.y - 2), (self.x - 1, self.y - 2), (self.x + 1, self.y), (self.x + 2, self.y)], self.owner.is_player1),
+            270: mirror_coords([(self.x, self.y), (self.x, self.y - 1), (self.x, self.y - 2), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 2, self.y + 1)], self.owner.is_player1)
         }
         self.shape_rotations["twist"] = {
-            90: [(self.x, self.y), (self.x - 1, self.y), (self.x + 1, self.y), (self.x + 2, self.y), (self.x - 1, self.y + 1), (self.x, self.y - 1)],
-            180: [(self.x, self.y), (self.x, self.y + 1), (self.x, self.y - 1), (self.x, self.y - 2), (self.x - 1, self.y), (self.x + 1, self.y + 1)],
-            270: [(self.x, self.y), (self.x + 1, self.y), (self.x - 1, self.y), (self.x - 2, self.y), (self.x + 1, self.y - 1), (self.x, self.y + 1)]
+            0: self.shape_tiles["twist"],
+            90: mirror_coords([(self.x, self.y), (self.x - 1, self.y), (self.x + 1, self.y), (self.x + 2, self.y), (self.x - 1, self.y + 1), (self.x, self.y - 1)], self.owner.is_player1),
+            180: mirror_coords([(self.x, self.y), (self.x, self.y + 1), (self.x, self.y - 1), (self.x, self.y - 2), (self.x - 1, self.y), (self.x + 1, self.y + 1)], self.owner.is_player1),
+            270: mirror_coords([(self.x, self.y), (self.x + 1, self.y), (self.x - 1, self.y), (self.x - 2, self.y), (self.x + 1, self.y - 1), (self.x, self.y + 1)], self.owner.is_player1)
         }
+
+        if not self.owner.is_player1:
+            self.shape_rotations["t"][90], self.shape_rotations["t"][270] = self.shape_rotations["t"][270], self.shape_rotations["t"][90]
+            self.shape_rotations["t"][0], self.shape_rotations["t"][180] = self.shape_rotations["t"][180], self.shape_rotations["t"][0]
+
+            self.shape_rotations["T"][90], self.shape_rotations["T"][270] = self.shape_rotations["T"][270], self.shape_rotations["T"][90]
+            self.shape_rotations["T"][0], self.shape_rotations["T"][180] = self.shape_rotations["T"][180], self.shape_rotations["T"][0]
+
+            self.shape_rotations["w"][90], self.shape_rotations["w"][270] = self.shape_rotations["w"][270], self.shape_rotations["w"][90]
+            self.shape_rotations["w"][0], self.shape_rotations["w"][180] = self.shape_rotations["w"][180], self.shape_rotations["w"][0]
+
+            self.shape_rotations["z"][90], self.shape_rotations["z"][270] = self.shape_rotations["z"][270], self.shape_rotations["z"][90]
+            self.shape_rotations["z"][0], self.shape_rotations["z"][180] = self.shape_rotations["z"][180], self.shape_rotations["z"][0]
+
+            self.shape_rotations["twist"][90], self.shape_rotations["twist"][270] = self.shape_rotations["twist"][270], self.shape_rotations["twist"][90]
+            self.shape_rotations["twist"][0], self.shape_rotations["twist"][180] = self.shape_rotations["twist"][180], self.shape_rotations["twist"][0]
+
+            self.shape_tiles["t"] = self.shape_rotations["t"][0]
+            self.shape_tiles["T"] = self.shape_rotations["T"][0]
+            self.shape_tiles["w"] = self.shape_rotations["w"][0]
+            self.shape_tiles["z"] = self.shape_rotations["z"][0]
+            self.shape_tiles["twist"] = self.shape_rotations["twist"][0]
 
     def rotate_shape(self, shape, degree):
         rotated_shape = self.shape_rotations[shape].get(degree)
