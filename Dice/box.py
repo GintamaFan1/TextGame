@@ -8,6 +8,7 @@ class Box:
         self.path = self
         self.stage = stage
         self.shape_tiles = {}
+        self.shape_rotations = {}
         self.shapes = ["t", "w", "T", "z", "twist"]
         self.owner = owner
         self.x = None
@@ -32,9 +33,43 @@ class Box:
         self.shape_tiles["twist"] = [(self.x, self.y), (self.x, self.y - 1), (self.x, self.y + 1), 
                                      (self.x, self.y + 2), (self.x - 1, self.y - 1), (self.x + 1, self.y)]
         
+        self.shape_rotations["t"] = {
+            90: [(self.x, self.y), (self.x, self.y - 1), (self.x - 1, self.y), (self.x, self.y + 1), (self.x + 1, self.y), (self.x + 2, self.y)],
+            180: [(self.x, self.y), (self.x + 1, self.y), (self.x, self.y + 1), (self.x - 1, self.y), (self.x, self.y - 1), (self.x, self.y - 2)],
+            270: [(self.x, self.y), (self.x, self.y + 1), (self.x + 1, self.y), (self.x, self.y - 1), (self.x - 1, self.y), (self.x - 2, self.y)]
+        }
+        self.shape_rotations["T"] = {
+            90: [(self.x, self.y), (self.x, self.y - 1), (self.x, self.y + 1), (self.x + 1, self.y), (self.x + 2, self.y), (self.x + 3, self.y)],
+            180: [(self.x, self.y), (self.x + 1, self.y), (self.x - 1, self.y), (self.x, self.y - 1), (self.x, self.y - 2), (self.x, self.y - 3)],
+            270: [(self.x, self.y), (self.x, self.y + 1), (self.x, self.y - 1), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 3, self.y)]
+        }
+        self.shape_rotations["w"] = {
+            90: [(self.x, self.y), (self.x + 1, self.y), (self.x + 2, self.y), (self.x + 2, self.y + 1), (self.x, self.y - 1), (self.x - 1, self.y - 2)],
+            180: [(self.x, self.y), (self.x , self.y - 1), (self.x, self.y - 2), (self.x + 1, self.y - 2), (self.x - 1, self.y), (self.x - 1, self.y + 1)],
+            270: [(self.x, self.y), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 2, self.y - 1), (self.x, self.y + 1), (self.x + 1, self.y + 1)]
+        }
+        self.shape_rotations["z"] = {
+            90: [(self.x, self.y), (self.x, self.y + 1), (self.x , self.y + 2), (self.x - 2, self.y - 1), (self.x -2, self.y), (self.x - 1, self.y)],
+            180: [(self.x, self.y), (self.x, self.y - 1), (self.x, self.y - 2), (self.x - 1, self.y - 2), (self.x + 1, self.y), (self.x + 2, self.y)],
+            270: [(self.x, self.y), (self.x, self.y - 1), (self.x, self.y - 2), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 2, self.y + 1)]
+        }
+        self.shape_rotations["twist"] = {
+            90: [(self.x, self.y), (self.x - 1, self.y), (self.x + 1, self.y), (self.x + 2, self.y), (self.x - 1, self.y + 1), (self.x, self.y - 1)],
+            180: [(self.x, self.y), (self.x, self.y + 1), (self.x, self.y - 1), (self.x, self.y - 2), (self.x - 1, self.y), (self.x + 1, self.y + 1)],
+            270: [(self.x, self.y), (self.x + 1, self.y), (self.x - 1, self.y), (self.x - 2, self.y), (self.x + 1, self.y - 1), (self.x, self.y + 1)]
+        }
+
+    def rotate_shape(self, shape, degree):
+        rotated_shape = self.shape_rotations[shape].get(degree)
+        if rotated_shape:
+            self.shape_tiles[shape] = rotated_shape
+            return self.shape_tiles[shape]
+        else:
+            print(f"Invalid rotation degree: {degree}")
+            return self.shape_tiles[shape]
     def pick_shape(self):
         return random.choice(self.shapes)
-    
+        
     def pick_connect_tile(self):
         moves = self.owner.connects
         random.shuffle(moves)
@@ -49,6 +84,8 @@ class Box:
 
         for move in neighbors_not_in_path:
             return move
+
+    
             
     def fit_shape_to_path(self, result, point):
         fit = True
@@ -57,6 +94,19 @@ class Box:
         tiles_to_connect = self.find_neighbors(point)
         
         blocks = self.shape_tiles[result]
+
+        rotate = ["yes", "no"]
+
+        choice = random.choice(rotate)
+        degrees = None
+
+        if choice == "yes":
+            degrees = [90, 180, 270]
+
+        if degrees:
+            degree = random.choice(degrees)
+            blocks = self.rotate_shape(result, degree)
+
         center = (self.x, self.y)
         
         for sets in blocks:

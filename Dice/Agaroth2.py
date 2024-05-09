@@ -29,7 +29,7 @@ def main():
     creature_set1 = Creatures[:half]
     creature_set2 = Creatures[half:]
 
-    stage = Stage(18,18)
+    stage = Stage(16,16)
 
     player1 = Player(stage, "one", True)
     player2 = Player(stage, "two", False)

@@ -443,6 +443,17 @@ class Ai_Agent:
         return moves_made
         
     def player_turn(self):
+        if self.stage.opponents_connected == False:
+            connected = self.check_connection()
+            if connected:
+                self.stage.opponents_connected = True
+                print(colored("connected", "magenta"))
+
+        if len(self.creature_storage) == 0 and len(self.creatures) == 0:
+            print("no moves left")
+            self.stage.game_over = True
+            return
+        
         print("press any key to roll: ")
 
         j = input("")
@@ -478,7 +489,7 @@ class Ai_Agent:
 
                 if len(self.creatures) > 0:
                     for creature in self.creatures:
-                        index = self.creature.index(creature)
+                        index = self.creatures.index(creature)
                         print(f"{index}: {creature}")
                     print("Select creature to move: ")
 
@@ -734,11 +745,21 @@ class Ai_Agent:
 
                         box_position = box.shape_tiles[shape]
 
+                        print(box_position, "Current box position")
+
                         accepted = False
-                        
+
+                        print("do you accept? yes or no ")
+
+                        answer = input("").lower()
+
+                        if answer == "yes":
+                            accepted = True
 
                         while accepted == False:
                             print(box_position, "current box position")
+
+                            
 
                             print("move position left, right, up or down until it fits and touches")
 
@@ -779,9 +800,46 @@ class Ai_Agent:
                             else:
                                 continue
                         
+                        print("Do you want to rotate?yes or no ")
+
+                        answer = input("").lower()
+
+                        if answer == "yes":
+                            rotated = False
+
+                            while rotated == False:
+                                print("Enter degree to rotate: 90, 180, 270 ")
+
+                                degree = int(input(""))
+
+                                while degree not in [90, 180, 270]:
+                                    print("Enter degree to rotate: 90, 180, 270 ")
+
+                                    degree = int(input(""))
+
+                                box_position = box.rotate_shape(shape, degree)
+
+                                print(box_position, "Current box tiles")
+
+                                print("Do you accept? yes or no")
+
+                                answer = input("").lower()
+
+                                if answer == "yes":
+                                    rotated = True
+                                    break
+                                else:
+                                    continue
+
+                                
+
+
+
+                        
                         fits = True
                         overlaps = False
-                        touches = False
+                        touches_path = False
+                        touches_connect = False
 
                         for set in box_position:
                             if set not in self.stage.tiles:
@@ -789,10 +847,22 @@ class Ai_Agent:
                                 print("box wont fit")
                             if set in self.stage.paths:
                                 overlaps = True
+                            if set in touching_empty:
+                                touches_path = True
+                            if set in self.player.connects:
+                                touches_connect = True
+
                             
 
                                 
                         if fits == False or overlaps == True:
+                            print("out of bounds placement")
+                            self.creature_storage.append(creature)
+                            self.stage.unplace_artifact(box)
+                            break
+
+                        if touches_path == False and touches_connect == False:
+                            print("box is not connected")
                             self.creature_storage.append(creature)
                             self.stage.unplace_artifact(box)
                             break
@@ -806,19 +876,11 @@ class Ai_Agent:
                                 box.owner.add_path(set)
                             if set not in box.stage.paths:
                                 self.stage.paths.append(set)
+                        self.player.creatures.append(creature)
                             
                         self.stage.unplace_artifact(box)
                         box.placed = True
                         self.points["Summon"] -= 10
-                            
-
-
-
-                    
-
-                    
-
-        
                         
 
                         
