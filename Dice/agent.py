@@ -282,6 +282,7 @@ class Ai_Agent:
 
                 abilities = [fire_storm, heal_shot, teleport, push]
                 ability = self.pick_ability(creature, abilities)
+                print(colored(f"Ai chose {ability.name}", "cyan"))
 
             
                 if ability.name == push.name and self.points["Ability"] >= ability.cost and creature:
@@ -290,6 +291,7 @@ class Ai_Agent:
                     for tile in four_tiles:
                         obj = self.stage.tiles[tile].artifact
                         if isinstance(obj, Creature):
+                            print(colored(f"Ai has targets for push", "cyan"))
                             if obj.owner != creature.owner and self.points["Ability"] >= ability.cost:
                                 ability.activate(creature, obj)
                                 
@@ -299,6 +301,7 @@ class Ai_Agent:
                     for tile in long_tiles:
                         obj = self.stage.tiles[tile].artifact
                         if isinstance(obj, Creature):
+                            print(colored(f"Ai has targets for fire storm", "cyan"))
                             if obj.owner != creature.owner and self.points["Ability"] >= ability.cost:
                                 ability.activate(creature)
                                 
@@ -470,6 +473,7 @@ class Ai_Agent:
                 print("no moves left")
                 self.stage.game_over = True
                 return
+            self.stage.show_stage()
             print(self.points)
 
             print("what would you like to do next? ")
@@ -478,62 +482,54 @@ class Ai_Agent:
             print("enter 2 to activate abilities: ")
             print("enter 3 to summon: ")
             print("enter 4 to end_turn")
-
-            x = int(input(""))
-
-            while x not in [1, 2, 3, 4]:
-                print("enter valid input")
+            try:
                 x = int(input(""))
 
-            if x == 1:
-                self.player.check_creatures()
-                self.creatures = self.player.creatures
+                while x not in [1, 2, 3, 4]:
+                    print("enter valid input")
+                    x = int(input(""))
 
-                if len(self.creatures) > 0:
-                    for creature in self.creatures:
-                        index = self.creatures.index(creature)
-                        print(f"{index}: {creature}")
-                    print("Select creature to move: ")
+                if x == 1:
+                    if self.points["Movement"] <= 0:
+                        print(colored("not enough points", "red"))
+                        break
+                    self.player.check_creatures()
+                    self.creatures = self.player.creatures
 
-                    creature_index = int(input(""))
-
-                    while creature_index not in range(len(self.creatures)):
-                        print("enter valid creature")
-
+                    if len(self.creatures) > 0:
                         for creature in self.creatures:
-                            index = self.creature.index(creature)
+                            index = self.creatures.index(creature)
                             print(f"{index}: {creature}")
-                        print("select creature to move: ")
+                        print("Select creature to move: ")
 
                         creature_index = int(input(""))
 
-                    creature = self.creatures[creature_index]
-                    tile_color = {}
-                    colors = ["red"]
+                        while creature_index not in range(len(self.creatures)):
+                            print("enter valid creature")
 
-                    for tile in self.stage.paths:
-                        if isinstance(self.stage.tiles[tile].artifact, Creature):
-                            tile_color[tile] = colors[0]
-                    for tile in self.stage.paths:
-                        if tile in tile_color:
-                            print(colored(f"{tile}", tile_color[tile] ), end="")
-                        else:
-                            print(tile, end="")
-                    print("")
+                            for creature in self.creatures:
+                                index = self.creature.index(creature)
+                                print(f"{index}: {creature}")
+                            print("select creature to move: ")
+
+                            creature_index = int(input(""))
+
+                        creature = self.creatures[creature_index]
+                        tile_color = {}
+                        colors = ["red"]
+
+                        for tile in self.stage.paths:
+                            if isinstance(self.stage.tiles[tile].artifact, Creature):
+                                tile_color[tile] = colors[0]
+                        for tile in self.stage.paths:
+                            if tile in tile_color:
+                                print(colored(f"{tile}", tile_color[tile] ), end="")
+                            else:
+                                print(tile, end="")
+                        print("")
 
 
 
-                    print("enter destination i: ")
-
-                    i = int(input(""))
-
-                    print("enter destination j: ")
-
-                    j = int(input(""))
-
-                    while (i,j) not in self.stage.paths:
-                        print(self.stage.paths, "available paths")
-                        print("enter valid destination: ")
                         print("enter destination i: ")
 
                         i = int(input(""))
@@ -541,418 +537,441 @@ class Ai_Agent:
                         print("enter destination j: ")
 
                         j = int(input(""))
-                    
-                    self.make_move(creature, (i,j))
-                else:
-                    print("no creatures to move")
-            
-            if x == 2:
-                fire_storm = Firestorm(self.stage, "Fire Storm", 50, self)
-                heal_shot = HealShot(self.stage, "Heal Shot", 20, self)
-                teleport = Teleport(self.stage, "Teleport", 50, self)
-                push = Push(self.stage, "Push", 20, self)
 
-                abilities = [fire_storm, heal_shot, teleport, push]
+                        while (i,j) not in self.stage.paths:
+                            print(self.stage.paths, "available paths")
+                            print("enter valid destination: ")
+                            print("enter destination i: ")
 
-                print(abilities, "select from available abilities, from 0 t0 3: ")
+                            i = int(input(""))
 
-                ab_index = int(input(""))
+                            print("enter destination j: ")
 
-                while ab_index not in range(len(ab_index)):
+                            j = int(input(""))
+                        
+                        self.make_move(creature, (i,j))
+                    else:
+                        print("no creatures to move")
+                
+                if x == 2:
+                    fire_storm = Firestorm(self.stage, "Fire Storm", 50, self)
+                    heal_shot = HealShot(self.stage, "Heal Shot", 20, self)
+                    teleport = Teleport(self.stage, "Teleport", 50, self)
+                    push = Push(self.stage, "Push", 20, self)
+
                     abilities = [fire_storm, heal_shot, teleport, push]
 
-                    print(abilities, "select from available abilities, from 0 to 3: ")
+                    print(abilities, "select from available abilities, from 0 t0 3: ")
 
                     ab_index = int(input(""))
-                
-                ability = abilities[ab_index]
-                self.player.check_creatures()
-                self.creatures = self.player.creatures
+                    try:
+                        while ab_index not in range(len(abilities)):
+                            abilities = [fire_storm, heal_shot, teleport, push]
 
-                if ability.cost > self.points["Ability"]:
-                    print("not enout points to use ability")
+                            print(abilities, "select from available abilities, from 0 to 3: ")
 
-                elif len(self.creatures) == 0:
-                    print("no avaiable creatures to use ability")
-
-                else:
-                    for creature in self.creatures:
-                        index = self.creatures.index(creature)
-                        print(f"{index}: {creature}")
-
-                    print("select creature")
-
-                    creature_index = int(input(""))
-
-                    while creature_index not in self.range(self.creatures):
-                        for creature in self.creatures:
-                            index = self.creatures.index(creature)
-                            print(f"{index}: {creature}")
-
-                        print("select creature")
-
-                        creature_index = int(input(""))
-                    
-                    creature = self.creatures[creature_index]
-
-                    if ability.name == fire_storm.name:
-                        self.stage.show_stage()
-
-                        print("activate ability? yes or no:  ")
-
-                        answer = input("")
-
-                        if answer == "yes" or answer == "Yes" or answer == "YES":
-                            ability.activate(creature)
-                        else:
-                            continue
-                    
-                    elif ability.name == push.name:
-                        four_tiles = self.get_tile_neighbors((creature.x, creature.y))
-                        enemies = []
-
-                        for art in four_tiles:
-                            if isinstance(art, Creature):
-                                enemies.append(art)
-                        if len(enemies) > 0:
-                            print(enemies, "choose target, starting from 0")
-
-                            enemy_index = int(input(""))
-
-                            while enemy_index not in range(len(enemies)):
-                                print(enemies, "choose target, starting from 0")
-
-                                enemy_index = int(input(""))
-                            
-                            target = enemies[enemy_index]
-
-                            ability.activate(creature, target)
-                        else:
-                            print("no available targets")
-
-                    elif ability.name == heal_shot.name:
+                            ab_index = int(input(""))
+                    except (ValueError, TypeError):
+                        continue
+                    try:
+                        ability = abilities[ab_index]
+                        print(f"{ability.name} chosen")
                         self.player.check_creatures()
-
                         self.creatures = self.player.creatures
 
-                        if len(self.creatures) > 1 :
-                            for creatures in self.creatures:
-                                if creature.name != creatures.name:
-                                    index = self.creatures.index(creatures)
-                                    print(f"{index}: {creatures}")
-                            
-                            print("select a creature")
+                        if ability.cost > self.points["Ability"]:
+                            print("not enout points to use ability")
 
-                            target_index = int(input(""))
+                        elif len(self.creatures) == 0:
+                            print("no avaiable creatures to use ability")
 
-                            while target_index not in range(len(self.creatures)) or target_index == self.creatures.index(creature):
-                                for creatures in self.creatures:
-                                    if creature.name != creatures.name:
-                                        index = self.creatures.index(creatures)
-                                        print(f"{index}: {creatures}")
-                            
-                                print("select a creature")
-
-                                target_index = int(input(""))
-
-                            ability.activate(creature, self.creatures[target_index])
                         else:
-                            print("no avaialble target")
+                            for creature in self.creatures:
+                                index = self.creatures.index(creature)
+                                print(f"{index}: {creature}, {creature.x, creature.y}")
 
-                    else:
-                        print("enter tile to teleport to: ")
+                            print("select creature")
 
-                        print("enter i: ")
+                            creature_index = int(input(""))
+                            print(f"{creature_index} selected")
 
-                        i = int(input(""))
+                            while creature_index not in range(len(self.creatures)):
+                                for creature in self.creatures:
+                                    index = self.creatures.index(creature)
+                                    print(f"{index}: {creature}, {creature.x, creature.y}")
 
-                        print("enter j: ")
+                                print("select creature")
 
-                        j = int(input(""))
+                                creature_index = int(input(""))
+                            
+                            creature = self.creatures[creature_index]
 
-                        if (i,j) not in self.paths:
-                            print("enter tile to teleport to: ")
-
-                            print("enter i: ")
-
-                            i = int(input(""))
-
-                            print("enter j: ")
-
-                            j = int(input(""))
-
-                        ability.activate(creature, (i,j))
-            if x == 3:
-                if self.points["Summon"] < 10:
-                    print("not enough points to summon")
-                else:
-                    for creature in self.creature_storage:
-                        index = self.creature_storage.index(creature)
-                        print(f"{index}: {creature}")
-
-                    print("select creature to summon")
-
-                    summon_index = int(input(""))
-
-                    while summon_index not in range(len(self.creature_storage)):
-                        for creature in self.creature_storage:
-                            index = self.creature_storage.index(creature)
-                            print(f"{index}: creature")
-
-                        print("select creature to summon")
-
-                        summon_index = int(input(""))
-
-
-                    creature = self.creature_storage.pop(summon_index)
-
-                    box = Box(creature, self.stage, self.player)
-
-                    print(box.shapes)
-
-                    print("Pick box shape: ")
-
-                    shape = input("")
-
-                    while shape not in box.shapes:
-                        print(box.shapes)
-
-                        print("Pick box shape: ")
-
-                        shape = input("")
-                    
-                    
-
-                    while box.placed == False:
-
-                        self.stage.show_stage()
-
-                        print("pick a point1")
-
-                        print("enter i: ")
-
-                        i = int(input(""))
-
-                        print("enter j: ")
-
-                        j = int(input(""))
-
-                        while (i,j) not in self.stage.tiles or (i,j) in self.stage.paths:
+                            print(colored(f"{creature} using {ability.name}", "grey"))
                             self.stage.show_stage()
 
-                            print("pick a point2")
+                            if ability.name == fire_storm.name:
+                                
 
-                            print("enter i: ")
-
-                            i = int(input(""))
-
-                            print("enter j: ")
-
-                            j = int(input(""))
-                        
-                        point = (i,j)
-
-                        touching_empty = self.stage.get_empty_touching_tiles(self.player)
-                        tile_color = {}
-                        colors = ["green", "red", "yellow"]
-                        for tile in touching_empty:
-                            tile_color[tile] = colors[0]
-
-                        for tile in self.stage.paths:
-                            tile_color[tile] = colors[1]
-
-                        for tile in self.player.connects:
-                            if tile not in self.stage.paths:
-                                tile_color[tile] = colors[2]
-
-
-                        self.stage.place_artifact(box, point)
-                        box.define_shapes()
-
-                        box_position = box.shape_tiles[shape]
-
-                        for tile in box_position:
-                            if tile in tile_color:
-                                print(colored(f"{tile}", tile_color[tile]),end="")
-                            else:
-                                print(tile, end="")
-
-                        print("")
-
-                            
-
-                        accepted = False
-
-                        print("do you accept? yes or no ")
-
-                        answer = input("").lower()
-
-                        if answer == "yes":
-                            accepted = True
-
-                        while accepted == False:
-                            for tile in box_position:
-                                if tile in tile_color:
-                                    print(colored(f"{tile}", tile_color[tile]),end="")
-                                else:
-                                    print(tile, end="")
-                            print("")
-
-                            
-
-                            print("move position left, right, up or down until it fits and touches")
-
-                            direction = input("").lower()
-
-                            while direction not in ["down", "up", "right", "left"]:
-                                for tile in box_position:
-                                    if tile in tile_color:
-                                        print(colored(f"{tile}", tile_color[tile]),end="")
-                                    else:
-                                        print(tile, end="")
-
-                                print("")
-
-                                print("move position left, right, up or down until it fits and touches")
-
-                                direction = input("").lower()
-
-                            amount = 1
-
-                            print("By what amount? ")
-
-                            amount = int(input(""))
-
-                            while not isinstance(amount, int):
-                                print("By what amount? ")
-
-                                amount = int(input(""))
-
-
-                            new_position = []
-                            
-                            for set in box_position:
-                                if direction == "down":
-                                    new_cords = (set[0] + amount, set[1])
-                                elif direction == "up":
-                                    new_cords = (set[0] - amount, set[1])
-
-                                elif direction == "right":
-                                    new_cords = (set[0], set[1] + amount)
-
-                                else:
-                                    new_cords = (set[0], set[1] - amount)
-                                new_position.append(new_cords)
-                            
-                            box_position = new_position
-
-                            for tile in box_position:
-                                if tile in tile_color:
-                                    print(colored(f"{tile}", tile_color[tile]),end="")
-                                else:
-                                    print(tile, end="")
-
-                            print("")
-
-                            print("do you accept this? ")
-
-                            answer = input("").lower()
-
-                            if answer == "yes":
-                                accepted = True
-                            else:
-                                continue
-                        
-                        print("Do you want to rotate?yes or no ")
-
-                        answer = input("").lower()
-
-                        if answer == "yes":
-                            rotated = False
-
-                            while rotated == False:
-                                print("Enter degree to rotate:0, 90, 180, 270 ")
-
-                                degree = int(input(""))
-
-                                while degree not in [0, 90, 180, 270]:
-                                    print("Enter degree to rotate: 90, 180, 270 ")
-
-                                    degree = int(input(""))
-
-                                box_position = box.rotate_shape(shape, degree)
-
-                                for tile in box_position:
-                                    if tile in tile_color:
-                                        print(colored(f"{tile}", tile_color[tile]),end="")
-                                    else:
-                                        print(tile, end="")
-
-                                print("")
-
-                                print("Do you accept? yes or no")
+                                print("activate ability? yes or no:  ")
 
                                 answer = input("").lower()
 
                                 if answer == "yes":
-                                    rotated = True
-                                    break
+                                    ability.activate(creature)
                                 else:
                                     continue
-
-                        
-                        fits = True
-                        overlaps = False
-                        touches_path = False
-                        touches_connect = False
-
-                        for set in box_position:
-                            if set not in self.stage.tiles:
-                                fits = False
-                                print("box wont fit")
-                            if set in self.stage.paths:
-                                overlaps = True
-                            if set in touching_empty:
-
-                                touches_path = True
-                            if set in self.player.connects:
-                                touches_connect = True
-
                             
+                            elif ability.name == push.name:
+                                four_tiles = self.get_tile_neighbors((creature.x, creature.y))
+                                enemies = []
+
+                                for art in four_tiles:
+                                    if isinstance(self.stage.tiles[art].artifact, Creature) and self.stage.tiles[art].artifact.owner != self.player:
+                                        enemies.append(self.stage.tiles[art].artifact)
+                                if len(enemies) > 0:
+                                    print(enemies, "choose target, starting from 0")
+
+                                    enemy_index = int(input(""))
+
+                                    while enemy_index not in range(len(enemies)):
+                                        print(enemies, "choose target, starting from 0")
+
+                                        enemy_index = int(input(""))
+                                    
+                                    target = enemies[enemy_index]
+
+                                    ability.activate(creature, target)
+                                else:
+                                    print(colored("no available targets", "red"))
+
+                            elif ability.name == heal_shot.name:
+                                self.player.check_creatures()
+
+                                self.creatures = self.player.creatures
+
+                                if len(self.creatures) > 1 :
+                                    for creatures in self.creatures:
+                                        if creature.name != creatures.name:
+                                            index = self.creatures.index(creatures)
+                                            print(f"{index}: {creatures}")
+                                    
+                                    print("select a creature")
+
+                                    target_index = int(input(""))
+
+                                    while target_index not in range(len(self.creatures)) or target_index == self.creatures.index(creature):
+                                        for creatures in self.creatures:
+                                            if creature.name != creatures.name:
+                                                index = self.creatures.index(creatures)
+                                                print(f"{index}: {creatures}")
+                                    
+                                        print("select a creature")
+
+                                        target_index = int(input(""))
+
+                                    ability.activate(creature, self.creatures[target_index])
+                                else:
+                                    print(colored("no avaialble target", "red"))
+
+                            else:
+                                print("enter tile to teleport to: ")
+
+                                print("enter i: ")
+
+                                i = int(input(""))
+
+                                print("enter j: ")
+
+                                j = int(input(""))
+
+                                if (i,j) not in self.paths:
+                                    print("enter tile to teleport to: ")
+
+                                    print("enter i: ")
+
+                                    i = int(input(""))
+
+                                    print("enter j: ")
+
+                                    j = int(input(""))
+
+                                ability.activate(creature, (i,j))
+                    except (ValueError, TypeError):
+                        continue
+                if x == 3:
+                    if self.points["Summon"] < 10:
+                        print(colored("not enough points to summon", "red"))
+                    else:
+                        try:
+                            for creature in self.creature_storage:
+                                index = self.creature_storage.index(creature)
+                                print(f"{index}: {creature}")
+
+                            print("select creature to summon")
+
+                            summon_index = int(input(""))
+
+                            while summon_index not in range(len(self.creature_storage)):
+                                for creature in self.creature_storage:
+                                    index = self.creature_storage.index(creature)
+                                    print(f"{index}: creature")
+
+                                print("select creature to summon")
+
+                                summon_index = int(input(""))
+
+
+                            creature = self.creature_storage.pop(summon_index)
+
+                            box = Box(creature, self.stage, self.player)
+
+                            print(box.shapes)
+
+                            print("Pick box shape: ")
+
+                            shape = input("")
+                        except ValueError:
+                            continue
+                        try:
+                            while shape not in box.shapes:
+                                print(box.shapes)
+
+                                print("Pick box shape: ")
+
+                                shape = input("")
+                        except ValueError:
+                            continue
+                            
+                            
+                        try:
+                            while box.placed == False:
+
+                                self.stage.show_stage()
+
+                                print("pick a point1")
+
+                                print("enter i: ")
+
+                                i = int(input(""))
+
+                                print("enter j: ")
+
+                                j = int(input(""))
+
+                                while (i,j) not in self.stage.tiles or (i,j) in self.stage.paths:
+                                    self.stage.show_stage()
+
+                                    print("pick a point2")
+
+                                    print("enter i: ")
+
+                                    i = int(input(""))
+
+                                    print("enter j: ")
+
+                                    j = int(input(""))
+                                
+                                point = (i,j)
+
+                                touching_empty = self.stage.get_empty_touching_tiles(self.player)
+                                tile_color = {}
+                                colors = ["green", "red", "yellow"]
+                                for tile in touching_empty:
+                                    tile_color[tile] = colors[0]
+
+                                for tile in self.stage.paths:
+                                    tile_color[tile] = colors[1]
+
+                                for tile in self.player.connects:
+                                    if tile not in self.stage.paths:
+                                        tile_color[tile] = colors[2]
+
+
+                                self.stage.place_artifact(box, point)
+                                box.define_shapes()
+
+                                box_position = box.shape_tiles[shape]
+
+                                for tile in box_position:
+                                    if tile in tile_color:
+                                        print(colored(f"{tile}", tile_color[tile]),end="")
+                                    else:
+                                        print(tile, end="")
+
+                                print("")
+
+                                accepted = False
+
+                                print("do you accept? yes or no ")
+
+                                answer = input("").lower()
+
+                                if answer == "yes":
+                                    accepted = True
+
+                                while accepted == False:
+                                    for tile in box_position:
+                                        if tile in tile_color:
+                                            print(colored(f"{tile}", tile_color[tile]),end="")
+                                        else:
+                                            print(tile, end="")
+                                    print("")
+
+                                    
+
+                                    print("move position left, right, up or down until it fits and touches")
+
+                                    direction = input("").lower()
+
+                                    while direction not in ["down", "up", "right", "left"]:
+                                        for tile in box_position:
+                                            if tile in tile_color:
+                                                print(colored(f"{tile}", tile_color[tile]),end="")
+                                            else:
+                                                print(tile, end="")
+
+                                        print("")
+
+                                        print("move position left, right, up or down until it fits and touches")
+
+                                        direction = input("").lower()
+
+                                    amount = 1
+
+                                    print("By what amount? ")
+
+                                    amount = int(input(""))
+
+                                    while not isinstance(amount, int):
+                                        print("By what amount? ")
+
+                                        amount = int(input(""))
+
+
+                                    new_position = []
+                                    
+                                    for set in box_position:
+                                        if direction == "down":
+                                            new_cords = (set[0] + amount, set[1])
+                                        elif direction == "up":
+                                            new_cords = (set[0] - amount, set[1])
+
+                                        elif direction == "right":
+                                            new_cords = (set[0], set[1] + amount)
+
+                                        else:
+                                            new_cords = (set[0], set[1] - amount)
+                                        new_position.append(new_cords)
+                                    
+                                    box_position = new_position
+
+                                    for tile in box_position:
+                                        if tile in tile_color:
+                                            print(colored(f"{tile}", tile_color[tile]),end="")
+                                        else:
+                                            print(tile, end="")
+
+                                    print("")
+
+                                    print("do you accept this? ")
+
+                                    answer = input("").lower()
+
+                                    if answer == "yes":
+                                        accepted = True
+                                    else:
+                                        continue
+                                
+                                print("Do you want to rotate?yes or no ")
+
+                                answer = input("").lower()
+
+                                if answer == "yes":
+                                    rotated = False
+
+                                    while rotated == False:
+                                        print("Enter degree to rotate:0, 90, 180, 270 ")
+
+                                        degree = int(input(""))
+
+                                        while degree not in [0, 90, 180, 270]:
+                                            print("Enter degree to rotate: 90, 180, 270 ")
+
+                                            degree = int(input(""))
+
+                                        box_position = box.rotate_shape(shape, degree)
+
+                                        for tile in box_position:
+                                            if tile in tile_color:
+                                                print(colored(f"{tile}", tile_color[tile]),end="")
+                                            else:
+                                                print(tile, end="")
+
+                                        print("")
+
+                                        print("Do you accept? yes or no")
+
+                                        answer = input("").lower()
+
+                                        if answer == "yes":
+                                            rotated = True
+                                            break
+                                        else:
+                                            continue
 
                                 
-                        if fits == False or overlaps == True:
-                            print("out of bounds placement")
-                            self.creature_storage.append(creature)
-                            self.stage.unplace_artifact(box)
-                            break
+                                fits = True
+                                overlaps = False
+                                touches_path = False
+                                touches_connect = False
 
-                        if touches_path == False and touches_connect == False:
-                            print("box is not connected")
-                            self.creature_storage.append(creature)
-                            self.stage.unplace_artifact(box)
-                            break
+                                for set in box_position:
+                                    if set not in self.stage.tiles:
+                                        fits = False
+                                        print(colored("box wont fit", "red"))
+                                    if set in self.stage.paths:
+                                        overlaps = True
+                                    if set in touching_empty:
 
-                        for set in box_position:
-                            if set == box_position[0]:
-                                self.stage.place_artifact(creature, set)
-                            
-                            self.stage.tiles[set].board = box
-                            if set not in box.owner.path:
-                                box.owner.add_path(set)
-                            if set not in box.stage.paths:
-                                self.stage.paths.append(set)
-                        self.player.creatures.append(creature)
-                            
-                        self.stage.unplace_artifact(box)
-                        box.placed = True
-                        self.points["Summon"] -= 10
-                        
+                                        touches_path = True
+                                    if set in self.player.connects:
+                                        touches_connect = True
 
-                        
-            if x == 4:
-                print("player turn ends")
-                end_turn = True
+                                        
+                                if fits == False or overlaps == True:
+                                    print(colored("out of bounds placement", "red"))
+                                    self.creature_storage.append(creature)
+                                    self.stage.unplace_artifact(box)
+                                    break
+
+                                if touches_path == False and touches_connect == False:
+                                    print(colored("box is not connected", "red"))
+                                    self.creature_storage.append(creature)
+                                    self.stage.unplace_artifact(box)
+                                    break
+
+                                for set in box_position:
+                                    if set == box_position[0]:
+                                        self.stage.place_artifact(creature, set)
+                                    
+                                    self.stage.tiles[set].board = box
+                                    if set not in box.owner.path:
+                                        box.owner.add_path(set)
+                                    if set not in box.stage.paths:
+                                        self.stage.paths.append(set)
+                                self.player.creatures.append(creature)
+                                    
+                                self.stage.unplace_artifact(box)
+                                box.placed = True
+                                self.points["Summon"] -= 10
+                        except ValueError:
+                            continue
+                                
+                if x == 4:
+                    print(colored("player turn ends", "cyan"))
+                    end_turn = True
+            except (ValueError, TypeError):
+                continue
 
                 
 class Crawler:
@@ -1030,51 +1049,3 @@ class Crawler:
         sorted_value = sorted(dictio.items(), key=lambda x: x[1])
         sorted_value = dict(sorted_value)
         return sorted_value
-    
-    
-
-
-
-
-                        
-
-
-
-
-
-
-                        
-                        
-
-
-
-
-
-
-                
-
-
-
-
-
-
-
-                
-            
-
-        
-
-        
-    
-    
-
-    
-
-    
-    
-
-
-
-
-            
-
