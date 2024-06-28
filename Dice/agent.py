@@ -74,12 +74,10 @@ class Ai_Agent:
                 movements = self.creature_move(creature, moves)
                 self.points["Movement"] -= movements
                 
-
     def summon_creature(self):
         random.shuffle(self.creature_storage)
         choice = self.creature_storage.pop(0)
         return choice
-
 
     def place_box_on_connect(self, creature):
         creature_box = Box(creature, self.stage, self.player)
@@ -109,7 +107,6 @@ class Ai_Agent:
             self.points["Summon"] -= 10
             print("creature placed")
 
-               
     def place_box_on_path(self, creature):
         creature_box = Box(creature, self.stage, self.player)
         tries = 6
@@ -188,12 +185,12 @@ class Ai_Agent:
             for abi in abilities:
                 if abi.name == "Teleport":
                     return abi
-
-        
-
     
-    def run(self):
-        self.rolling()
+    def run(self, times=1):
+        if times >= 15:
+            return
+        if times == 1:
+            self.rolling()
         has_movement = False
         has_ability = False
         has_summon = False
@@ -216,7 +213,7 @@ class Ai_Agent:
                 if self.points[cat] > 0:
                     has_movement = True
             elif cat == "Ability":
-                if self.points[cat] > 0:
+                if self.points[cat] > 30:
                     has_ability = True
         
         if self.stage.opponents_connected == False:
@@ -225,7 +222,6 @@ class Ai_Agent:
                 self.stage.opponents_connected = True
                 print(colored("connected", "magenta"))
 
-        
         if has_movement == True:
             self.player.check_creatures()
             self.creatures = self.player.creatures
@@ -261,7 +257,6 @@ class Ai_Agent:
                     print(f" endzone {target}")
                     self.make_move(creature, target)
 
-
         if has_ability == True and self.stage.opponents_connected == True:
             print(colored(f"calling on ability, {self.player.name}", "red"))
             
@@ -269,7 +264,6 @@ class Ai_Agent:
            
             self.creatures = self.player.creatures
 
-            
             creature = None
             if len(self.creatures) > 0:
                 creature = random.choice(self.creatures)
@@ -284,7 +278,6 @@ class Ai_Agent:
                 ability = self.pick_ability(creature, abilities)
                 print(colored(f"Ai chose {ability.name}", "cyan"))
 
-            
                 if ability.name == push.name and self.points["Ability"] >= ability.cost and creature:
                     four_tiles = self.get_tile_neighbors((creature.x, creature.y))
 
@@ -311,24 +304,17 @@ class Ai_Agent:
                             if creature.name != char.name and self.points["Ability"] >= ability.cost:
                                 ability.activate(creature, char)
                                 
-                
                 else:
                     if self.points["Ability"] >= ability.cost and creature:
                         ability.activate(creature)
-                        
                     else:
                         print("not enough AP")
 
             self.stage.show_stage()
 
-        
-
-
         if has_summon == True and len(self.creature_storage) > 0:
             if len(self.creatures) == 0:
-                
                 creature = self.summon_creature()
-
                 self.place_box_on_connect(creature)
             else:
                 choices = ["path", "connect"]
@@ -340,6 +326,18 @@ class Ai_Agent:
                     self.place_box_on_path(creature)
         
         print(self.points, "points")
+        can_keep_going = False
+
+        for point in self.points:
+            if point in ["Movement", "Summon"]:
+                if self.points[point] >= 10 and self.stage.opponents_connected == True:
+                    can_keep_going = True
+            
+
+        
+        if can_keep_going == True:
+            self.run(times + 1)
+        
         
 
     def connect_fitter(self, box, shape, tile):
@@ -404,7 +402,6 @@ class Ai_Agent:
             if moves_made >= self.points["Movement"]:
                 return moves_made
 
-            
             object = self.stage.tiles[move].artifact
             if not isinstance(object, Creature):
                 self.stage.unplace_artifact(creature)
@@ -422,41 +419,26 @@ class Ai_Agent:
                 self.creatures = self.player.creatures
                 
                 if object.HP <= 0:
-                    
-                    self.stage.unplace_artifact(object)
-                    
-                    self.stage.unplace_artifact(creature)
-                    
-                    self.stage.place_artifact(creature, move)
-                    
-
+                    self.stage.unplace_artifact(object)                   
+                    self.stage.unplace_artifact(creature)                   
+                    self.stage.place_artifact(creature, move)                    
                     break
+
                 elif creature.HP <= 0:
-                    
                     self.stage.unplace_artifact(creature)
-                
-                    
                     break
                 
                 else:
                     break
 
-
-        
         return moves_made
         
     def player_turn(self):
-        
-        
         print("press any key to roll: ")
-
         j = input("")
-
         while j == None:
             j = input("")
-
         self.rolling()
-
         print("Result: ",self.points)
 
         end_turn = False
@@ -499,7 +481,7 @@ class Ai_Agent:
                     if len(self.creatures) > 0:
                         for creature in self.creatures:
                             index = self.creatures.index(creature)
-                            print(f"{index}: {creature}")
+                            print(f"{index}: {creature} at {creature.x, creature.y}")
                         print("Select creature to move: ")
 
                         creature_index = int(input(""))
@@ -508,19 +490,22 @@ class Ai_Agent:
                             print("enter valid creature")
 
                             for creature in self.creatures:
-                                index = self.creature.index(creature)
-                                print(f"{index}: {creature}")
+                                index = self.creatures.index(creature)
+                                print(f"{index}: {creature} at {creature.x, creature.y}")
                             print("select creature to move: ")
 
                             creature_index = int(input(""))
 
                         creature = self.creatures[creature_index]
                         tile_color = {}
-                        colors = ["red"]
+                        colors = ["red", "green"]
 
                         for tile in self.stage.paths:
                             if isinstance(self.stage.tiles[tile].artifact, Creature):
-                                tile_color[tile] = colors[0]
+                                if self.stage.tiles[tile].artifact.owner != self.player:
+                                    tile_color[tile] = colors[0]
+                                else:
+                                    tile_color[tile] = colors[1]
                         for tile in self.stage.paths:
                             if tile in tile_color:
                                 print(colored(f"{tile}", tile_color[tile] ), end="")
@@ -675,26 +660,17 @@ class Ai_Agent:
 
                             else:
                                 print("enter tile to teleport to: ")
-
                                 print("enter i: ")
-
                                 i = int(input(""))
-
                                 print("enter j: ")
-
                                 j = int(input(""))
 
-                                if (i,j) not in self.paths:
+                                if (i,j) not in self.stage.paths:
                                     print("enter tile to teleport to: ")
-
                                     print("enter i: ")
-
                                     i = int(input(""))
-
                                     print("enter j: ")
-
                                     j = int(input(""))
-
                                 ability.activate(creature, (i,j))
                     except (ValueError, TypeError):
                         continue
@@ -719,14 +695,9 @@ class Ai_Agent:
                                 print("select creature to summon")
 
                                 summon_index = int(input(""))
-
-
                             creature = self.creature_storage.pop(summon_index)
-
                             box = Box(creature, self.stage, self.player)
-
                             print(box.shapes)
-
                             print("Pick box shape: ")
 
                             shape = input("")
@@ -735,40 +706,27 @@ class Ai_Agent:
                         try:
                             while shape not in box.shapes:
                                 print(box.shapes)
-
                                 print("Pick box shape: ")
-
                                 shape = input("")
                         except ValueError:
                             continue
-                            
-                            
                         try:
                             while box.placed == False:
 
                                 self.stage.show_stage()
-
                                 print("pick a point1")
-
                                 print("enter i: ")
-
                                 i = int(input(""))
-
                                 print("enter j: ")
-
                                 j = int(input(""))
 
                                 while (i,j) not in self.stage.tiles or (i,j) in self.stage.paths:
                                     self.stage.show_stage()
 
                                     print("pick a point2")
-
                                     print("enter i: ")
-
                                     i = int(input(""))
-
                                     print("enter j: ")
-
                                     j = int(input(""))
                                 
                                 point = (i,j)
@@ -786,7 +744,6 @@ class Ai_Agent:
                                     if tile not in self.stage.paths:
                                         tile_color[tile] = colors[2]
 
-
                                 self.stage.place_artifact(box, point)
                                 box.define_shapes()
 
@@ -799,9 +756,7 @@ class Ai_Agent:
                                         print(tile, end="")
 
                                 print("")
-
                                 accepted = False
-
                                 print("do you accept? yes or no ")
 
                                 answer = input("").lower()
@@ -816,9 +771,6 @@ class Ai_Agent:
                                         else:
                                             print(tile, end="")
                                     print("")
-
-                                    
-
                                     print("move position left, right, up or down until it fits and touches")
 
                                     direction = input("").lower()
@@ -837,16 +789,12 @@ class Ai_Agent:
                                         direction = input("").lower()
 
                                     amount = 1
-
                                     print("By what amount? ")
-
                                     amount = int(input(""))
-
                                     while not isinstance(amount, int):
                                         print("By what amount? ")
 
                                         amount = int(input(""))
-
 
                                     new_position = []
                                     
@@ -855,10 +803,8 @@ class Ai_Agent:
                                             new_cords = (set[0] + amount, set[1])
                                         elif direction == "up":
                                             new_cords = (set[0] - amount, set[1])
-
                                         elif direction == "right":
                                             new_cords = (set[0], set[1] + amount)
-
                                         else:
                                             new_cords = (set[0], set[1] - amount)
                                         new_position.append(new_cords)
@@ -872,18 +818,14 @@ class Ai_Agent:
                                             print(tile, end="")
 
                                     print("")
-
                                     print("do you accept this? ")
-
                                     answer = input("").lower()
 
                                     if answer == "yes":
                                         accepted = True
                                     else:
                                         continue
-                                
                                 print("Do you want to rotate?yes or no ")
-
                                 answer = input("").lower()
 
                                 if answer == "yes":
@@ -891,9 +833,7 @@ class Ai_Agent:
 
                                     while rotated == False:
                                         print("Enter degree to rotate:0, 90, 180, 270 ")
-
                                         degree = int(input(""))
-
                                         while degree not in [0, 90, 180, 270]:
                                             print("Enter degree to rotate: 90, 180, 270 ")
 
@@ -906,20 +846,14 @@ class Ai_Agent:
                                                 print(colored(f"{tile}", tile_color[tile]),end="")
                                             else:
                                                 print(tile, end="")
-
                                         print("")
-
                                         print("Do you accept? yes or no")
-
                                         answer = input("").lower()
-
                                         if answer == "yes":
                                             rotated = True
                                             break
                                         else:
                                             continue
-
-                                
                                 fits = True
                                 overlaps = False
                                 touches_path = False
@@ -975,7 +909,6 @@ class Ai_Agent:
 
                 
 class Crawler:
-
     def __init__(self, stage, creature, ending):
         self.stage = stage
         self.creature = creature
@@ -1034,9 +967,7 @@ class Crawler:
 
         print("no path available for this crawler")
         return None
-
     
-        
     def distance(self, point1, point2):
         distance = math.sqrt((point2[0] - point1[0])** 2 + (point2[1] - point1[1])** 2)
         return distance

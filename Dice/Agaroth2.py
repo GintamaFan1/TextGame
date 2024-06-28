@@ -29,7 +29,7 @@ def main():
     creature_set1 = Creatures[:half]
     creature_set2 = Creatures[half:]
 
-    stage = Stage(15,25)
+    stage = Stage(14,19)
 
     player1 = Player(stage, "one", True)
     player2 = Player(stage, "two", False)
@@ -73,13 +73,5 @@ def main():
         if len(agent1.creature_storage) == 0 and len(agent2.creature_storage) == 0 and stage.opponents_connected == False:
             print("Game tied, failed to connect paths")
             break
-    
-
-
-    
-
-
-
-
 
 main()

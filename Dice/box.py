@@ -18,9 +18,6 @@ class Box:
     def __str__(self):
         return f"{self.creature.name}'s box path at {self.x, self.y} belongs to {self.owner.name}"
     
-    
-        
-    
     def define_shapes(self):
         def mirror_coords(coords, player_num):
             mirrored_coords = []
@@ -58,15 +55,15 @@ class Box:
         }
         self.shape_rotations["w"] = {
             0: self.shape_tiles["w"],
-            90: mirror_coords([(self.x, self.y), (self.x + 1, self.y), (self.x + 2, self.y), (self.x + 2, self.y + 1), (self.x, self.y - 1), (self.x - 1, self.y - 2)], self.owner.is_player1),
-            180: mirror_coords([(self.x, self.y), (self.x , self.y - 1), (self.x, self.y - 2), (self.x + 1, self.y - 2), (self.x - 1, self.y), (self.x - 1, self.y + 1)], self.owner.is_player1),
-            270: mirror_coords([(self.x, self.y), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 2, self.y - 1), (self.x, self.y + 1), (self.x + 1, self.y + 1)], self.owner.is_player1)
+            90: mirror_coords([(self.x, self.y), (self.x + 1, self.y), (self.x + 1, self.y + 1), (self.x - 1, self.y ), (self.x - 2, self.y - 1), (self.x - 1, self.y - 1)], self.owner.is_player1),
+            180: mirror_coords([(self.x, self.y), (self.x , self.y - 1), (self.x + 1, self.y - 1), (self.x, self.y + 1 ), (self.x - 1, self.y + 1), (self.x - 1, self.y + 2)], self.owner.is_player1),
+            270: mirror_coords([(self.x, self.y), (self.x - 1, self.y), (self.x - 1, self.y - 1), (self.x + 1 , self.y ), (self.x + 1, self.y + 1), (self.x + 2, self.y + 1)], self.owner.is_player1)
         }
         self.shape_rotations["z"] = {
             0: self.shape_tiles["z"],
-            90: mirror_coords([(self.x, self.y), (self.x, self.y + 1), (self.x , self.y + 2), (self.x - 2, self.y - 1), (self.x -2, self.y), (self.x - 1, self.y)], self.owner.is_player1),
+            90: mirror_coords([(self.x, self.y), (self.x, self.y - 1), (self.x , self.y - 2), (self.x - 2, self.y + 1), (self.x -2, self.y), (self.x - 1, self.y)], self.owner.is_player1),
             180: mirror_coords([(self.x, self.y), (self.x, self.y - 1), (self.x, self.y - 2), (self.x - 1, self.y - 2), (self.x + 1, self.y), (self.x + 2, self.y)], self.owner.is_player1),
-            270: mirror_coords([(self.x, self.y), (self.x, self.y - 1), (self.x, self.y - 2), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 2, self.y + 1)], self.owner.is_player1)
+            270: mirror_coords([(self.x, self.y), (self.x, self.y - 1), (self.x - 2, self.y + 2), (self.x - 1, self.y), (self.x - 2, self.y), (self.x - 2, self.y + 1)], self.owner.is_player1)
         }
         self.shape_rotations["twist"] = {
             0: self.shape_tiles["twist"],
@@ -123,8 +120,6 @@ class Box:
         for move in neighbors_not_in_path:
             return move
 
-    
-            
     def fit_shape_to_path(self, result, point):
         fit = True
         out_of_bounds = False
@@ -143,9 +138,11 @@ class Box:
 
         if degrees:
             degree = random.choice(degrees)
+            print(f"{degree} chosen for {result}")
             blocks = self.rotate_shape(result, degree)
 
         center = (self.x, self.y)
+        print(f"center {center}")
         
         for sets in blocks:
             if sets in self.stage.paths:
