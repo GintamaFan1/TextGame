@@ -1,5 +1,6 @@
 import rich
 from rich import print
+import random
 
 RED = "rgb(255,0,0)"
 BLUE = "rgb(0,0,255)"
@@ -10,6 +11,7 @@ class Stage:
     def __init__(self):
         self.height = 20
         self.width = 30
+        self.level = 1
         self.tiles = {}
         for i in range(self.height):
             for j in range(self.width):
@@ -19,12 +21,32 @@ class Stage:
         for i in range(self.height):
             for j in range(self.width):
                 tile = self.tiles[(i,j)]
-
-                if tile.exploded == True:
-                    print(f"[{RED}]__ [/{RED}]", end="")
+                if tile.exploded == True and tile.frozen == True:
+                    print(f"[{PURPLE}]_ [/{PURPLE}]", end="")
+                elif tile.exploded == True:
+                    print(f"[{RED}]_ [/{RED}]", end="")
+                elif tile.frozen == True:
+                    print(f"[{BLUE}]_ [/{BLUE}]", end="")
                 else:
-                    print(f"__ ", end="")
+                    print(f"_ ", end="")
+            print("")
 
+    def place_ability(self, abi):
+        random_x = random.randint(0,self.height - 1 )
+        random_y = random.randint(0,self.width - 1)
+
+        abi.place((random_x, random_y))
+
+    def reset(self):
+        for tile in self.tiles:
+            self.tiles[tile].exploded = False
+            self.tiles[tile].frozen = False
+            self.tiles[tile].broken = False
+            self.tiles[tile].character_placed_here = False
+            self.tiles[tile].condition = None
+            self.tiles[tile].character = None
+
+        
 
 
 

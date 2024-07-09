@@ -3,7 +3,6 @@ import math
 def pricer(item, used):
     percentage = round(used / item.original_amount, 2)
 
-    
     print(f"using {round(percentage * 100, 2)}% of {item.original_amount} original ounces, which is a cost of ${round(item.price * percentage, 2)}")
 
     return round(item.price * percentage, 2)
@@ -14,10 +13,7 @@ def loss_finder(recepi):
     for item,value in recepi.items():
         total_loss += pricer(item, value)
 
-    
-    
     return total_loss
-
 
 
 def recepi(items):
@@ -64,11 +60,9 @@ class Item:
         if amount > self._current_amount:
             raise ValueError("Not enough product")
         self._current_amount -= amount
-        
-
     
     def __str__(self):
-        return f"{self}"
+        return f"{self.name}"
 
 
 SOAP = Item("soap",40, 6.89, "oz")
