@@ -24,9 +24,9 @@ class Stage:
                 if tile.exploded == True and tile.frozen == True:
                     print(f"[{PURPLE}]_ [/{PURPLE}]", end="")
                 elif tile.exploded == True:
-                    print(f"[{RED}]_ [/{RED}]", end="")
+                    print(f"[{RED}]X [/{RED}]", end="")
                 elif tile.frozen == True:
-                    print(f"[{BLUE}]_ [/{BLUE}]", end="")
+                    print(f"[{BLUE}]F [/{BLUE}]", end="")
                 else:
                     print(f"_ ", end="")
             print("")
@@ -45,8 +45,6 @@ class Stage:
             self.tiles[tile].character_placed_here = False
             self.tiles[tile].condition = None
             self.tiles[tile].character = None
-
-        
 
 
 
