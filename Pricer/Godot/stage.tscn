@@ -1,0 +1,106 @@
+[gd_scene load_steps=8 format=3 uid="uid://c12uf4j2vgu6m"]
+
+[ext_resource type="Script" path="res://Scenes/stage.gd" id="1_t4rom"]
+[ext_resource type="PackedScene" uid="uid://jb6nnyg72nef" path="res://Scenes/popup_panel.tscn" id="2_52e0k"]
+[ext_resource type="StyleBox" uid="uid://devmfmw4xfor0" path="res://Themes/Button Styles/Menu_Buttons.tres" id="3_6nlkg"]
+[ext_resource type="StyleBox" uid="uid://dh65cs1bn7mrx" path="res://Themes/Button Styles/Stage_Input_normal.tres" id="3_t26sn"]
+[ext_resource type="StyleBox" uid="uid://c3jbuj8gd65t6" path="res://Themes/Button Styles/Menu_Buttons_hover.tres" id="4_uiieq"]
+[ext_resource type="StyleBox" uid="uid://caowxs04vl65l" path="res://Themes/Button Styles/Menu_Buttons_pressed.tres" id="5_3ky46"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vaqw8"]
+bg_color = Color(0.292987, 0.671212, 0.650061, 1)
+skew = Vector2(3, 0)
+border_width_left = 10
+border_width_right = 10
+border_color = Color(0.577406, 0.801846, 0.928967, 1)
+border_blend = true
+corner_radius_top_left = 7
+corner_radius_top_right = 8
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 5.0
+expand_margin_top = 6.0
+expand_margin_right = 3.0
+expand_margin_bottom = 5.0
+shadow_color = Color(0.82881, 2.71939e-06, 5.77569e-07, 0.6)
+shadow_size = 8
+
+[node name="Stage" type="Control"]
+layout_direction = 1
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -459.0
+offset_top = -300.0
+offset_right = 409.0
+offset_bottom = 302.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t4rom")
+
+[node name="PopupPanel" parent="." instance=ExtResource("2_52e0k")]
+visible = false
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.406
+anchor_top = 0.434
+anchor_right = 0.641
+anchor_bottom = 0.677
+offset_left = -271.856
+offset_top = -174.442
+offset_right = 230.284
+offset_bottom = 114.299
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = -64.0
+offset_right = 84.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.25, 1.25)
+theme_override_constants/separation = 21
+alignment = 1
+
+[node name="MessageLabel" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Enter Difficulty"
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("3_t26sn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_vaqw8")
+placeholder_text = "1"
+alignment = 1
+max_length = 1
+
+[node name="EnterButton" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("3_6nlkg")
+theme_override_styles/hover = ExtResource("4_uiieq")
+theme_override_styles/pressed = ExtResource("5_3ky46")
+theme_override_styles/focus = ExtResource("5_3ky46")
+text = "Enter"
+
+[node name="LoadButton" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("3_6nlkg")
+theme_override_styles/hover = ExtResource("4_uiieq")
+theme_override_styles/pressed = ExtResource("5_3ky46")
+theme_override_styles/focus = ExtResource("5_3ky46")
+text = "Load Previous Board"
+
+[connection signal="pressed" from="Control/VBoxContainer/EnterButton" to="." method="_on_enter_button_pressed"]

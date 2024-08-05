@@ -1,0 +1,82 @@
+[gd_scene load_steps=6 format=3 uid="uid://gdpasnmlrwe4"]
+
+[ext_resource type="Script" path="res://Scenes/menu.gd" id="1_ljk5s"]
+[ext_resource type="StyleBox" uid="uid://devmfmw4xfor0" path="res://Themes/Button Styles/Menu_Buttons.tres" id="2_51y25"]
+[ext_resource type="StyleBox" uid="uid://c3jbuj8gd65t6" path="res://Themes/Button Styles/Menu_Buttons_hover.tres" id="3_i4cna"]
+[ext_resource type="StyleBox" uid="uid://caowxs04vl65l" path="res://Themes/Button Styles/Menu_Buttons_pressed.tres" id="4_f34eg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_thntw"]
+bg_color = Color(0.570319, 0.577736, 0.181183, 1)
+skew = Vector2(2, 0)
+corner_radius_top_left = 5
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 12
+shadow_color = Color(0.944992, 0.614833, 0.600449, 0.6)
+shadow_size = 15
+anti_aliasing_size = 6.296
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchor_left = 0.436
+anchor_top = 0.5
+anchor_right = 0.522
+anchor_bottom = 0.625
+offset_left = -406.88
+offset_top = -276.0
+offset_right = 426.24
+offset_bottom = 234.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_ljk5s")
+
+[node name="ColorRect" type="TextureRect" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.062
+anchor_top = 0.113
+anchor_right = 0.981
+anchor_bottom = 0.892
+offset_left = -5.412
+offset_top = 0.199997
+offset_right = -0.406067
+offset_bottom = -0.200012
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -178.0
+offset_top = -150.0
+offset_right = 180.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OptionLabel" type="Label" parent="ColorRect/VBoxContainer"]
+modulate = Color(0.305882, 0.0980392, 0.0901961, 1)
+self_modulate = Color(0.611765, 0.329412, 0.188235, 1)
+layout_mode = 2
+text = "Choose  A Game"
+horizontal_alignment = 1
+
+[node name="SudokuButton" type="Button" parent="ColorRect/VBoxContainer"]
+modulate = Color(0.886275, 0.47451, 0.847059, 1)
+layout_mode = 2
+theme_override_constants/h_separation = 21
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = ExtResource("2_51y25")
+theme_override_styles/hover = ExtResource("3_i4cna")
+theme_override_styles/pressed = ExtResource("4_f34eg")
+theme_override_styles/focus = SubResource("StyleBoxFlat_thntw")
+text = "Sudoku"
+
+[connection signal="pressed" from="ColorRect/VBoxContainer/SudokuButton" to="." method="_on_sudoku_button_pressed"]
