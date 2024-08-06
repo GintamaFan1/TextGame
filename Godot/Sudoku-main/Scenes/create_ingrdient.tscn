@@ -1,0 +1,85 @@
+[gd_scene load_steps=3 format=3 uid="uid://7a55lbd8pjw1"]
+
+[ext_resource type="Script" path="res://Scenes/create_ingrdient.gd" id="1_sak3r"]
+[ext_resource type="Theme" uid="uid://ft4u5y5trp8i" path="res://Themes/Universal_label_theme/new_theme.tres" id="2_5qun8"]
+
+[node name="CreateIngrdient" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_5qun8")
+script = ExtResource("1_sak3r")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.139
+anchor_top = 0.279
+anchor_right = 0.791
+anchor_bottom = 0.614
+offset_left = -0.12001
+offset_top = 0.119995
+offset_right = -0.280029
+offset_bottom = -0.0800171
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="IngrdientNameLine" type="LineEdit" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_5qun8")
+placeholder_text = "Enter Name"
+alignment = 1
+max_length = 20
+expand_to_text_length = true
+clear_button_enabled = true
+caret_blink = true
+
+[node name="PriceLine" type="LineEdit" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_5qun8")
+theme_type_variation = &"15"
+placeholder_text = "Price"
+alignment = 1
+max_length = 6
+
+[node name="AmountLine" type="LineEdit" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_5qun8")
+placeholder_text = "Amount in ounces"
+alignment = 1
+max_length = 5
+
+[node name="EnterButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_5qun8")
+text = "Create"
+
+[node name="CancelButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_5qun8")
+text = "Cancel"
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+
+[connection signal="pressed" from="Panel/VBoxContainer/EnterButton" to="." method="_on_enter_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]

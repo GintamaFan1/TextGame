@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://hnxbrlovq73x"]
+
+[ext_resource type="Script" path="res://Scenes/Grid/grid.gd" id="1_s6epx"]
+[ext_resource type="Texture2D" uid="uid://bee4xha73b2hw" path="res://numbers/grid-tile.png" id="2_jxy1s"]
+[ext_resource type="FontFile" uid="uid://do5t3mv5rlvtb" path="res://Fonts/fonts/connection/Connection.otf" id="3_j05ab"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kjqct"]
+font = ExtResource("3_j05ab")
+font_size = 36
+font_color = Color(0.819608, 0.443137, 0.388235, 1)
+
+[node name="Grid" type="Node2D"]
+script = ExtResource("1_s6epx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, 2)
+scale = Vector2(0.658623, 0.567831)
+texture = ExtResource("2_jxy1s")
+region_enabled = true
+region_rect = Rect2(400.313, -0.432449, 128.17, 129.049)
+
+[node name="Label" type="Label" parent="Sprite2D"]
+offset_right = 156.0
+offset_bottom = 166.0
+theme_override_colors/font_color = Color(0.866667, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.713726, 0.384314, 0.133333, 1)
+text = "5"
+label_settings = SubResource("LabelSettings_kjqct")
+horizontal_alignment = 1
+vertical_alignment = 1

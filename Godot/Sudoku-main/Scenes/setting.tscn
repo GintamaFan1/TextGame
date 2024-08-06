@@ -1,0 +1,73 @@
+[gd_scene load_steps=8 format=3 uid="uid://5l615pnr82em"]
+
+[ext_resource type="Script" path="res://Scenes/setting.gd" id="1_guhsp"]
+[ext_resource type="StyleBox" uid="uid://hoebornlrebm" path="res://Themes/Panel Styles/setting.tres" id="2_5m4cv"]
+[ext_resource type="StyleBox" uid="uid://c3lk1itnr4fg7" path="res://Themes/Slider Styles/H_slider_normal.tres" id="2_qys6l"]
+[ext_resource type="StyleBox" uid="uid://b1ldeape04wjw" path="res://Themes/Slider Styles/H_Slider_grabber.tres" id="3_6nfqp"]
+[ext_resource type="StyleBox" uid="uid://c2slwreh2bv25" path="res://Themes/Button Styles/close_button.tres" id="5_bnbkb"]
+[ext_resource type="StyleBox" uid="uid://bdks2v28e4mq3" path="res://Themes/Button Styles/close_button_hover.tres" id="6_8jm0u"]
+[ext_resource type="StyleBox" uid="uid://bu5p6yur4n0jw" path="res://Themes/Button Styles/close_button_pressed.tres" id="7_8vi6i"]
+
+[node name="Setting" type="Control"]
+layout_mode = 3
+anchor_left = 0.825
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.00006
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_guhsp")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_5m4cv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SliderLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Board Size"
+
+[node name="ScaleSlider" type="HSlider" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/slider = ExtResource("2_qys6l")
+theme_override_styles/grabber_area = ExtResource("3_6nfqp")
+theme_override_styles/grabber_area_highlight = ExtResource("3_6nfqp")
+min_value = 0.2
+max_value = 3.0
+step = 0.1
+value = 0.3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.947
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.159973
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="CloseButton" type="Button" parent="Panel/VBoxContainer2"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("5_bnbkb")
+theme_override_styles/hover = ExtResource("6_8jm0u")
+theme_override_styles/pressed = ExtResource("7_8vi6i")
+theme_override_styles/focus = ExtResource("7_8vi6i")
+text = "Close"
+
+[connection signal="value_changed" from="Panel/VBoxContainer/ScaleSlider" to="." method="_on_scale_slider_value_changed"]
+[connection signal="pressed" from="Panel/VBoxContainer2/CloseButton" to="." method="_on_close_button_pressed"]

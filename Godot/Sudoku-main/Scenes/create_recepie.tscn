@@ -1,0 +1,140 @@
+[gd_scene load_steps=4 format=3 uid="uid://duw7c1xiuu0lq"]
+
+[ext_resource type="Script" path="res://Scenes/create_recepie.gd" id="1_7baat"]
+[ext_resource type="PackedScene" uid="uid://blax06m58co5f" path="res://Scenes/ingredient_list.tscn" id="2_0es2w"]
+[ext_resource type="PackedScene" uid="uid://bhyi5dlkww7vt" path="res://Scenes/settings.tscn" id="2_k8yqw"]
+
+[node name="CreateRecepie" type="Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7baat")
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.880005
+offset_top = -1.16
+offset_right = 0.880005
+offset_bottom = -1.15997
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.329
+anchor_right = 0.334
+offset_left = -127.978
+offset_right = 128.612
+offset_bottom = 48.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="LabelContainer" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_direction = 2
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="NameLabel" type="Label" parent="Panel/HBoxContainer/LabelContainer"]
+layout_mode = 2
+text = "Recepie Name :"
+
+[node name="LineContainer" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_direction = 3
+layout_mode = 2
+
+[node name="NameLine" type="LineEdit" parent="Panel/HBoxContainer/LineContainer"]
+layout_mode = 2
+expand_to_text_length = true
+
+[node name="AddButtonContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.862
+anchor_right = 0.515
+anchor_bottom = 0.862
+offset_left = -67.28
+offset_top = -0.200897
+offset_right = 81.8816
+offset_bottom = 63.7991
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="SaveButton" type="Button" parent="Panel/AddButtonContainer"]
+layout_mode = 2
+text = "Save Recepie"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" groups=["center"]]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -304.0
+offset_top = -170.5
+offset_right = 304.0
+offset_bottom = 170.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="IngredientButton" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.695
+anchor_right = 0.699
+offset_left = -63.9901
+offset_right = 57.6819
+offset_bottom = 31.0
+grow_horizontal = 2
+text = "Ingredients"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.004
+anchor_top = 0.137
+anchor_right = 0.383
+anchor_bottom = 0.983
+offset_left = -0.328
+offset_top = 0.318993
+offset_right = -0.405975
+offset_bottom = 0.121033
+grow_vertical = 2
+
+[node name="RecepiesContainer" type="VBoxContainer" parent="Panel/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 21
+alignment = 1
+
+[node name="settings" parent="Panel" instance=ExtResource("2_k8yqw")]
+visible = false
+layout_mode = 1
+
+[node name="IngredientList" parent="." instance=ExtResource("2_0es2w")]
+visible = false
+layout_mode = 1
+anchor_left = 0.591
+offset_left = 0.416992
+offset_top = -4.0
+offset_bottom = 2.0
+
+[connection signal="recepie_saved" from="." to="." method="_on_recepie_saved"]
+[connection signal="pressed" from="Panel/AddButtonContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="Panel/IngredientButton" to="." method="_on_ingredient_button_pressed"]
+[connection signal="ingredient_added" from="IngredientList" to="." method="_on_ingredient_list_ingredient_added"]

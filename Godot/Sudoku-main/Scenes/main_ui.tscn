@@ -1,0 +1,141 @@
+[gd_scene load_steps=6 format=3 uid="uid://b4wxa2s3ewulb"]
+
+[ext_resource type="Script" path="res://Scenes/main_ui.gd" id="1_judl1"]
+[ext_resource type="PackedScene" uid="uid://gdpasnmlrwe4" path="res://Scenes/menu.tscn" id="1_q5vj6"]
+[ext_resource type="PackedScene" uid="uid://bhyi5dlkww7vt" path="res://Scenes/settings.tscn" id="3_trfm5"]
+
+[sub_resource type="Animation" id="Animation_qh1j1"]
+resource_name = "background_color_fade"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.585394, 0.82138, 0.980499, 1), Color(0.653798, 0.803547, 0.97371, 1), Color(0.691431, 0.791855, 0.971192, 1), Color(0.759708, 0.764289, 0.982747, 1), Color(0.701705, 0.787652, 0.966991, 1), Color(0.643549, 0.804516, 0.973745, 1), Color(0.526802, 0.838702, 0.96097, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x7kfn"]
+_data = {
+"background_color_fade": SubResource("Animation_qh1j1")
+}
+
+[node name="MainUI" type="Node2D"]
+script = ExtResource("1_judl1")
+
+[node name="CanvasLayer3" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer3"]
+anchors_preset = -1
+anchor_left = -0.562
+anchor_top = -0.699
+anchor_right = 1.452
+anchor_bottom = 1.289
+offset_left = 0.039917
+offset_top = -0.0800171
+offset_right = 0.159912
+offset_bottom = -27.12
+color = Color(0.702038, 0.787518, 0.967082, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer3/ColorRect"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_x7kfn")
+}
+autoplay = "background_color_fade"
+speed_scale = 0.2
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Camera2D" type="Camera2D" parent="CanvasLayer2" groups=["camera"]]
+position = Vector2(955.143, 535.382)
+ignore_rotation = false
+limit_left = -2000
+limit_top = -2000
+limit_right = 2000
+limit_bottom = 2000
+limit_smoothed = true
+
+[node name="Menu" parent="CanvasLayer2" instance=ExtResource("1_q5vj6")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -76.0
+offset_top = -36.0
+offset_right = 81.0
+offset_bottom = 36.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchor_top = 0.001
+anchor_right = 1.001
+anchor_bottom = 1.0
+offset_left = -7.0
+offset_top = -0.08
+offset_right = 7.07996
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ReturnContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 2
+anchor_left = 0.054
+anchor_top = 0.036
+anchor_right = 0.055
+anchor_bottom = 0.036
+offset_left = -43.246
+offset_top = -23.6784
+offset_right = 71.305
+offset_bottom = 23.3216
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="ReturnButton" type="Button" parent="CanvasLayer/Control/ReturnContainer"]
+modulate = Color(0.886223, 0.472675, 0.845662, 1)
+z_index = 2
+layout_mode = 2
+text = "Main Menu"
+
+[node name="SettingContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 2
+anchor_left = 0.945
+anchor_top = 0.038
+anchor_right = 0.945
+anchor_bottom = 0.039
+offset_left = -35.1051
+offset_top = -15.284
+offset_right = 34.8949
+offset_bottom = 14.998
+grow_horizontal = 0
+mouse_filter = 2
+alignment = 1
+
+[node name="Settingbutton" type="Button" parent="CanvasLayer/Control/SettingContainer"]
+modulate = Color(0.886275, 0.47451, 0.847059, 1)
+layout_mode = 2
+text = "Settings"
+
+[node name="Settings" parent="CanvasLayer" instance=ExtResource("3_trfm5")]
+visible = false
+anchor_right = 0.992
+offset_left = -12.6801
+offset_top = 3.0
+offset_right = -0.480103
+offset_bottom = 3.0
+
+[connection signal="pressed" from="CanvasLayer/Control/ReturnContainer/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/SettingContainer/Settingbutton" to="." method="_on_settingbutton_pressed"]

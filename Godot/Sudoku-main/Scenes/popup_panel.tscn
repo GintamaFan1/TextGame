@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://jb6nnyg72nef"]
+
+[ext_resource type="Script" path="res://Scenes/popup_panel.gd" id="1_yokk0"]
+
+[node name="PopupPanel" type="PopupPanel"]
+size = Vector2i(115, 100)
+visible = true
+script = ExtResource("1_yokk0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 111.0
+offset_bottom = 96.0
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="LoadButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Load"
+
+[node name="CancelButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "cancel"

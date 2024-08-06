@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3 uid="uid://xh54sxjiqgsj"]
+
+[ext_resource type="Script" path="res://Scenes/game_over.gd" id="1_m5ios"]
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchor_left = 0.465
+anchor_right = 0.551
+anchor_bottom = 1.0
+offset_left = 0.399963
+offset_right = 3.56
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_m5ios")
+
+[node name="ColorRect" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -63.5
+offset_top = -29.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+columns = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect"]
+modulate = Color(0.839216, 0.239216, 0.662745, 1)
+layout_mode = 2
+alignment = 1
+
+[node name="GameOverLabel" type="Label" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "Game over!"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[connection signal="pressed" from="ColorRect/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

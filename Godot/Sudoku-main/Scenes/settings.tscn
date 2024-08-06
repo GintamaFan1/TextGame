@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhyi5dlkww7vt"]
+
+[ext_resource type="Script" path="res://Scenes/settings.gd" id="1_f621j"]
+[ext_resource type="Theme" uid="uid://ft4u5y5trp8i" path="res://Themes/Universal_label_theme/new_theme.tres" id="2_elo7t"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_n7oyy"]
+font_size = 32
+font_color = Color(0.72549, 0.458824, 1, 0.682353)
+
+[node name="settings" type="Control"]
+layout_mode = 3
+anchor_left = 0.722
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.319946
+offset_right = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(1, 1.00397)
+mouse_filter = 1
+script = ExtResource("1_f621j")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.0
+offset_right = -106.44
+offset_bottom = -223.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.25, 1.25)
+mouse_filter = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="SliderLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Board Size"
+label_settings = SubResource("LabelSettings_n7oyy")
+
+[node name="HSlider" type="HSlider" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_elo7t")
+min_value = 0.5
+max_value = 4.0
+step = 0.2
+value = 0.5
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 2
+
+[node name="CloseButton" type="Button" parent="PanelContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Close"
+
+[connection signal="value_changed" from="PanelContainer/VBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer2/CloseButton" to="." method="_on_close_button_pressed"]
