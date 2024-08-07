@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 SceneManager="*res://addons/awesome_scene_manager/autoloads/SceneManager.tscn"
 DisplayMessage="*res://auto_load2/error_message.gd"
 UpdateResources="*res://auto_load2/update_resources.gd"
+AudioManager="*res://auto_load2/AudioManager.gd"
 
 [display]
 

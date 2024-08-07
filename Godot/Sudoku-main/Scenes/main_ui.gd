@@ -1,5 +1,10 @@
 extends Node2D
 
+var negative_clamp = -1
+var positive_clamp_x = 1800
+var positive_clamp_y = 1600
+
+
 @onready var dragging : bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,9 +18,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if Input.is_action_just_pressed("scroll"):
-		$CanvasLayer2/Camera2D.position += Vector2(0,15)
+		var new_position = $CanvasLayer2/Camera2D.position + Vector2(0, 15)
+		new_position.y = clamp(new_position.y, negative_clamp, positive_clamp_y)
+		
+		$CanvasLayer2/Camera2D.position = new_position
 	if Input.is_action_just_pressed("scroll down"):
-		$CanvasLayer2/Camera2D.position -= Vector2(0,15)
+		var new_position = $CanvasLayer2/Camera2D.position + Vector2(0, -15)
+		new_position.y = clamp(new_position.y, negative_clamp, positive_clamp_y)
+		$CanvasLayer2/Camera2D.position = new_position
 	
 	
 
@@ -32,16 +42,16 @@ func drag(event):
 		if event is InputEventMouseMotion:
 			var new_position = $CanvasLayer2/Camera2D.position - event.relative
 			
-			new_position.x = clamp(new_position.x, -2000,2000)
-			new_position.y = clamp(new_position.y, -2000, 2000)
+			new_position.x = clamp(new_position.x, negative_clamp, positive_clamp_x)
+			new_position.y = clamp(new_position.y, negative_clamp, positive_clamp_y)
 			
 			$CanvasLayer2/Camera2D.position = new_position
 			dragging = true
 		elif event is InputEventScreenDrag:
 			var new_position = $CanvasLayer2/Camera2D.position - event.relative
 			
-			new_position.x = clamp(new_position.x, -2000,2000)
-			new_position.y = clamp(new_position.y, -2000, 2000)
+			new_position.x = clamp(new_position.x, negative_clamp, positive_clamp_x)
+			new_position.y = clamp(new_position.y, negative_clamp, positive_clamp_y)
 			
 			$CanvasLayer2/Camera2D.position = new_position
 			dragging = true
@@ -53,8 +63,8 @@ func drag(event):
 		if event is InputEventScreenDrag:
 			var new_position = $CanvasLayer2/Camera2D.position - event.relative
 			
-			new_position.x = clamp(new_position.x, -2000,2000)
-			new_position.y = clamp(new_position.y, -2000, 2000)
+			new_position.x = clamp(new_position.x, negative_clamp, positive_clamp_x)
+			new_position.y = clamp(new_position.y, negative_clamp, positive_clamp_y)
 			
 			$CanvasLayer2/Camera2D.position = new_position
 			dragging = true

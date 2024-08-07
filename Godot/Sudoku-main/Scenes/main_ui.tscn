@@ -57,11 +57,8 @@ follow_viewport_enabled = true
 [node name="Camera2D" type="Camera2D" parent="CanvasLayer2" groups=["camera"]]
 position = Vector2(955.143, 535.382)
 ignore_rotation = false
-limit_left = -2000
-limit_top = -2000
-limit_right = 2000
-limit_bottom = 2000
 limit_smoothed = true
+position_smoothing_enabled = true
 
 [node name="Menu" parent="CanvasLayer2" instance=ExtResource("1_q5vj6")]
 anchors_preset = 8

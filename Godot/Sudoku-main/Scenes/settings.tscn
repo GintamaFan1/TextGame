@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bhyi5dlkww7vt"]
+[gd_scene load_steps=9 format=3 uid="uid://bhyi5dlkww7vt"]
 
 [ext_resource type="Script" path="res://Scenes/settings.gd" id="1_f621j"]
 [ext_resource type="Theme" uid="uid://ft4u5y5trp8i" path="res://Themes/Universal_label_theme/new_theme.tres" id="2_elo7t"]
@@ -7,13 +7,52 @@
 font_size = 32
 font_color = Color(0.72549, 0.458824, 1, 0.682353)
 
+[sub_resource type="LabelSettings" id="LabelSettings_vvp4o"]
+font_size = 32
+font_color = Color(0.567203, 0.249696, 0.875365, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rhqu2"]
+line_spacing = 4.0
+font_size = 24
+font_color = Color(0.815208, 0.521662, 0.921849, 1)
+outline_color = Color(0.486436, 0.50482, 0.307339, 1)
+shadow_size = 4
+shadow_color = Color(0.352941, 0.341176, 0.682353, 0.972549)
+
+[sub_resource type="Animation" id="Animation_tekf6"]
+resource_name = "Name mover"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/VBoxContainer/CurrentSongLabel:horizontal_alignment")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 0.450625),
+"update": 0,
+"values": [0, 2]
+}
+
+[sub_resource type="Animation" id="Animation_clwtg"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x6qdw"]
+_data = {
+"Name mover": SubResource("Animation_tekf6"),
+"RESET": SubResource("Animation_clwtg")
+}
+
 [node name="settings" type="Control"]
 layout_mode = 3
-anchor_left = 0.722
+anchor_left = 0.673
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.319946
+offset_left = 0.839966
 offset_right = 1.0
+offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(1, 1.00397)
@@ -25,9 +64,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 3.0
-offset_right = -106.44
-offset_bottom = -223.0
+offset_right = -122.0
+offset_bottom = -219.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1.25, 1.25)
@@ -35,7 +73,6 @@ mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
-size_flags_vertical = 0
 
 [node name="SliderLabel" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -44,11 +81,69 @@ label_settings = SubResource("LabelSettings_n7oyy")
 
 [node name="HSlider" type="HSlider" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 1
 theme = ExtResource("2_elo7t")
 min_value = 0.5
 max_value = 4.0
 step = 0.2
 value = 0.5
+
+[node name="SoundSLiderLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_elo7t")
+text = "Music Volume"
+label_settings = SubResource("LabelSettings_vvp4o")
+
+[node name="SoundSlider" type="HSlider" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.01
+max_value = 1.0
+step = 0.05
+value = 0.51
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Buttons"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="PreviousButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_elo7t")
+text = "Previous"
+
+[node name="PlayButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Play"
+
+[node name="NextButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Next"
+
+[node name="ShuffleButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Shuffle"
+
+[node name="LoopButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Loop"
+
+[node name="CurrentSongLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_rhqu2")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PanelContainer/VBoxContainer/CurrentSongLabel"]
+root_node = NodePath("../../../..")
+libraries = {
+"": SubResource("AnimationLibrary_x6qdw")
+}
+autoplay = "Name mover"
+speed_scale = 0.495
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
@@ -60,4 +155,10 @@ layout_mode = 2
 text = "Close"
 
 [connection signal="value_changed" from="PanelContainer/VBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="PanelContainer/VBoxContainer/SoundSlider" to="." method="_on_sound_slider_value_changed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/PreviousButton" to="." method="_on_previous_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/ShuffleButton" to="." method="_on_shuffle_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/LoopButton" to="." method="_on_loop_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer2/CloseButton" to="." method="_on_close_button_pressed"]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://balwqnxilsauy"
+path="res://.godot/imported/Stream Loops 2024-06-19.ogg-0c7f31d57d09c39baa10280628390322.oggvorbisstr"
+
+[deps]
+
+source_file="res://Audio/Background_Music/Stream Loops 2024-06-19.ogg"
+dest_files=["res://.godot/imported/Stream Loops 2024-06-19.ogg-0c7f31d57d09c39baa10280628390322.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
