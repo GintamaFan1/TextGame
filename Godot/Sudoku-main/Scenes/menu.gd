@@ -19,3 +19,7 @@ func _on_sudoku_button_pressed():
 
 func _on_cost_finder_pressed():
 	SceneManager.swap_scenes("res://Scenes/create_recepie.tscn", self, SceneManager.Transitions.FADE)
+
+
+func _on_hang_man_pressed():
+	SceneManager.swap_scenes("res://Scenes/hang_man.tscn", self, SceneManager.Transitions.FADE)

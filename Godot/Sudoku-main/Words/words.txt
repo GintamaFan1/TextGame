@@ -1,0 +1,378 @@
+apple
+banana
+orange
+grape
+pear
+lemon
+lime
+mango
+peach
+plum
+cherry
+strawberry
+blueberry
+raspberry
+blackberry
+kiwi
+pineapple
+coconut
+avocado
+tomato
+potato
+carrot
+broccoli
+spinach
+lettuce
+cucumber
+onion
+garlic
+pepper
+mushroom
+pumpkin
+squash
+zucchini
+eggplant
+corn
+peas
+beans
+rice
+pasta
+bread
+cake
+cookie
+pie
+pizza
+burger
+sandwich
+salad
+soup
+stew
+chicken
+beef
+pork
+fish
+shrimp
+crab
+lobster
+oyster
+clam
+mussel
+scallop
+milk
+cheese
+butter
+egg
+yogurt
+ice cream
+coffee
+tea
+wine
+beer
+juice
+soda
+water
+apple juice
+orange juice
+grapefruit juice
+lemonade
+iced tea
+hot chocolate
+milkshake
+smoothie
+cocktail
+whiskey
+vodka
+rum
+tequila
+gin
+brandy
+champagne
+wine
+beer
+cider
+mead
+sake
+soy sauce
+vinegar
+mustard
+ketchup
+mayonnaise
+relish
+barbecue sauce
+ranch dressing
+italian dressing
+french dressing
+thousand island dressing
+honey mustard
+blue cheese dressing
+caesar dressing
+vinaigrette
+pesto
+hummus
+guacamole
+salsa
+queso
+tzatziki
+tahini
+sriracha
+wasabi
+soy sauce
+teriyaki sauce
+hoisin sauce
+oyster sauce
+fish sauce
+worcestershire sauce
+balsamic vinegar
+red wine vinegar
+apple cider vinegar
+rice vinegar
+white vinegar
+salt
+pepper
+paprika
+cumin
+chili powder
+cayenne pepper
+cinnamon
+nutmeg
+ginger
+cloves
+allspice
+cardamom
+turmeric
+curry powder
+oregano
+basil
+thyme
+rosemary
+sage
+parsley
+cilantro
+dill
+mint
+lavender
+vanilla
+almond
+coconut
+chocolate
+caramel
+maple
+honey
+sugar
+brown sugar
+powdered sugar
+molasses
+syrup
+jam
+jelly
+marmalade
+butter
+margarine
+oil
+olive oil
+vegetable oil
+canola oil
+peanut oil
+sesame oil
+sunflower oil
+coconut oil
+shortening
+lard
+flour
+cornmeal
+oats
+rice
+quinoa
+couscous
+barley
+farro
+bulgur
+polenta
+pasta
+bread
+bagel
+croissant
+muffin
+biscuit
+scone
+cracker
+tortilla
+pita
+naan
+flatbread
+waffle
+pancake
+crepe
+omelet
+quiche
+frittata
+hash browns
+french fries
+potato chips
+pretzels
+popcorn
+nuts
+almonds
+cashews
+pecans
+walnuts
+pistachios
+peanuts
+seeds
+pumpkin seeds
+sunflower seeds
+chia seeds
+flax seeds
+sesame seeds
+poppy seeds
+granola
+cereal
+oatmeal
+grits
+porridge
+cream of wheat
+pudding
+custard
+flan
+mousse
+cheesecake
+tiramisu
+cannoli
+baklava
+churro
+donut
+croissant
+danish
+muffin
+scone
+biscuit
+bagel
+english muffin
+toast
+waffle
+pancake
+crepe
+omelette
+quiche
+frittata
+hash browns
+home fries
+tater tots
+potato salad
+coleslaw
+macaroni salad
+pasta salad
+caesar salad
+garden salad
+greek salad
+cobb salad
+waldorf salad
+caprese salad
+antipasto
+bruschetta
+crostini
+croutons
+breadcrumbs
+panko
+stuffing
+dressing
+gravy
+soup
+chili
+stew
+gumbo
+bisque
+broth
+consommé
+gazpacho
+vichyssoise
+chowder
+ramen
+pho
+udon
+soba
+lo mein
+pad thai
+fried rice
+sushi
+sashimi
+nigiri
+maki
+temaki
+onigiri
+gyoza
+tempura
+teriyaki
+yakitori
+sukiyaki
+shabu-shabu
+ramen
+udon
+soba
+curry
+tandoori
+biryani
+masala
+samosa
+pakora
+naan
+raita
+chutney
+burrito
+taco
+enchilada
+quesadilla
+tostada
+nachos
+guacamole
+salsa
+pico de gallo
+chimichanga
+fajita
+mole
+tamale
+pupusa
+arepa
+empanada
+ceviche
+huevos rancheros
+chilaquiles
+elote
+pozole
+menudo
+pizza
+calzone
+stromboli
+focaccia
+bruschetta
+lasagna
+ravioli
+tortellini
+gnocchi
+risotto
+polenta
+arancini
+carbonara
+bolognese
+pesto
+marinara
+alfredo
+spaghetti
+linguine
+fettuccine
+penne
+rigatoni
+fusilli
+farfalle
+orecchiette
+gnocchi
+ravioli
+tortellini
+manicotti
+cannelloni
+lasagna
+eggplant parmesan
+chicken parmesan
+veal parmesan
+meatballs
+saus

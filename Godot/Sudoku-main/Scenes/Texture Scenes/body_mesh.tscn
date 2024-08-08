@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://djionu7wk5jlo"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_07fwf"]
+
+[sub_resource type="Gradient" id="Gradient_ttuhs"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.00649351)
+colors = PackedColorArray(0, 0, 0, 1, 0.340601, 0.586677, 0.835822, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7iup6"]
+gradient = SubResource("Gradient_ttuhs")
+
+[node name="BodyMesh" type="Node2D"]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+position = Vector2(-1.5, 6.00002)
+scale = Vector2(173, 159)
+mesh = SubResource("CapsuleMesh_07fwf")
+texture = SubResource("GradientTexture2D_7iup6")

@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://bhjoq5b62evo4"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_umv7l"]
+
+[sub_resource type="Gradient" id="Gradient_daw0x"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.194805, 0.902597)
+colors = PackedColorArray(0.629373, 0.699817, 0.85513, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1ioi7"]
+gradient = SubResource("Gradient_daw0x")
+fill_from = Vector2(0.96789, 0.0137615)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8w5yt"]
+
+[sub_resource type="Gradient" id="Gradient_drp36"]
+offsets = PackedFloat32Array(0, 0.772727)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3rbep"]
+gradient = SubResource("Gradient_drp36")
+fill_from = Vector2(0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_l1q11"]
+
+[node name="HeadTexture" type="Node2D"]
+
+[node name="HeadMesh" type="MeshInstance2D" parent="."]
+position = Vector2(1.5, 1.00003)
+rotation = -1.5708
+scale = Vector2(205.232, 200)
+mesh = SubResource("SphereMesh_umv7l")
+texture = SubResource("GradientTexture2D_1ioi7")
+
+[node name="Eye1Mesh" type="MeshInstance2D" parent="."]
+position = Vector2(-38, -40)
+rotation = 1.5708
+scale = Vector2(31.2852, 21.875)
+mesh = SubResource("SphereMesh_8w5yt")
+texture = SubResource("GradientTexture2D_3rbep")
+
+[node name="Eye2Mesh" type="MeshInstance2D" parent="."]
+position = Vector2(39, -39)
+rotation = 1.5708
+scale = Vector2(31.2852, 21.875)
+mesh = SubResource("SphereMesh_8w5yt")
+texture = SubResource("GradientTexture2D_3rbep")
+
+[node name="MouthMesh" type="MeshInstance2D" parent="."]
+position = Vector2(0, 38)
+scale = Vector2(49, 31)
+mesh = SubResource("PrismMesh_l1q11")

@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3 uid="uid://smjc86jl82p4"]
+
+[ext_resource type="Script" path="res://Scenes/hang_man.gd" id="1_6hc4c"]
+[ext_resource type="PackedScene" uid="uid://jkpfgqpivmu2" path="res://Scenes/Texture Scenes/arm_mesh.tscn" id="1_kwtiy"]
+[ext_resource type="PackedScene" uid="uid://v8jjsdsf6amr" path="res://Scenes/Texture Scenes/leg_mesh.tscn" id="2_ls2x5"]
+[ext_resource type="PackedScene" uid="uid://djionu7wk5jlo" path="res://Scenes/Texture Scenes/body_mesh.tscn" id="3_q76hj"]
+[ext_resource type="PackedScene" uid="uid://bhjoq5b62evo4" path="res://Scenes/Texture Scenes/head_texture.tscn" id="4_cwc1a"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_l8xjl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hmmtn"]
+radius = 50.55
+
+[node name="HangMan" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6hc4c")
+
+[node name="ManContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.315
+anchor_bottom = 0.646
+offset_right = -0.800049
+offset_bottom = 0.319946
+alignment = 1
+
+[node name="ArmMesh" parent="ManContainer" instance=ExtResource("1_kwtiy")]
+visible = false
+position = Vector2(374, 408)
+rotation = 2.35619
+
+[node name="LegMesh" parent="ManContainer" instance=ExtResource("2_ls2x5")]
+visible = false
+position = Vector2(384, 636)
+rotation = 2.00713
+
+[node name="BodyMesh" parent="ManContainer" instance=ExtResource("3_q76hj")]
+visible = false
+position = Vector2(255, 374)
+
+[node name="HeadTexture" parent="ManContainer" instance=ExtResource("4_cwc1a")]
+visible = false
+position = Vector2(255, 150)
+
+[node name="ArmMesh2" parent="ManContainer" instance=ExtResource("1_kwtiy")]
+visible = false
+position = Vector2(152, 326)
+
+[node name="LegMesh2" parent="ManContainer" instance=ExtResource("2_ls2x5")]
+visible = false
+position = Vector2(214, 514)
+
+[node name="WordContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.665
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -11.0
+offset_top = -27.2
+offset_right = -11.0
+offset_bottom = -27.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 67
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.544
+anchor_right = 1.0
+anchor_bottom = 0.631
+offset_left = 0.519897
+offset_bottom = -0.480042
+grow_horizontal = 0
+alignment = 1
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+position = Vector2(1378, 285)
+texture_normal = SubResource("CompressedTexture2D_l8xjl")
+shape = SubResource("CircleShape2D_hmmtn")

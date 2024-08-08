@@ -41,7 +41,7 @@ offset_left = 0.039917
 offset_top = -0.0800171
 offset_right = 0.159912
 offset_bottom = -27.12
-color = Color(0.702038, 0.787518, 0.967082, 1)
+color = Color(0.585394, 0.82138, 0.980499, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer3/ColorRect"]
 root_node = NodePath("../..")
@@ -88,14 +88,14 @@ mouse_filter = 2
 
 [node name="ReturnContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 2
-anchor_left = 0.054
-anchor_top = 0.036
+anchor_left = 0.055
+anchor_top = 0.058
 anchor_right = 0.055
-anchor_bottom = 0.036
-offset_left = -43.246
-offset_top = -23.6784
-offset_right = 71.305
-offset_bottom = 23.3216
+anchor_bottom = 0.058
+offset_left = -55.48
+offset_top = -47.524
+offset_right = 82.52
+offset_bottom = 23.476
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -110,13 +110,13 @@ text = "Main Menu"
 [node name="SettingContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 2
 anchor_left = 0.945
-anchor_top = 0.038
+anchor_top = 0.063
 anchor_right = 0.945
-anchor_bottom = 0.039
-offset_left = -35.1051
-offset_top = -15.284
-offset_right = 34.8949
-offset_bottom = 14.998
+anchor_bottom = 0.063
+offset_left = -81.52
+offset_top = -41.914
+offset_right = 34.48
+offset_bottom = 20.086
 grow_horizontal = 0
 mouse_filter = 2
 alignment = 1
