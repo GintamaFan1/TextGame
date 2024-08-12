@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs1ir682hpng6"]
+
+[ext_resource type="Script" path="res://Scenes/Games2/Abilities/Vacumme.gd" id="1_vcv01"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_6cpix"]
+
+[node name="Vacuume" type="Area2D"]
+script = ExtResource("1_vcv01")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+position = Vector2(48, 0)
+rotation = 1.5708
+scale = Vector2(76.9953, 95.2941)
+mesh = SubResource("PrismMesh_6cpix")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(0.894051, -1.68752)
+rotation = 0.785398
+scale = Vector2(13.9689, 14.6647)
+polygon = PackedVector2Array(0.0401658, 0.124479, 2.92552, -6.38498, 6.8739, -2.62396)
+metadata/_edit_lock_ = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

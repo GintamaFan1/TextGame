@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://px4oy7t3eeqn"]
+
+[ext_resource type="PackedScene" uid="uid://c2lav3tqmuu8v" path="res://Scenes/Games2/Enemies/character.tscn" id="1_bwfhn"]
+[ext_resource type="PackedScene" uid="uid://bidk46ddk4wtg" path="res://Scenes/Games2/Enemies/red_enemy.tscn" id="2_262io"]
+
+[node name="GameStage1" type="Node2D"]
+
+[node name="RedEnemy" parent="." instance=ExtResource("2_262io")]
+position = Vector2(1919, 207)
+
+[node name="Character" parent="." instance=ExtResource("1_bwfhn")]
+position = Vector2(893, 576)

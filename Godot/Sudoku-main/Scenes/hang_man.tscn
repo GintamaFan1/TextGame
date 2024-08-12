@@ -5,11 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://v8jjsdsf6amr" path="res://Scenes/Texture Scenes/leg_mesh.tscn" id="2_ls2x5"]
 [ext_resource type="PackedScene" uid="uid://djionu7wk5jlo" path="res://Scenes/Texture Scenes/body_mesh.tscn" id="3_q76hj"]
 [ext_resource type="PackedScene" uid="uid://bhjoq5b62evo4" path="res://Scenes/Texture Scenes/head_texture.tscn" id="4_cwc1a"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_l8xjl"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_hmmtn"]
-radius = 50.55
+[ext_resource type="Theme" uid="uid://ft4u5y5trp8i" path="res://Themes/Universal_label_theme/new_theme.tres" id="6_f5lsr"]
+[ext_resource type="StyleBox" uid="uid://dyp2yqoo8e2a8" path="res://Themes/tries_labels.tres" id="7_vb58j"]
 
 [node name="HangMan" type="Control"]
 layout_mode = 3
@@ -73,15 +70,81 @@ alignment = 1
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.544
-anchor_right = 1.0
-anchor_bottom = 0.631
-offset_left = 0.519897
-offset_bottom = -0.480042
+anchor_left = 0.567
+anchor_top = 0.029
+anchor_right = 0.956
+anchor_bottom = 0.551
+offset_left = -0.640015
+offset_top = -0.320002
+offset_right = -373.52
+offset_bottom = -282.08
 grow_horizontal = 0
+scale = Vector2(2, 2)
+theme_override_constants/separation = 12
 alignment = 1
 
-[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
-position = Vector2(1378, 285)
-texture_normal = SubResource("CompressedTexture2D_l8xjl")
-shape = SubResource("CircleShape2D_hmmtn")
+[node name="TriesLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_f5lsr")
+theme_override_colors/font_color = Color(0.868516, 0.753105, 0.912302, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("7_vb58j")
+horizontal_alignment = 1
+
+[node name="TriedLettersLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_f5lsr")
+theme_override_colors/font_color = Color(0.868516, 0.753105, 0.912302, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("7_vb58j")
+horizontal_alignment = 1
+uppercase = true
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.431
+anchor_top = 0.132
+anchor_right = 0.451
+anchor_bottom = 0.162
+offset_left = -138.52
+offset_top = -142.56
+offset_right = -43.92
+offset_bottom = 0.0399933
+grow_horizontal = 2
+scale = Vector2(2, 2)
+alignment = 1
+
+[node name="GuessButton" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+text = "Guess"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer2"]
+layout_mode = 2
+placeholder_text = "Enter Letter"
+alignment = 1
+max_length = 1
+expand_to_text_length = true
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.418
+anchor_top = 0.405
+anchor_right = 0.418
+anchor_bottom = 0.405
+offset_left = -114.56
+offset_top = -59.4
+offset_right = -0.559998
+offset_bottom = 23.6
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="VBoxContainer3"]
+layout_mode = 2
+text = "Restart"
+
+[connection signal="pressed" from="VBoxContainer2/GuessButton" to="." method="_on_guess_button_pressed"]
+[connection signal="pressed" from="VBoxContainer3/RestartButton" to="." method="_on_restart_button_pressed"]

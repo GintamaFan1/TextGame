@@ -1,0 +1,126 @@
+[gd_scene load_steps=9 format=3 uid="uid://bidk46ddk4wtg"]
+
+[ext_resource type="Script" path="res://Scenes/Games2/Enemies/red_enemy.gd" id="1_vhoj1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s2hd3"]
+radius = 11.3137
+
+[sub_resource type="Gradient" id="Gradient_f87yq"]
+offsets = PackedFloat32Array(0, 0.954545)
+colors = PackedColorArray(0, 0, 0, 1, 0.743832, 0, 0.282385, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ia1lx"]
+gradient = SubResource("Gradient_f87yq")
+width = 24
+height = 24
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.454128, 0.495413)
+fill_to = Vector2(0.949541, 0.119266)
+repeat = 1
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_56he4"]
+gradient = SubResource("Gradient_f87yq")
+width = 24
+height = 24
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.481651, 0.5)
+fill_to = Vector2(0.885321, 0.876147)
+repeat = 1
+
+[sub_resource type="Animation" id="Animation_bhr2v"]
+resource_name = "Rotate"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.785398, 1.5708, 2.35619, 3.14159, 3.92699, 4.53786, 5.49779, 6.28319]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.785398, 1.5708, 2.35619, 3.14159, 3.92699, 4.53786, 5.49779, 6.28319, 7.06858]
+}
+
+[sub_resource type="Animation" id="Animation_qhvaq"]
+resource_name = "Reverse"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [6.28319, 5.49779, 4.53786, 3.92699, 3.14159, 2.35619, 1.5708, 0.785398, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [7.06858, 6.28319, 5.49779, 4.53786, 3.92699, 3.14159, 2.35619, 1.5708, 0.785398]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x2isl"]
+_data = {
+"Reverse": SubResource("Animation_qhvaq"),
+"Rotate": SubResource("Animation_bhr2v")
+}
+
+[node name="RedEnemy" type="CharacterBody2D"]
+light_mask = 2
+visibility_layer = 15
+position = Vector2(2, 85)
+rotation = 4.53417
+motion_mode = 1
+script = ExtResource("1_vhoj1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_s2hd3")
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-0.25, -0.25)
+rotation = 6.14348
+scale = Vector2(0.645833, 0.645833)
+texture = SubResource("GradientTexture2D_ia1lx")
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(-0.25, -0.25)
+rotation = 6.92887
+scale = Vector2(0.645833, 0.645833)
+texture = SubResource("GradientTexture2D_56he4")
+metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_x2isl")
+}
+speed_scale = 4.0
