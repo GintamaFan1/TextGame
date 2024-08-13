@@ -3,7 +3,7 @@ extends Area2D
 var vacuume_direction 
 var position_x_growth = 1.1007
 var scale_growth = 1.1
-
+var entered_body = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Timer.start()
@@ -12,8 +12,23 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
+	for node in entered_body:
+		if node:
+			node.speed = 0
+		
+		var distance = (position - node.position)
 	
-	modulate = Color(.9, .3, .2, 1)
+		if distance.y < 0:
+			node.position -= Vector2(0, 50) * delta
+		else:
+			node.position += Vector2(0, 50) * delta
+		
+		if distance.x < 0:
+			node.position -= Vector2(50,0) * delta
+		else:
+			node.position += Vector2(50,0) * delta
+	
+	
 	
 
 
@@ -28,5 +43,18 @@ func _on_timer_timeout():
 
 
 func _on_body_entered(body):
-	var difference = (position - body.position).normalized()
-	body.position += difference
+	
+	if body.name != "Character":
+		
+		entered_body.append(body)
+	
+
+		
+
+func _on_body_exited(body):
+	if body.name != "Character":
+		body.speed = body.original_speed
+	entered_body.erase(body)
+
+
+

@@ -57,3 +57,10 @@ func suck():
 	
 	
 	
+	
+
+func _on_area_2d_body_entered(body):
+	
+	if "enemy" in body.name.to_lower():
+	
+		body.explode()

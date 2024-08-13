@@ -2,9 +2,6 @@
 
 [ext_resource type="Script" path="res://Scenes/Games2/Enemies/character.gd" id="1_eok0m"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_266ej"]
-radius = 49.0102
-
 [sub_resource type="SphereMesh" id="SphereMesh_1d13g"]
 
 [sub_resource type="Gradient" id="Gradient_6mgbx"]
@@ -18,13 +15,14 @@ fill = 1
 fill_from = Vector2(0.899083, 0.536697)
 repeat = 1
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_266ej"]
+radius = 49.0408
+
 [node name="Character" type="CharacterBody2D"]
 visibility_layer = 15
+collision_mask = 14
 motion_mode = 1
 script = ExtResource("1_eok0m")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_266ej")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
@@ -33,3 +31,15 @@ position = Vector2(7.62939e-06, -0.499987)
 scale = Vector2(98.1111, 95)
 mesh = SubResource("SphereMesh_1d13g")
 texture = SubResource("GradientTexture2D_isgdy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_266ej")
+
+[node name="Area2D" type="Area2D" parent="."]
+visibility_layer = 14
+collision_mask = 14
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_266ej")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
