@@ -95,11 +95,13 @@ _data = {
 
 [node name="RedEnemy" type="CharacterBody2D"]
 light_mask = 2
-visibility_layer = 31
+visibility_layer = 63
 position = Vector2(2, 85)
 rotation = 4.53417
 collision_layer = 2
-collision_mask = 31
+collision_mask = 61
+motion_mode = 1
+platform_floor_layers = 4294967103
 script = ExtResource("1_vhoj1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -108,13 +110,14 @@ metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-0.25, -0.25)
+rotation = 6.28319
 scale = Vector2(0.645833, 0.645833)
 texture = SubResource("GradientTexture2D_ia1lx")
 metadata/_edit_lock_ = true
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 position = Vector2(-0.25, -0.25)
-rotation = 0.785395
+rotation = 7.06858
 scale = Vector2(0.645833, 0.645833)
 texture = SubResource("GradientTexture2D_56he4")
 metadata/_edit_lock_ = true

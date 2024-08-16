@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://fr17mpaix5fj"]
+
+[ext_resource type="Script" path="res://Scenes/Games2/Stage/game_stage1.gd" id="1_jf5bk"]
+
+[node name="DefaultStage" type="Node2D"]
+script = ExtResource("1_jf5bk")
+
+[node name="Speed85Enemies" type="Node2D" parent="."]
+
+[node name="Speed135Enemies" type="Node2D" parent="."]
+
+[node name="Speed45Enemies" type="Node2D" parent="."]
+
+[node name="ItemGenerator" type="Node2D" parent="."]
+
+[node name="TrainHandler" type="Node2D" parent="."]

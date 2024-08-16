@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://cpknghny72850"]
+
+[ext_resource type="Script" path="res://Scenes/Games2/Train/train.gd" id="1_l8eix"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_r04og"]
+
+[sub_resource type="Gradient" id="Gradient_fbett"]
+offsets = PackedFloat32Array(0.0194805, 0.409091)
+colors = PackedColorArray(0, 0, 0, 1, 0.506896, 0.252466, 0.999956, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gg8d3"]
+gradient = SubResource("Gradient_fbett")
+fill_from = Vector2(0.059633, 0.197248)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_koxej"]
+radius = 19.0
+height = 78.0
+
+[node name="Train" type="Area2D"]
+light_mask = 32
+visibility_layer = 7
+rotation = 1.5708
+collision_layer = 32
+collision_mask = 7
+script = ExtResource("1_l8eix")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(40, 40)
+mesh = SubResource("CapsuleMesh_r04og")
+texture = SubResource("GradientTexture2D_gg8d3")
+
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4.76837e-07)
+shape = SubResource("CapsuleShape2D_koxej")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

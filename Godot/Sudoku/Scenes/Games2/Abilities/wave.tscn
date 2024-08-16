@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://clbefbpq2h7py"]
+
+[ext_resource type="PrismMesh" uid="uid://c4c81bsbse603" path="res://Scenes/Games2/Abilities/Vacumme.tres" id="1_n7jkr"]
+[ext_resource type="Script" path="res://Scenes/Games2/Abilities/wave.gd" id="1_ywkqq"]
+
+[node name="Wave" type="Area2D"]
+modulate = Color(1, 1, 1, 0.203922)
+light_mask = 16
+visibility_layer = 14
+collision_layer = 16
+collision_mask = 14
+script = ExtResource("1_ywkqq")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+position = Vector2(48, 0)
+rotation = 1.5708
+scale = Vector2(76.995, 95.294)
+mesh = ExtResource("1_n7jkr")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, 0, 90, -36, 94, -30, 96, -20, 96, 22, 94, 29, 90, 37)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

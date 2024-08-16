@@ -21,6 +21,7 @@ SceneManager="*res://addons/awesome_scene_manager/autoloads/SceneManager.tscn"
 DisplayMessage="*res://auto_load2/error_message.gd"
 UpdateResources="*res://auto_load2/update_resources.gd"
 AudioManager="*res://auto_load2/AudioManager.gd"
+Sucker="*res://auto_load2/Sucker.gd"
 
 [display]
 
@@ -57,6 +58,11 @@ scroll={
 "scroll down"={
 "deadzone": 0.5,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":16,"position":Vector2(378, 28),"global_position":Vector2(386, 108),"factor":1.0,"button_index":5,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+R_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(440, 41),"global_position":Vector2(448, 121),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
 

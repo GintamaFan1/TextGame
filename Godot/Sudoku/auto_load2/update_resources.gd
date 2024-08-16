@@ -1,7 +1,7 @@
 extends Node
 
 
-func update_ingredient_amount(name: String, amount: float):
+func update_ingredient_amount(name1: String, amount: float):
 	var dir = DirAccess.open("user://ingredients/")
 	
 	dir.list_dir_begin()
@@ -10,7 +10,7 @@ func update_ingredient_amount(name: String, amount: float):
 	
 	while file != "":
 		
-		if file == name + ".save":
+		if file == name1 + ".save":
 			
 			var save_file = FileAccess.open("user://ingredients/" + file, FileAccess.READ_WRITE)
 			var json_string = save_file.get_as_text()

@@ -1,8 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cs1ir682hpng6"]
 
 [ext_resource type="Script" path="res://Scenes/Games2/Abilities/Vacumme.gd" id="1_vcv01"]
-
-[sub_resource type="PrismMesh" id="PrismMesh_6cpix"]
+[ext_resource type="PrismMesh" uid="uid://c4c81bsbse603" path="res://Scenes/Games2/Abilities/Vacumme.tres" id="2_b052q"]
 
 [node name="Vacuume" type="Area2D"]
 modulate = Color(0.791999, 0.791999, 0.791999, 0.203922)
@@ -19,7 +18,7 @@ visibility_layer = 14
 position = Vector2(48, 0)
 rotation = 1.5708
 scale = Vector2(76.9953, 95.2941)
-mesh = SubResource("PrismMesh_6cpix")
+mesh = ExtResource("2_b052q")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 light_mask = 16
@@ -27,7 +26,7 @@ visibility_layer = 14
 position = Vector2(0.894051, -1.68752)
 rotation = 0.785398
 scale = Vector2(13.9689, 14.6647)
-polygon = PackedVector2Array(0.0401658, 0.124479, 2.92552, -6.38498, 6.8739, -2.62396)
+polygon = PackedVector2Array(0.0401658, 0.124479, 2.72303, -5.90281, 3.02675, -6.09568, 3.43171, -5.90281, 6.26644, -3.20258, 6.51954, -2.76862, 6.37355, -2.42273)
 metadata/_edit_lock_ = true
 
 [node name="Timer" type="Timer" parent="."]

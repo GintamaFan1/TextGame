@@ -19,8 +19,8 @@ repeat = 1
 radius = 49.0408
 
 [node name="Character" type="CharacterBody2D"]
-visibility_layer = 15
-collision_mask = 14
+visibility_layer = 47
+collision_mask = 46
 motion_mode = 1
 script = ExtResource("1_eok0m")
 

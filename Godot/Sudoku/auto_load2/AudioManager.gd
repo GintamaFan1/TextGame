@@ -98,9 +98,9 @@ func shuffle():
 	play()
 
 func show_song():
-	for name in song_dict.keys():
-		if song_dict[name] == song_list[current_song_index]:
-			return name
+	for name1 in song_dict.keys():
+		if song_dict[name1] == song_list[current_song_index]:
+			return name1
 			
 func toggle_loop():
 	if loop:
