@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://j8wjyveybhv6"]
+
+[ext_resource type="Texture2D" uid="uid://ccgeme4jjj33d" path="res://creature_assets/Basic Monster Animations/Crimson Slaad/CrimsonSlaad.png" id="1_tb3ge"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xohjb"]
+atlas = ExtResource("1_tb3ge")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g06vv"]
+atlas = ExtResource("1_tb3ge")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35iyj"]
+atlas = ExtResource("1_tb3ge")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e08x1"]
+atlas = ExtResource("1_tb3ge")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c6lai"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xohjb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g06vv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_35iyj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e08x1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Crimson Block" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-9.53674e-07, 0.5)
+scale = Vector2(4.375, 5.0625)
+sprite_frames = SubResource("SpriteFrames_c6lai")
+animation = &"idle"
+frame = 3
+frame_progress = 0.40189
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(-2, -23, 2, -23, 2, -29, 6, -32, 10, -28, 13, -28, 15, -32, 19, -27, 25, -19, 25, -7, 30, -4, 30, 19, 26, 24, 26, 33, 30, 41, -35, 41, -35, 33, -31, 33, -31, 28, -34, 28, -34, -17, -31, -17, -31, -21, -28, -21, -28, -26, -24, -26, -20, -31, -16, -27, -15, -23, -11, -23, -10, -28, -6, -32)
