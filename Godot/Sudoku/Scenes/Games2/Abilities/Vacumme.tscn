@@ -30,7 +30,7 @@ polygon = PackedVector2Array(0.0401658, 0.124479, 2.72303, -5.90281, 3.02675, -6
 metadata/_edit_lock_ = true
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.15
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

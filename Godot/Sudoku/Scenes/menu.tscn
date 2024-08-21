@@ -85,6 +85,18 @@ theme_override_styles/pressed = ExtResource("4_f34eg")
 theme_override_styles/focus = SubResource("StyleBoxFlat_thntw")
 text = "Hang Man"
 
+[node name="Sucker" type="Button" parent="VBoxContainer"]
+modulate = Color(0.886275, 0.47451, 0.847059, 1)
+layout_mode = 2
+theme_override_constants/h_separation = 21
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = ExtResource("2_51y25")
+theme_override_styles/hover = ExtResource("3_i4cna")
+theme_override_styles/pressed = ExtResource("4_f34eg")
+theme_override_styles/focus = SubResource("StyleBoxFlat_thntw")
+text = "Mine Sucker"
+
 [connection signal="pressed" from="VBoxContainer/SudokuButton" to="." method="_on_sudoku_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/CostFinder" to="." method="_on_cost_finder_pressed"]
 [connection signal="pressed" from="VBoxContainer/HangMan" to="." method="_on_hang_man_pressed"]
+[connection signal="pressed" from="VBoxContainer/Sucker" to="." method="_on_sucker_pressed"]

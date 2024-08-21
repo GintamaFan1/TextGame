@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://dro4ngj5uwbn7"]
+
+[ext_resource type="Script" path="res://Scenes/Games2/Enemies/worm_enemy.gd" id="1_hnt5u"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tips2"]
+
+[sub_resource type="Gradient" id="Gradient_b41v0"]
+offsets = PackedFloat32Array(0.227273, 0.753247)
+colors = PackedColorArray(0.948965, 0.377631, 0.600272, 1, 0.794501, 0.368321, 0.325245, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_takio"]
+gradient = SubResource("Gradient_b41v0")
+use_hdr = true
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qthp4"]
+radius = 5.0
+height = 32.0
+
+[node name="WormEnemy" type="Area2D"]
+light_mask = 64
+visibility_layer = 32
+rotation = 1.5708
+collision_layer = 64
+collision_mask = 32
+script = ExtResource("1_hnt5u")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(9.75, 16.25)
+mesh = SubResource("CapsuleMesh_tips2")
+texture = SubResource("GradientTexture1D_takio")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_qthp4")
+
+[connection signal="area_shape_entered" from="." to="." method="_on_area_shape_entered"]

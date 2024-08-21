@@ -1,0 +1,122 @@
+[gd_scene load_steps=6 format=3 uid="uid://cl0es342a1bok"]
+
+[ext_resource type="PackedScene" uid="uid://fr17mpaix5fj" path="res://Scenes/Games2/Stage/DefaultStage.tscn" id="1_kpvh1"]
+[ext_resource type="Script" path="res://Scenes/Games2/Stage/stage_2.gd" id="2_nea1k"]
+[ext_resource type="PackedScene" uid="uid://cpknghny72850" path="res://Scenes/Games2/Train/train.tscn" id="3_5wv11"]
+[ext_resource type="PackedScene" uid="uid://brii4kuelo3ec" path="res://Scenes/Games2/Enemies/enemy_trigger.tscn" id="4_em1ep"]
+
+[sub_resource type="Curve2D" id="Curve2D_np37t"]
+bake_interval = 200.0
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2, 121, 0, 0, 0, 0, 223.322, 101.455, 0, 0, 0, 0, 310.134, 130.279, 0, 0, 0, 0, 333.983, 167.47, 0, 0, 0, 0, 398, 194, 0, 0, 0, 0, 461, 179, 0, 0, 0, 0, 534, 116, 0, 0, 0, 0, 582, 81, 0, 0, 0, 0, 688, 81, 0, 0, 0, 0, 798, 101, 0, 0, 0, 0, 939.757, 130.279, 0, 0, 0, 0, 1091, 113, 0, 0, 0, 0, 1227, 98, 0, 0, 0, 0, 1363, 106, 0, 0, 0, 0, 1484, 103, 0, 0, 0, 0, 1602, 108, 0, 0, 0, 0, 1690, 141, 0, 0, 0, 0, 1753, 146, 0, 0, 0, 0, 1794, 184, 0, 0, 0, 0, 1801, 250, 0, 0, 0, 0, 1804, 320, 0, 0, 0, 0, 1816, 393, 0, 0, 0, 0, 1826, 532, 0, 0, 0, 0, 1786, 685, 0, 0, 0, 0, 1600, 696, 0, 0, 0, 0, 1456, 580, 0, 0, 0, 0, 1335, 370, 0, 0, 0, 0, 1171, 353, 0, 0, 0, 0, 1063, 363, 0, 0, 0, 0, 808, 315, 0, 0, 0, 0, 592, 307, 0, 0, 0, 0, 423, 328, 0, 0, 0, 0, 302, 370, 0, 0, 0, 0, 216, 476, 0, 0, 0, 0, 179, 605, 0, 0, 0, 0, 161, 683, 0, 0, 0, 0, 173, 804, 0, 0, 0, 0, 209, 905, 0, 0, 0, 0, 274, 978, 0, 0, 0, 0, 476.126, 989.404, 0, 0, 0, 0, 629.715, 996.842, 0, 0, 0, 0, 824, 990, 0, 0, 0, 0, 939.757, 1011.26, 0, 0, 0, 0, 1174, 963, 0, 0, 0, 0, 1322.3, 839.708, 0, 0, 0, 0, 1370, 636.084, 0, 0, 0, 0, 1194.47, 483.599, 0, 0, 0, 0, 831, 426, 0, 0, 0, 0, 740, 433, 0, 0, 0, 0, 625, 461, 0, 0, 0, 0, 556, 544, 0, 0, 0, 0, 549, 638, 0, 0, 0, 0, 564, 743, 0, 0, 0, 0, 637, 791, 0, 0, 0, 0, 773, 799, 0, 0, 0, 0, 897, 799, 0, 0, 0, 0, 990, 746, 0, 0, 0, 0, 990, 585)
+}
+point_count = 58
+
+[node name="Stage2" instance=ExtResource("1_kpvh1")]
+script = ExtResource("2_nea1k")
+
+[node name="Speed85Enemies" parent="." index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Speed85-1" type="Marker2D" parent="Speed85Enemies" index="0"]
+position = Vector2(2053, 132)
+
+[node name="Speed85-2" type="Marker2D" parent="Speed85Enemies" index="1"]
+position = Vector2(-677, 623)
+
+[node name="Speed85-3" type="Marker2D" parent="Speed85Enemies" index="2"]
+position = Vector2(2187, 643)
+
+[node name="Speed85-4" type="Marker2D" parent="Speed85Enemies" index="3"]
+position = Vector2(-231, 518)
+
+[node name="Speed85-5" type="Marker2D" parent="Speed85Enemies" index="4"]
+position = Vector2(2715, 722)
+
+[node name="Speed135Enemies" parent="." index="1"]
+metadata/_edit_lock_ = true
+
+[node name="Speed135-1" type="Marker2D" parent="Speed135Enemies" index="0"]
+position = Vector2(-839, 132)
+
+[node name="Speed135-2" type="Marker2D" parent="Speed135Enemies" index="1"]
+position = Vector2(-99, 617)
+
+[node name="Speed135-3" type="Marker2D" parent="Speed135Enemies" index="2"]
+position = Vector2(2289, 946)
+
+[node name="Speed135-4" type="Marker2D" parent="Speed135Enemies" index="3"]
+position = Vector2(-1109, 483)
+
+[node name="Speed135-5" type="Marker2D" parent="Speed135Enemies" index="4"]
+position = Vector2(-1741, 720)
+
+[node name="Speed45Enemies" parent="." index="2"]
+metadata/_edit_lock_ = true
+
+[node name="Speed45-1" type="Marker2D" parent="Speed45Enemies" index="0"]
+position = Vector2(-444, 360)
+
+[node name="Speed45-2" type="Marker2D" parent="Speed45Enemies" index="1"]
+position = Vector2(2373, 539)
+
+[node name="Speed45-3" type="Marker2D" parent="Speed45Enemies" index="2"]
+position = Vector2(-958, 473)
+
+[node name="Speed45-4" type="Marker2D" parent="Speed45Enemies" index="3"]
+position = Vector2(2197, 467)
+
+[node name="Speed45-5" type="Marker2D" parent="Speed45Enemies" index="4"]
+position = Vector2(2342, 801)
+
+[node name="Speed45-6" type="Marker2D" parent="Speed45Enemies" index="5"]
+position = Vector2(2823, 579)
+
+[node name="ItemGenerator" parent="." index="3"]
+metadata/_edit_lock_ = true
+
+[node name="TrainHandler" parent="." index="4"]
+metadata/_edit_lock_ = true
+
+[node name="TrainTracks" type="Path2D" parent="TrainHandler" index="0"]
+position = Vector2(-0.0372808, 3.76646)
+scale = Vector2(1.01864, 0.9535)
+curve = SubResource("Curve2D_np37t")
+
+[node name="Conductor" type="PathFollow2D" parent="TrainHandler/TrainTracks" index="0"]
+position = Vector2(2, 121)
+rotation = -0.0880817
+
+[node name="Train" parent="TrainHandler/TrainTracks/Conductor" index="0" instance=ExtResource("3_5wv11")]
+
+[node name="EnemyTriggers" type="Node2D" parent="." index="5"]
+metadata/_edit_lock_ = true
+
+[node name="EnemyTrigger" parent="EnemyTriggers" index="0" instance=ExtResource("4_em1ep")]
+position = Vector2(475, 169)
+
+[node name="EnemyTrigger2" parent="EnemyTriggers" index="1" instance=ExtResource("4_em1ep")]
+position = Vector2(1839, 220)
+
+[node name="EnemyTrigger3" parent="EnemyTriggers" index="2" instance=ExtResource("4_em1ep")]
+position = Vector2(163, 656)
+
+[node name="EnemyTrigger4" parent="EnemyTriggers" index="3" instance=ExtResource("4_em1ep")]
+position = Vector2(1230, 905)
+
+[node name="BlueDroppers" type="Node2D" parent="." index="6"]
+
+[node name="BlueDropper-1" type="Marker2D" parent="BlueDroppers" index="0"]
+position = Vector2(1017, -125)
+
+[node name="BlueDropper-2" type="Marker2D" parent="BlueDroppers" index="1"]
+position = Vector2(1829, -20)
+
+[node name="BlueDropper-3" type="Marker2D" parent="BlueDroppers" index="2"]
+position = Vector2(1183, -308)
+
+[connection signal="game_won" from="TrainHandler/TrainTracks/Conductor/Train" to="." method="_on_train_game_won"]
+[connection signal="area_shape_entered" from="EnemyTriggers/EnemyTrigger" to="." method="_on_enemy_trigger_area_shape_entered"]
+[connection signal="area_shape_entered" from="EnemyTriggers/EnemyTrigger2" to="." method="_on_enemy_trigger_2_area_shape_entered"]
+[connection signal="area_shape_entered" from="EnemyTriggers/EnemyTrigger3" to="." method="_on_enemy_trigger_3_area_shape_entered"]
+[connection signal="area_shape_entered" from="EnemyTriggers/EnemyTrigger4" to="." method="_on_enemy_trigger_4_area_shape_entered"]

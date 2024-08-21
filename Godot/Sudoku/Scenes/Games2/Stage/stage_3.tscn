@@ -1,0 +1,135 @@
+[gd_scene load_steps=8 format=3 uid="uid://bqq6r2gihheuf"]
+
+[ext_resource type="PackedScene" uid="uid://fr17mpaix5fj" path="res://Scenes/Games2/Stage/DefaultStage.tscn" id="1_2k1h4"]
+[ext_resource type="Script" path="res://Scenes/Games2/Stage/stage_3.gd" id="2_j3lxr"]
+[ext_resource type="PackedScene" uid="uid://cpknghny72850" path="res://Scenes/Games2/Train/train.tscn" id="2_j6m3b"]
+[ext_resource type="PackedScene" uid="uid://brii4kuelo3ec" path="res://Scenes/Games2/Enemies/enemy_trigger.tscn" id="4_bqjdr"]
+[ext_resource type="PackedScene" uid="uid://dro4ngj5uwbn7" path="res://Scenes/Games2/Enemies/worm_enemy.tscn" id="5_wpvlj"]
+
+[sub_resource type="Curve2D" id="Curve2D_o03kk"]
+bake_interval = 200.0
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2, 728, 0, 0, 0, 0, 83, 602, 0, 0, 0, 0, 100, 494, 0, 0, 0, 0, 126, 393, 0, 0, 0, 0, 163, 318, 0, 0, 0, 0, 204, 275, 0, 0, 0, 0, 269, 260, 0, 0, 0, 0, 317, 277, 0, 0, 0, 0, 368, 335, 0, 0, 0, 0, 403, 436, 0, 0, 0, 0, 418, 532, 0, 0, 0, 0, 441, 635, 0, 0, 0, 0, 471, 794, 0, 0, 0, 0, 524, 890, 0, 0, 0, 0, 587, 937, 0, 0, 0, 0, 715, 963, 0, 0, 0, 0, 831, 922, 0, 0, 0, 0, 892, 827, 0, 0, 0, 0, 932, 718, 0, 0, 0, 0, 960, 572, 0, 0, 0, 0, 970, 451, 0, 0, 0, 0, 970, 345, 0, 0, 0, 0, 970, 217, 0, 0, 0, 0, 1033, 124, 0, 0, 0, 0, 1111, 58, 0, 0, 0, 0, 1219, 43, 0, 0, 0, 0, 1310, 66, 0, 0, 0, 0, 1388, 161, 0, 0, 0, 0, 1403, 302, 0, 0, 0, 0, 1403, 428, 0, 0, 0, 0, 1411, 532, 0, 0, 0, 0, 1416, 620, 0, 0, 0, 0, 1411, 728, 0, 0, 0, 0, 1438, 827, 0, 0, 0, 0, 1529, 819, 0, 0, 0, 0, 1602, 736, 0, 0, 0, 0, 1620, 580, 0, 0, 0, 0, 1645, 398, 0, 0, 0, 0, 1680, 282, 0, 0, 0, 0, 1774, 358, 0, 0, 0, 0, 1826, 466, 0, 0, 0, 0, 1837, 582, 0, 0, 0, 0, 1837, 733, 0, 0, 0, 0, 1794, 882, 0, 0, 0, 0, 1640, 978, 0, 0, 0, 0, 1501, 1005, 0, 0, 0, 0, 1355, 995, 0, 0, 0, 0, 1232, 925, 0, 0, 0, 0, 1129, 779, 0, 0, 0, 0, 1093, 592)
+}
+point_count = 50
+
+[sub_resource type="Curve2D" id="Curve2D_7ebk8"]
+bake_interval = 100.0
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2351, 134, 0, 0, 0, 0, 2001, 139, 0, 0, 0, 0, 1655, 173, 0, 0, 0, 0, 1251, 196, 0, 0, 0, 0, 940, 354, 0, 0, 0, 0, 847, 572, 0, 0, 0, 0, 733, 993, 0, 0, 0, 0, 582, 1290, 0, 0, 0, 0, 279, 1344, 0, 0, 0, 0, -26, 1209, 0, 0, 0, 0, -176, 930, 0, 0, 0, 0, -212, 445, 0, 0, 0, 0, -68, 181, 0, 0, 0, 0, 528, 190, 0, 0, 0, 0, 1295, 316, 0, 0, 0, 0, 1547, 454, 0, 0, 0, 0, 1730, 834, 0, 0, 0, 0, 2035, 1239)
+}
+point_count = 18
+
+[node name="Stage3" instance=ExtResource("1_2k1h4")]
+script = ExtResource("2_j3lxr")
+metadata/_edit_lock_ = true
+
+[node name="Speed85Enemies" parent="." index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Speed85-1" type="Marker2D" parent="Speed85Enemies" index="0"]
+position = Vector2(2556, 673)
+
+[node name="Speed85-2" type="Marker2D" parent="Speed85Enemies" index="1"]
+position = Vector2(-675, 609)
+
+[node name="Speed85-3" type="Marker2D" parent="Speed85Enemies" index="2"]
+position = Vector2(2311, 337)
+
+[node name="Speed85-4" type="Marker2D" parent="Speed85Enemies" index="3"]
+position = Vector2(-192, 856)
+
+[node name="Speed135Enemies" parent="." index="1"]
+metadata/_edit_lock_ = true
+
+[node name="Speed135-1" type="Marker2D" parent="Speed135Enemies" index="0"]
+position = Vector2(2674, 940)
+
+[node name="Speed135-2" type="Marker2D" parent="Speed135Enemies" index="1"]
+position = Vector2(2722, 600)
+
+[node name="Speed135-3" type="Marker2D" parent="Speed135Enemies" index="2"]
+position = Vector2(3758, 719)
+
+[node name="Speed135-4" type="Marker2D" parent="Speed135Enemies" index="3"]
+position = Vector2(3290, 782)
+
+[node name="Speed45Enemies" parent="." index="2"]
+metadata/_edit_lock_ = true
+
+[node name="Speed45-1" type="Marker2D" parent="Speed45Enemies" index="0"]
+position = Vector2(-440, 734)
+
+[node name="Speed45-2" type="Marker2D" parent="Speed45Enemies" index="1"]
+position = Vector2(2397, 594)
+
+[node name="Speed45-3" type="Marker2D" parent="Speed45Enemies" index="2"]
+position = Vector2(-299, 448)
+
+[node name="Speed45-4" type="Marker2D" parent="Speed45Enemies" index="3"]
+position = Vector2(-98, 695)
+
+[node name="ItemGenerator" parent="." index="3"]
+metadata/_edit_lock_ = true
+
+[node name="TrainHandler" parent="." index="4"]
+metadata/_edit_lock_ = true
+
+[node name="TrainTracks" type="Path2D" parent="TrainHandler" index="0"]
+curve = SubResource("Curve2D_o03kk")
+metadata/_edit_lock_ = true
+
+[node name="Conductor" type="PathFollow2D" parent="TrainHandler/TrainTracks" index="0"]
+position = Vector2(2, 728)
+rotation = -0.999459
+metadata/_edit_lock_ = true
+
+[node name="Train" parent="TrainHandler/TrainTracks/Conductor" index="0" instance=ExtResource("2_j6m3b")]
+
+[node name="EnemyTriggers" type="Node2D" parent="." index="5"]
+metadata/_edit_lock_ = true
+
+[node name="EnemyTrigger" parent="EnemyTriggers" index="0" instance=ExtResource("4_bqjdr")]
+position = Vector2(243, 271)
+
+[node name="EnemyTrigger2" parent="EnemyTriggers" index="1" instance=ExtResource("4_bqjdr")]
+position = Vector2(770, 951)
+
+[node name="EnemyTrigger3" parent="EnemyTriggers" index="2" instance=ExtResource("4_bqjdr")]
+position = Vector2(1378, 149)
+
+[node name="EnemyTrigger4" parent="EnemyTriggers" index="3" instance=ExtResource("4_bqjdr")]
+position = Vector2(1841, 555)
+
+[node name="BlueDroppers" type="Node2D" parent="." index="6"]
+metadata/_edit_lock_ = true
+
+[node name="BlueDropper-1" type="Marker2D" parent="BlueDroppers" index="0"]
+position = Vector2(451, -510)
+
+[node name="BlueDropper-2" type="Marker2D" parent="BlueDroppers" index="1"]
+position = Vector2(996, -370)
+
+[node name="BlueDropper-3" type="Marker2D" parent="BlueDroppers" index="2"]
+position = Vector2(1421, -870)
+
+[node name="BlueDropper-4" type="Marker2D" parent="BlueDroppers" index="3"]
+position = Vector2(1120, -1421)
+
+[node name="WormPath" type="Node2D" parent="." index="7"]
+
+[node name="WormTracks" type="Path2D" parent="WormPath" index="0"]
+curve = SubResource("Curve2D_7ebk8")
+
+[node name="WormConductor" type="PathFollow2D" parent="WormPath/WormTracks" index="0"]
+position = Vector2(2351, 134)
+rotation = 3.12731
+loop = false
+
+[node name="WormEnemy" parent="WormPath/WormTracks/WormConductor" index="0" instance=ExtResource("5_wpvlj")]
+
+[connection signal="game_won" from="TrainHandler/TrainTracks/Conductor/Train" to="." method="_on_train_game_won"]
+[connection signal="area_shape_entered" from="EnemyTriggers/EnemyTrigger" to="." method="_on_enemy_trigger_area_shape_entered"]
+[connection signal="area_shape_entered" from="EnemyTriggers/EnemyTrigger2" to="." method="_on_enemy_trigger_2_area_shape_entered"]
+[connection signal="area_shape_entered" from="EnemyTriggers/EnemyTrigger3" to="." method="_on_enemy_trigger_3_area_shape_entered"]
+[connection signal="area_shape_entered" from="EnemyTriggers/EnemyTrigger4" to="." method="_on_enemy_trigger_4_area_shape_entered"]

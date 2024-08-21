@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2lav3tqmuu8v"]
+[gd_scene load_steps=7 format=3 uid="uid://c2lav3tqmuu8v"]
 
 [ext_resource type="Script" path="res://Scenes/Games2/Enemies/character.gd" id="1_eok0m"]
 
@@ -16,7 +16,10 @@ fill_from = Vector2(0.899083, 0.536697)
 repeat = 1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_266ej"]
-radius = 49.0408
+radius = 48.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ltmc"]
+radius = 49.0
 
 [node name="Character" type="CharacterBody2D"]
 visibility_layer = 47
@@ -39,7 +42,7 @@ shape = SubResource("CircleShape2D_266ej")
 visibility_layer = 14
 collision_mask = 14
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_266ej")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_4ltmc")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -21,7 +21,7 @@ mesh = ExtResource("1_n7jkr")
 polygon = PackedVector2Array(0, 0, 90, -36, 94, -30, 96, -20, 96, 22, 94, 29, 90, 37)
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.15
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

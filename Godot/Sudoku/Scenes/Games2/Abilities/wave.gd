@@ -38,7 +38,13 @@ func _on_timer_timeout():
 func _on_body_entered(body):
 	
 	if body.name != "Character":
-		body.slow()
+		if body.has_node("AnimationPlayer"):
+			var player = body.get_node("AnimationPlayer")
+			if player:
+				if player.speed_scale == body.starting_speed:
+					
+					body.slow()
+			
 		entered_body.append(body)
 	
 
@@ -46,5 +52,9 @@ func _on_body_entered(body):
 
 func _on_body_exited(body):
 	if body.name != "Character":
-		body.unslow()
+		if body.has_node("AnimationPlayer"):
+			var player = body.get_node("AnimationPlayer")
+			if player:
+				if player.speed_scale != body.starting_speed:
+					body.unslow()
 		entered_body.erase(body)

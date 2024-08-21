@@ -1,0 +1,68 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch7xv0hj2s81s"]
+
+[ext_resource type="Script" path="res://Scenes/Games2/UI/stage_selector.gd" id="1_nlwk5"]
+
+[node name="StageSelector" type="Control"]
+layout_mode = 3
+anchor_left = 0.002
+anchor_right = 1.0
+anchor_bottom = 0.684
+offset_left = -0.84
+offset_bottom = 2.27997
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nlwk5")
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color(1, 1, 1, 0.0156863)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Stage1Button" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Stage 1"
+
+[node name="Stage2Button" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Stage 2"
+
+[node name="Stage3Button" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Stage 3"
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.047
+anchor_right = 0.5
+anchor_bottom = 0.047
+offset_left = -91.0
+offset_top = -22.76
+offset_right = 99.0
+offset_bottom = 11.24
+grow_horizontal = 2
+text = "Choose A Stage: "
+
+[connection signal="pressed" from="Panel/VBoxContainer/Stage1Button" to="." method="_on_stage_1_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Stage2Button" to="." method="_on_stage_2_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Stage3Button" to="." method="_on_stage_3_button_pressed"]

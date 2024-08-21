@@ -1,14 +1,16 @@
 extends Node2D
 
-
 var test_speed = Sucker.test_speed
+var worm_speed: float = 2.2 * test_speed
 var original_train_speed: float = 1.2
 var train_speed: float = 1.2 * test_speed
+var summon_worm2 = false
 var enemy_tally = 1
 var game_won = null
 var scene_path = "res://Scenes/Games2/Stage/stage_1.tscn"
 @onready var character_scene: PackedScene = preload("res://Scenes/Games2/Enemies/character.tscn")
 @onready var red_enemy_scene: PackedScene = preload("res://Scenes/Games2/Enemies/red_enemy.tscn")
+@onready var blue_enemy_scene: PackedScene = preload("res://Scenes/Games2/Enemies/blue_enemy.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,7 +19,7 @@ func _ready():
 		hbox.show()
 	
 	var curve: Curve2D = $TrainHandler/TrainTracks.get_curve()
-	var last_point: Vector2 = curve.get_point_position(5)
+	var last_point: Vector2 = curve.get_point_position(49)
 	var character = character_scene.instantiate()
 	character.position = last_point
 	add_child(character)
@@ -30,15 +32,19 @@ func _ready():
 	var items = get_tree().get_nodes_in_group("items")
 	for child in items:
 		child.queue_free()
-	Sucker.code_executed = false
 	
+	Sucker.code_executed = false
 	character.game_won.connect(_character_lost)
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(delta):
 	$TrainHandler/TrainTracks/Conductor.progress += train_speed 
 	
+	if summon_worm2 == true:
+		summon_worm()
+	
 	if game_won == true and Sucker.code_executed == false:
-		
 		Sucker.game_over_info.clear()
 		Sucker.game_over_info = {
 			"game_won" : true,
@@ -50,7 +56,6 @@ func _process(_delta):
 		Sucker.update_score()
 		Sucker.get_highscore()
 		Sucker.code_executed = true
-		
 	elif game_won == false and Sucker.code_executed == false:
 		Sucker.game_over_info.clear()
 		Sucker.game_over_info = {
@@ -61,30 +66,7 @@ func _process(_delta):
 		Sucker.selected_stage_path = "res://Scenes/Games2/UI/round_end.tscn"
 		Sucker.update_score()
 		Sucker.get_highscore()
-		
 		Sucker.code_executed = true
-
-func first_wave():
-	var usuable_markers: Array = [$Speed85Enemies/Marker2D, $Speed135Enemies/Marker2D,$Speed45Enemies/Marker2D3,
-	 $Speed45Enemies/Marker2D,$Speed45Enemies/Marker2D2,$Speed135Enemies/Marker2D4]
-	
-	summon_enemies(usuable_markers)
-	
-func second_wave():
-	var usuble_markers: Array = [$Speed45Enemies/Marker2D2,$Speed135Enemies/Marker2D3,
-	 $Speed135Enemies/Marker2D2,$Speed85Enemies/Marker2D2,$Speed85Enemies/Marker2D3 ]
-		
-	summon_enemies(usuble_markers)
-	
-func third_wave():
-	var usuable_markers: Array = [
-		$Speed45Enemies/Marker2D5,$Speed45Enemies/Marker2D4,$Speed85Enemies/Marker2D4,$Speed85Enemies/Marker2D,
-		
-	]
-	summon_enemies(usuable_markers)
-
-func _on_enemy_trigger_area_shape_entered(_area_rid, _area, _area_shape_index, _local_shape_index):
-	first_wave()
 
 func summon_enemies(list):
 	
@@ -93,21 +75,15 @@ func summon_enemies(list):
 		red.position = marker.position
 		red.name = "red_enemy" + str(enemy_tally)
 		if marker.get_parent().name == "Speed135Enemies":
-			red.speed = (135 * test_speed)
+			red.speed = 135 * test_speed
 		elif marker.get_parent().name == "Speed85Enemies":
 			red.speed = 85 * test_speed
 		elif marker.get_parent().name == "Speed45Enemies":
 			red.speed = 45 * test_speed
 		get_tree().root.call_deferred("add_child",red)
 		enemy_tally += 1
-	
 
-
-func _on_enemy_trigger_2_area_shape_entered(_area_rid, _area, _area_shape_index, _local_shape_index):
-	second_wave()
-
-
-func _on_train_game_won(result):
+func _character_lost(result):
 	if result == true and Sucker.code_executed == false:
 		DisplayMessage.display_alert_message("You've Completed this Level!", "Notice")
 		game_won = true
@@ -115,15 +91,81 @@ func _on_train_game_won(result):
 		DisplayMessage.display_alert_message("You've Lost,Try Again", "Notice")
 		game_won = false
 
-
-func _on_enemy_trigger_3_area_shape_entered(_area_rid, _area, _area_shape_index, _local_shape_index):
-	third_wave()
-
-func _character_lost(result):
+func summon_dropper(list):
+	for marker in list:
+		var blue = blue_enemy_scene.instantiate()
+		
+		blue.position = marker.position
+		blue.name = "blue_enemy" + str(enemy_tally)
+		enemy_tally += 1
+		
+		get_tree().root.call_deferred("add_child", blue)
+	
+func _on_train_game_won(result):
 	if result == true:
 		DisplayMessage.display_alert_message("You've Completed this Level!", "Notice")
 		game_won = true
 	else:
 		DisplayMessage.display_alert_message("You've Lost,Try Again", "Notice")
 		game_won = false
+
+
+func first_wave():
+	var markers: Array = [$"Speed85Enemies/Speed85-1",$"Speed135Enemies/Speed135-1",
+	$"Speed45Enemies/Speed45-1",$"Speed135Enemies/Speed135-3",$"Speed45Enemies/Speed45-4" ]
 	
+	var droppers: Array = [$"BlueDroppers/BlueDropper-1",$"BlueDroppers/BlueDropper-4" ]
+	
+	summon_enemies(markers)
+	summon_dropper(droppers)
+
+func second_wave():
+	var markers: Array = [$"Speed85Enemies/Speed85-2",$"Speed135Enemies/Speed135-2",
+	$"Speed45Enemies/Speed45-2",$"Speed45Enemies/Speed45-1",$"Speed135Enemies/Speed135-3",
+	$"Speed85Enemies/Speed85-3"  ]
+	
+	var droppers: Array = [$"BlueDroppers/BlueDropper-2",$"BlueDroppers/BlueDropper-3"]
+	
+	summon_enemies(markers)
+	summon_dropper(droppers)
+
+func third_wave():
+	var markers: Array = [$"Speed85Enemies/Speed85-3",$"Speed135Enemies/Speed135-3",
+	 $"Speed45Enemies/Speed45-3",$"Speed85Enemies/Speed85-1", $"Speed135Enemies/Speed135-1",
+	$"Speed85Enemies/Speed85-4",$"Speed45Enemies/Speed45-1"  ]
+	
+	var droppers: Array = [$"BlueDroppers/BlueDropper-3",$"BlueDroppers/BlueDropper-1" ]
+	
+	summon_enemies(markers)
+	summon_dropper(droppers)
+
+func fourth_wave():
+	var markers: Array = [$"Speed85Enemies/Speed85-4",$"Speed135Enemies/Speed135-4",
+	$"Speed45Enemies/Speed45-4",$"Speed85Enemies/Speed85-2", $"Speed45Enemies/Speed45-3",
+	 $"Speed135Enemies/Speed135-1", $"Speed135Enemies/Speed135-2"]
+	
+	var droppers: Array = [$"BlueDroppers/BlueDropper-4", $"BlueDroppers/BlueDropper-2"]
+	
+	summon_enemies(markers)
+	summon_dropper(droppers)
+
+func summon_worm():
+	$WormPath/WormTracks/WormConductor.progress += worm_speed
+	
+func _on_enemy_trigger_area_shape_entered(_area_rid, _area, _area_shape_index, _local_shape_index):
+	first_wave()
+	summon_worm2 = true
+
+
+func _on_enemy_trigger_2_area_shape_entered(_area_rid, _area, _area_shape_index, _local_shape_index):
+	second_wave()
+
+
+
+func _on_enemy_trigger_3_area_shape_entered(_area_rid, _area, _area_shape_index, _local_shape_index):
+	third_wave()
+
+
+func _on_enemy_trigger_4_area_shape_entered(_area_rid, _area, _area_shape_index, _local_shape_index):
+	fourth_wave()
+

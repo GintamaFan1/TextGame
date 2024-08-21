@@ -1,5 +1,5 @@
 extends Area2D
-
+signal game_won(result)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -8,7 +8,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	pass
+	if Sucker.train_health <= 0:
+		game_won.emit(false)
 
 
 func _on_body_entered(body):
@@ -16,4 +17,8 @@ func _on_body_entered(body):
 		Sucker.train_health -= Sucker.ENEMY_DAMAGE
 		body.explode()
 	
-	print(body)
+	if body.name == "Character":
+		game_won.emit(true)
+	
+	
+	
