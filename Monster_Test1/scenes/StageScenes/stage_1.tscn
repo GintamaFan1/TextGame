@@ -1,11 +1,49 @@
-[gd_scene format=3 uid="uid://b63jxul2ww6ed"]
+[gd_scene load_steps=3 format=3 uid="uid://b63jxul2ww6ed"]
+
+[ext_resource type="Script" path="res://scenes/StageScenes/stage_1.gd" id="1_3bftm"]
+[ext_resource type="Texture2D" uid="uid://cy3d3nflj2kbt" path="res://BackGrounds/03_original.png" id="1_iwkpk"]
 
 [node name="Stage1" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1440.0
-offset_bottom = -1080.0
+offset_left = -180.0
+offset_top = -180.0
+offset_right = -1260.0
+offset_bottom = -900.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_3bftm")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+show_behind_parent = true
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+offset_left = 174.0
+offset_top = 179.0
+offset_right = 1258.0
+offset_bottom = 899.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_iwkpk")
+metadata/_edit_lock_ = true
+
+[node name="Area2D" type="StaticBody2D" parent="TextureRect"]
+disable_mode = 2
+collision_layer = 2
+metadata/_edit_lock_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TextureRect/Area2D"]
+polygon = PackedVector2Array(1011, 398, 961, 470, 885, 537, 828, 568, 787, 533, 732, 579, 467, 593, 355, 578, 313, 553, 309, 260, 122, 258, 127, 640, 1048, 618, 1052, 242, 1011, 242)
+metadata/_edit_lock_ = true
+
+[node name="MarkersNode" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Position1" type="Marker2D" parent="MarkersNode"]
+position = Vector2(574, 735)
+
+[node name="Position2" type="Marker2D" parent="MarkersNode"]
+position = Vector2(1025, 699)

@@ -1,0 +1,95 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Sudoku"
+run/main_scene="res://Scenes/main_ui.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+
+SceneManager="*res://addons/awesome_scene_manager/autoloads/SceneManager.tscn"
+DisplayMessage="*res://auto_load2/error_message.gd"
+UpdateResources="*res://auto_load2/update_resources.gd"
+AudioManager="*res://auto_load2/AudioManager.gd"
+Sucker="*res://auto_load2/Sucker.gd"
+BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="viewport"
+window/handheld/orientation=4
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/GameGUI/plugin.cfg", "res://addons/awesome_scene_manager/plugin.cfg", "res://addons/better-terrain/plugin.cfg", "res://addons/complex_shape_creation/plugin.cfg")
+
+[gui]
+
+theme/custom="res://Themes/Universal_label_theme/new_theme.tres"
+
+[input]
+
+Click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(656, 22),"global_position":Vector2(664, 102),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+Drag={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"button_mask":1,"position":Vector2(254, 19),"global_position":Vector2(262, 99),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+scroll={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":8,"position":Vector2(249, 56),"global_position":Vector2(257, 136),"factor":1.0,"button_index":4,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+"scroll down"={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":16,"position":Vector2(378, 28),"global_position":Vector2(386, 108),"factor":1.0,"button_index":5,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+R_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(217, 16),"global_position":Vector2(221, 57),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+
+[layer_names]
+
+2d_render/layer_1="player"
+2d_render/layer_2="enemy"
+2d_render/layer_3="stage_object"
+2d_render/layer_4="item_object"
+2d_render/layer_5="character_ability"
+2d_render/layer_6="train"
+2d_render/layer_7="worm"
+2d_physics/layer_1="player"
+2d_physics/layer_2="enemy"
+2d_physics/layer_3="stage_object"
+2d_physics/layer_4="item_object"
+2d_physics/layer_5="character_ability"
+2d_physics/layer_6="train"
+2d_physics/layer_7="worm"
+
+[physics]
+
+2d/default_gravity=150.0
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

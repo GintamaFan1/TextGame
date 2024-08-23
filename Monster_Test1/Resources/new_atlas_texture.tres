@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://ypn2r3xr0oif"]
+
+[ext_resource type="Texture2D" uid="uid://ojodxrv2fs3h" path="res://Resources/new_gradient_texture_2d.tres" id="1_d1jw7"]
+
+[resource]
+atlas = ExtResource("1_d1jw7")
+region = Rect2(12, 12, 12, 12)

@@ -1,0 +1,164 @@
+[gd_scene load_steps=20 format=3 uid="uid://nfmr0r76fq1m"]
+
+[ext_resource type="PackedScene" uid="uid://dv68syrvdg4wp" path="res://scenes/Monster Scenes/default_monster.tscn" id="1_k6eq2"]
+[ext_resource type="Script" path="res://scenes/Monster Scenes/red_crimson.gd" id="1_mt23p"]
+[ext_resource type="Texture2D" uid="uid://ccgeme4jjj33d" path="res://creature_assets/Basic Monster Animations/Crimson Slaad/CrimsonSlaad.png" id="2_7niun"]
+[ext_resource type="Texture2D" uid="uid://0g6uxwgpvi64" path="res://tiles/sprites/flame-thrower.png" id="4_rchfi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a4fvu"]
+atlas = ExtResource("2_7niun")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_opki0"]
+atlas = ExtResource("2_7niun")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdr71"]
+atlas = ExtResource("2_7niun")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k7kt3"]
+atlas = ExtResource("2_7niun")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lwbt4"]
+atlas = ExtResource("2_7niun")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lveid"]
+atlas = ExtResource("2_7niun")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ysdu"]
+atlas = ExtResource("2_7niun")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dpckp"]
+atlas = ExtResource("2_7niun")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hwvoe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a4fvu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_opki0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_opki0")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bdr71")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k7kt3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lwbt4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lveid")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ysdu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dpckp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dpckp")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_htbhe"]
+atlas = ExtResource("4_rchfi")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oi0bm"]
+atlas = ExtResource("4_rchfi")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ug2t"]
+atlas = ExtResource("4_rchfi")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mscbb"]
+atlas = ExtResource("4_rchfi")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2i4h"]
+atlas = ExtResource("4_rchfi")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hhal1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_htbhe")
+}],
+"loop": false,
+"name": &"begin",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oi0bm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ug2t")
+}],
+"loop": false,
+"name": &"end",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mscbb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2i4h")
+}],
+"loop": false,
+"name": &"middle",
+"speed": 5.0
+}]
+
+[node name="RedCrimson" instance=ExtResource("1_k6eq2")]
+script = ExtResource("1_mt23p")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(-2.08616e-07, -0.500002)
+sprite_frames = SubResource("SpriteFrames_hwvoe")
+metadata/_edit_lock_ = true
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="." index="2"]
+position = Vector2(50, -2)
+scale = Vector2(9.1875, 2.9375)
+sprite_frames = SubResource("SpriteFrames_hhal1")
+animation = &"end"
+
+[node name="Area2D" type="Area2D" parent="AnimatedSprite2D2" index="0"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AnimatedSprite2D2/Area2D" index="0"]
+polygon = PackedVector2Array(-5.33333, -1.02128, -1.95918, -3.74468, -0.32653, -5.78723, 0.653061, -4.42553, 1.95918, -5.78723, 2.72109, -8.17021, 5.33333, -7.48936, 8.05442, -7.48936, 8.38095, -0.680851, 5.65986, 3.40426, 2.61224, 4.08511, -3.91837, 3.06383)
+
+[node name="CollisionPolygon2D" parent="." index="3"]
+visible = false
+polygon = PackedVector2Array(-1, 32, -26, 31, -27, 27, -24, 26, -25, 21, -28, 19, -28, -16, -15, -29, -13, -23, -9, -24, -5, -29, -2, -24, 2, -25, 6, -30, 9, -24, 13, -30, 22, -17, 21, -10, 24, -8, 24, 15, 21, 17, 21, 24, 25, 27, 25, 31)
+
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]

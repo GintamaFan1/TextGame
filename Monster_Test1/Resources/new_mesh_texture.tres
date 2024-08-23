@@ -1,0 +1,14 @@
+[gd_resource type="MeshTexture" load_steps=3 format=3 uid="uid://dgenljl3os1al"]
+
+[ext_resource type="Texture2D" uid="uid://ojodxrv2fs3h" path="res://Resources/new_gradient_texture_2d.tres" id="1_3lsx4"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_p565v"]
+radius = 5.0
+height = 5.0
+radial_segments = 70
+rings = 38
+
+[resource]
+mesh = SubResource("SphereMesh_p565v")
+base_texture = ExtResource("1_3lsx4")
+image_size = Vector2(32, 32)

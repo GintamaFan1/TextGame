@@ -1,0 +1,184 @@
+[gd_scene load_steps=16 format=3 uid="uid://64ag1obm23hv"]
+
+[ext_resource type="Script" path="res://Scenes/Games2/UI/SuckerUI.gd" id="1_ct3we"]
+
+[sub_resource type="Gradient" id="Gradient_dq68k"]
+offsets = PackedFloat32Array(0, 0.901408)
+colors = PackedColorArray(0, 0, 0, 1, 0.246184, 0.697646, 0.694717, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ifjdk"]
+gradient = SubResource("Gradient_dq68k")
+width = 300
+height = 24
+use_hdr = true
+fill_to = Vector2(0.320388, 1)
+
+[sub_resource type="Gradient" id="Gradient_2mds0"]
+offsets = PackedFloat32Array(0, 0.950704)
+colors = PackedColorArray(0, 0, 0, 1, 0.413361, 0.755524, 0.73409, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2ewv3"]
+gradient = SubResource("Gradient_2mds0")
+width = 300
+height = 24
+use_hdr = true
+fill_to = Vector2(0.00485437, 0)
+
+[sub_resource type="Gradient" id="Gradient_754y8"]
+offsets = PackedFloat32Array(0, 0.78169)
+colors = PackedColorArray(0, 0, 0, 1, 0.969433, 0.587247, 0.32879, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6ean5"]
+gradient = SubResource("Gradient_754y8")
+width = 300
+height = 24
+use_hdr = true
+fill_to = Vector2(0.441748, 0.606796)
+
+[sub_resource type="Gradient" id="Gradient_66nx5"]
+offsets = PackedFloat32Array(0, 0.978873)
+colors = PackedColorArray(0, 0, 0, 1, 0.571563, 0.290897, 0.624115, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ogtv0"]
+gradient = SubResource("Gradient_66nx5")
+width = 300
+height = 24
+use_hdr = true
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0.34466, 0.227549)
+
+[sub_resource type="Gradient" id="Gradient_gygv7"]
+offsets = PackedFloat32Array(0, 0.978873)
+colors = PackedColorArray(0, 0, 0, 1, 0.850907, 0.263305, 0.256138, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hdw1y"]
+gradient = SubResource("Gradient_gygv7")
+width = 300
+height = 24
+fill_to = Vector2(0.364078, 0.568871)
+
+[sub_resource type="Gradient" id="Gradient_05ios"]
+offsets = PackedFloat32Array(0, 0.732394)
+colors = PackedColorArray(0, 0, 0, 1, 0.344395, 0.554769, 0.911751, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_52o0o"]
+gradient = SubResource("Gradient_05ios")
+width = 300
+height = 24
+use_hdr = true
+fill_to = Vector2(0.669903, 0.606796)
+
+[sub_resource type="Animation" id="Animation_y7wji"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.0588235, 0.0588235, 0.0588235, 0.937255), Color(0.0588235, 0.0588235, 0.0588235, 0.545098), Color(0.0588235, 0.0588235, 0.0588235, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r2b04"]
+_data = {
+"fade_in": SubResource("Animation_y7wji")
+}
+
+[node name="SuckerUI" type="CanvasLayer"]
+script = ExtResource("1_ct3we")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.002
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.16
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control" groups=["bars"]]
+visible = false
+modulate = Color(1, 1, 1, 0.286275)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.157
+anchor_top = 0.932
+anchor_right = 0.157
+anchor_bottom = 0.932
+offset_left = -302.812
+offset_top = -117.424
+offset_right = 301.188
+offset_bottom = 10.5759
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthContainer" type="VBoxContainer" parent="Control/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 2
+
+[node name="CharacterHealthLabel" type="Label" parent="Control/HBoxContainer/HealthContainer"]
+layout_mode = 2
+text = "Character Health:"
+
+[node name="CharacterHealthBar" type="TextureProgressBar" parent="Control/HBoxContainer/HealthContainer"]
+layout_mode = 2
+texture_under = SubResource("GradientTexture2D_ifjdk")
+texture_progress = SubResource("GradientTexture2D_2ewv3")
+
+[node name="TrainHealthLabel" type="Label" parent="Control/HBoxContainer/HealthContainer"]
+layout_mode = 2
+text = "Train Health:"
+
+[node name="TrainHealthBar" type="TextureProgressBar" parent="Control/HBoxContainer/HealthContainer"]
+layout_mode = 2
+max_value = 200.0
+texture_under = SubResource("GradientTexture2D_6ean5")
+texture_progress = SubResource("GradientTexture2D_ogtv0")
+
+[node name="AbilityContainer" type="VBoxContainer" parent="Control/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="LungCapacityLabel" type="Label" parent="Control/HBoxContainer/AbilityContainer"]
+layout_mode = 2
+text = "Lung Capacity"
+
+[node name="LungCapicityBar" type="TextureProgressBar" parent="Control/HBoxContainer/AbilityContainer"]
+layout_mode = 2
+max_value = 120.0
+texture_under = SubResource("GradientTexture2D_hdw1y")
+texture_progress = SubResource("GradientTexture2D_52o0o")
+
+[node name="SceneContainer" type="Panel" parent="Control" groups=["scene_container"]]
+self_modulate = Color(1, 1, 1, 0.0156863)
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_bottom = 3.0
+grow_horizontal = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_right = 1927.0
+offset_bottom = 1076.0
+color = Color(0.0588235, 0.0588235, 0.0588235, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ColorRect"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_r2b04")
+}
+autoplay = "fade_in"
+speed_scale = 0.5
+
+[connection signal="animation_finished" from="ColorRect/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="animation_started" from="ColorRect/AnimationPlayer" to="." method="_on_animation_player_animation_started"]

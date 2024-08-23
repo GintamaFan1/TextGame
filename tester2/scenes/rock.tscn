@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://cwo1142t21jet"]
+
+[ext_resource type="Script" path="res://rock.gd" id="1_ynli2"]
+[ext_resource type="Texture2D" uid="uid://5syppcbuiu5f" path="res://PixelPen/sprites/rock1.png" id="2_ip5qn"]
+[ext_resource type="PackedScene" uid="uid://ubnb6ka8a74j" path="res://scenes/components/health_component.tscn" id="3_totjc"]
+[ext_resource type="PackedScene" uid="uid://b1fawvlsjo335" path="res://scenes/components/hitbox_component.tscn" id="4_ebk1h"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6q8si"]
+polygon = PackedVector2Array(-6, 8, -9, 1, -2, -4, 6, -1, 8, 7)
+
+[node name="Rock" type="StaticBody2D"]
+light_mask = 10
+visibility_layer = 63
+collision_layer = 10
+collision_mask = 63
+script = ExtResource("1_ynli2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ip5qn")
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_totjc")]
+
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_ebk1h")]
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxComponent"]
+visible = false
+light_mask = 10
+visibility_layer = 49
+polygon = PackedVector2Array(-8, -6, -8, -8, 7, -8, 7, -7, 8, -7, 8, -5, 7, -5, 7, -3, 6, -3, 6, -1, 8, -1, 8, 8, -6, 8, -6, 7, -7, 7, -7, 5, -8, 5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(-7, -8, 8, -8, 8, 8, -6, 8, -8, 5, -8, -6)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+light_mask = 8
+visibility_layer = 63
+occluder = SubResource("OccluderPolygon2D_6q8si")
+occluder_light_mask = 63

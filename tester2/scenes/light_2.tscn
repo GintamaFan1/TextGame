@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dctopfp7wfrbm"]
+
+[node name="light2" type="DirectionalLight2D"]
+light_mask = 32
+visibility_layer = 31
+position = Vector2(1, -5)
+scale = Vector2(3.85938, 3.48438)
+range_item_cull_mask = 31
+shadow_enabled = true
+shadow_item_cull_mask = 31

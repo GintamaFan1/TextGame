@@ -1,0 +1,39 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Tester2"
+run/main_scene="res://addons/net.yarvis.pixel_pen/editor/editor_main_ui.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/GameGUI/plugin.cfg", "res://addons/area_of_sight_2d/plugin.cfg", "res://addons/better-terrain/plugin.cfg", "res://addons/complex_shape_creation/plugin.cfg", "res://addons/goutte.animated_shape_2d/plugin.cfg", "res://addons/multi_touchscreenbutton/plugin.cfg", "res://addons/net.yarvis.pixel_pen/plugin.cfg", "res://addons/softbody2d/plugin.cfg")
+
+[layer_names]
+
+2d_render/layer_1="character"
+2d_render/layer_2="objects"
+2d_render/layer_3="stage"
+2d_render/layer_4="stage_objects"
+2d_render/layer_5="enemies"
+2d_render/layer_6="lights"
+2d_physics/layer_1="character"
+2d_physics/layer_2="objects"
+2d_physics/layer_3="stage"
+2d_physics/layer_4="stage_objects"
+2d_physics/layer_5="enemies"
+2d_physics/layer_6="light"

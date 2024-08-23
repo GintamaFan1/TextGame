@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://dv68syrvdg4wp"]
+
+[ext_resource type="PackedScene" uid="uid://w1xdc7c6cha7" path="res://scenes/Components/health_component.tscn" id="1_87tkg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r0y1m"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="DefaultMonster" type="CharacterBody2D"]
+visibility_layer = 3
+collision_mask = 3
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -0.499999)
+scale = Vector2(3.5, 3.9375)
+sprite_frames = SubResource("SpriteFrames_r0y1m")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="HealthComponent" parent="." instance=ExtResource("1_87tkg")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(0, 5.96046e-08)

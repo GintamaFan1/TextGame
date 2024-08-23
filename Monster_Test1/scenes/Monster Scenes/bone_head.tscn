@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=3 uid="uid://244ireo01tnr"]
+
+[ext_resource type="PackedScene" uid="uid://dv68syrvdg4wp" path="res://scenes/Monster Scenes/default_monster.tscn" id="1_dgvar"]
+[ext_resource type="Texture2D" uid="uid://bwpje182q33r6" path="res://creature_assets/Basic Monster Animations/Blinded Grimlock/BlindedGrimlock.png" id="2_jcxa0"]
+[ext_resource type="Script" path="res://scenes/Monster Scenes/bone_head.gd" id="2_lcivi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l1x53"]
+atlas = ExtResource("2_jcxa0")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tg21g"]
+atlas = ExtResource("2_jcxa0")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e5yeu"]
+atlas = ExtResource("2_jcxa0")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0f6a6"]
+atlas = ExtResource("2_jcxa0")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jy6yh"]
+atlas = ExtResource("2_jcxa0")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5psk"]
+atlas = ExtResource("2_jcxa0")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p64es"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l1x53")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tg21g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e5yeu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0f6a6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jy6yh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5psk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5psk")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="BoneHead" instance=ExtResource("1_dgvar")]
+script = ExtResource("2_lcivi")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_p64es")
+
+[node name="CollisionPolygon2D" parent="." index="2"]
+visible = false
+polygon = PackedVector2Array(-7, 31, -21, 31, -21, 18, -28, 11, -28, -6, -23, -12, -12, -25, -6, -25, 4, -17, 3, -8, 9, -1, 11, -7, 7, -15, 10, -21, 24, -21, 26, -13, 22, -6, 22, 9, 24, 16, 21, 19, 10, 19, 8, 13, 5, 15, 8, 21, 3, 25, 9, 31)

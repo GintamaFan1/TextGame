@@ -1,0 +1,96 @@
+[gd_scene load_steps=16 format=3 uid="uid://cektst8lacq8m"]
+
+[ext_resource type="Script" path="res://scenes/character.gd" id="1_0462x"]
+[ext_resource type="Texture2D" uid="uid://b4ct7ojsycuxe" path="res://PixelPen/sprites/character-idle2.png" id="1_lv53i"]
+[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/animated_shape_2d.gd" id="2_4j3ca"]
+[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="3_c0lvs"]
+[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="4_lpqmt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h2wjf"]
+atlas = ExtResource("1_lv53i")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1njk"]
+atlas = ExtResource("1_lv53i")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2gom"]
+atlas = ExtResource("1_lv53i")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggnva"]
+atlas = ExtResource("1_lv53i")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ly25j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h2wjf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u1njk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2gom")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggnva")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qfeuc"]
+radius = 7.0
+height = 20.0
+
+[sub_resource type="Resource" id="Resource_j3gcf"]
+script = ExtResource("3_c0lvs")
+position = Vector2(1, -1)
+disabled = false
+shape = SubResource("CapsuleShape2D_qfeuc")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Resource" id="Resource_6osfw"]
+script = ExtResource("4_lpqmt")
+data = {
+"idle": [null, null, SubResource("Resource_j3gcf")]
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ybdhr"]
+radius = 8.0
+height = 24.0
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_0fr6m"]
+polygon = PackedVector2Array(-7, 3, -5, -3, 2, -4, 2, -8, 2, -13, 6, -13, 8, -11, 9, -1, 8, 10, 4, 10, 4, 9, -6, 9)
+
+[node name="Character" type="CharacterBody2D"]
+visibility_layer = 63
+collision_mask = 63
+script = ExtResource("1_0462x")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ly25j")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.927842
+
+[node name="AnimatedShape2D" type="Node" parent="." node_paths=PackedStringArray("animated_sprite", "collision_shape")]
+script = ExtResource("2_4j3ca")
+animated_sprite = NodePath("../AnimatedSprite2D")
+collision_shape = NodePath("../CollisionShape2D")
+shape_frames = SubResource("Resource_6osfw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_ybdhr")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+visibility_layer = 63
+occluder = SubResource("OccluderPolygon2D_0fr6m")
+occluder_light_mask = 32
