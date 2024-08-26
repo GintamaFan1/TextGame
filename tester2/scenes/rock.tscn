@@ -6,26 +6,31 @@
 [ext_resource type="PackedScene" uid="uid://b1fawvlsjo335" path="res://scenes/components/hitbox_component.tscn" id="4_ebk1h"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6q8si"]
-polygon = PackedVector2Array(-6, 8, -9, 1, -2, -4, 6, -1, 8, 7)
+polygon = PackedVector2Array(8, 8, -6, 8, -6, 7, -7, 7, -7, 5, -8, 5, -8, -7, -7, -7, -7, -8, 6, -8, 6, -7, 8, -7, 8, -5, 7, -5, 7, -3, 6, -3, 6, -1, 7, -1, 7, 0, 8, 0)
 
 [node name="Rock" type="StaticBody2D"]
-light_mask = 10
+light_mask = 32
 visibility_layer = 63
 collision_layer = 10
 collision_mask = 63
 script = ExtResource("1_ynli2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+light_mask = 32
+visibility_layer = 63
 texture = ExtResource("2_ip5qn")
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_totjc")]
+MAX_HEALTH = 40.0
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_ebk1h")]
+light_mask = 32
+visibility_layer = 63
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxComponent"]
 visible = false
-light_mask = 10
+light_mask = 32
 visibility_layer = 49
 polygon = PackedVector2Array(-8, -6, -8, -8, 7, -8, 7, -7, 8, -7, 8, -5, 7, -5, 7, -3, 6, -3, 6, -1, 8, -1, 8, 8, -6, 8, -6, 7, -7, 7, -7, 5, -8, 5)
 
@@ -34,8 +39,8 @@ visible = false
 polygon = PackedVector2Array(-7, -8, 8, -8, 8, 8, -6, 8, -8, 5, -8, -6)
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-visible = false
-light_mask = 8
+show_behind_parent = true
+light_mask = 32
 visibility_layer = 63
 occluder = SubResource("OccluderPolygon2D_6q8si")
-occluder_light_mask = 63
+occluder_light_mask = 32

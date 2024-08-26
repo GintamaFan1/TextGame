@@ -4,3 +4,9 @@
 
 [node name="HitboxComponent" type="Area2D"]
 script = ExtResource("1_ylwa8")
+
+[node name="vulnerability" type="Timer" parent="."]
+wait_time = 0.754
+one_shot = true
+
+[connection signal="timeout" from="vulnerability" to="." method="_on_vulnerability_timeout"]
