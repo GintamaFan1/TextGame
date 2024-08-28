@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=4 uid="uid://b3nbafqpj5qwo"]
+[gd_scene load_steps=7 format=4 uid="uid://b3nbafqpj5qwo"]
 
 [ext_resource type="Script" path="res://scenes/level.gd" id="1_sm4m7"]
 [ext_resource type="Texture2D" uid="uid://jrjm7v0vungs" path="res://assets/tilemaps/multi tiles1-ju8mble.png" id="2_qa6n4"]
 [ext_resource type="PackedScene" uid="uid://clnx5hisbnxyv" path="res://scenes/light.tscn" id="2_vkhfu"]
 [ext_resource type="PackedScene" uid="uid://cwo1142t21jet" path="res://scenes/rock.tscn" id="4_xfgcy"]
-[ext_resource type="PackedScene" uid="uid://cf5x07yej7cv6" path="res://scenes/canvas_layer.tscn" id="5_ijf4n"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tteno"]
 texture = ExtResource("2_qa6n4")
@@ -100,5 +99,3 @@ position = Vector2(728, -330)
 
 [node name="Rock5" parent="rocks" instance=ExtResource("4_xfgcy")]
 position = Vector2(983, -36)
-
-[node name="UserUI" parent="." instance=ExtResource("5_ijf4n")]

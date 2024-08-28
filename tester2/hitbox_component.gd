@@ -19,7 +19,7 @@ func damage(attack:Attack):
 			if get_parent().has_node("AnimatedSprite2D"):
 				var sprite = get_parent().get_node("AnimatedSprite2D")
 				sprite.material.set_shader_parameter("progress", 1)
-					
+				
 			
 
 

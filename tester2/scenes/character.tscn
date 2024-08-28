@@ -1,14 +1,20 @@
-[gd_scene load_steps=23 format=3 uid="uid://cektst8lacq8m"]
+[gd_scene load_steps=27 format=3 uid="uid://cektst8lacq8m"]
 
 [ext_resource type="Script" path="res://scenes/character.gd" id="1_mla2i"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/animated_shape_2d.gd" id="2_4j3ca"]
 [ext_resource type="Texture2D" uid="uid://ptim3vf8dh6m" path="res://PixelPen/sprites/Character-Sprite1.png" id="2_ptah8"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="3_c0lvs"]
+[ext_resource type="Shader" path="res://themes/hit_shaders/character.gdshader" id="3_f4klc"]
 [ext_resource type="Texture2D" uid="uid://di53f8hx6inx2" path="res://PixelPen/sprites/character-sprite1-attack.png" id="3_vfeom"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="4_lpqmt"]
 [ext_resource type="Texture2D" uid="uid://drqo7fy2u4giy" path="res://PixelPen/sprites/longer_character1-slash.png" id="4_mda4f"]
 [ext_resource type="PackedScene" uid="uid://ubnb6ka8a74j" path="res://scenes/components/health_component.tscn" id="6_fwcjf"]
 [ext_resource type="PackedScene" uid="uid://b1fawvlsjo335" path="res://scenes/components/hitbox_component.tscn" id="7_eg0wc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s68n0"]
+shader = ExtResource("3_f4klc")
+shader_parameter/color = Color(0.689057, 0.191337, 0.82819, 1)
+shader_parameter/progress = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_glbt7"]
 atlas = ExtResource("3_vfeom")
@@ -72,26 +78,35 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qfeuc"]
-radius = 7.0
-height = 20.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4jsm8"]
+size = Vector2(34, 19)
 
 [sub_resource type="Resource" id="Resource_j3gcf"]
 script = ExtResource("3_c0lvs")
-position = Vector2(1, -1)
+position = Vector2(5, 1.5)
 disabled = false
-shape = SubResource("CapsuleShape2D_qfeuc")
+shape = SubResource("RectangleShape2D_4jsm8")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jfd52"]
+size = Vector2(27, 25)
+
+[sub_resource type="Resource" id="Resource_17p7j"]
+script = ExtResource("3_c0lvs")
+position = Vector2(2.5, 1.5)
+disabled = false
+shape = SubResource("RectangleShape2D_jfd52")
 debug_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Resource" id="Resource_6osfw"]
 script = ExtResource("4_lpqmt")
 data = {
-"idle": [null, null, SubResource("Resource_j3gcf")]
+"attack": [SubResource("Resource_17p7j"), SubResource("Resource_17p7j"), SubResource("Resource_17p7j"), SubResource("Resource_17p7j")],
+"idle": [SubResource("Resource_j3gcf"), SubResource("Resource_j3gcf"), SubResource("Resource_j3gcf")]
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ybdhr"]
-radius = 7.0
-height = 22.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gx0fn"]
+size = Vector2(15, 20)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_0fr6m"]
 polygon = PackedVector2Array(6, -10, 7, -8, 7, -5, 7, -3.0598e-07, 7, 4, 6, 7, 5, 7, 5, 10, 4, 11, 2, 12, 5.24537e-07, 12, -2, 12, -3, 12, -5, 10, -5, 8, -6, 5, -7, 3, -6, -1, -4, -3, 4, -3, 4, -6, 5, -9)
@@ -110,19 +125,18 @@ collision_mask = 26
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxComponent"]
-polygon = PackedVector2Array(5.00004, 9.99998, -2.99996, 12, -7.99997, 7.00003, -8.00002, -4.99997, -5.00003, -6.99998, 0.999978, -6, -10.0001, -17, -6.00008, -21, 0.99992, -22, 6.99992, -21, 12.9999, -17, 14, -13.0001, 5.00001, 3.99998, 3.00001, 3.99999, 2.00002, 4.99999)
+polygon = PackedVector2Array(7.00003, 8.99997, 2.00004, 12, -2.99996, 12, -3.99997, 8.00001, -6.99999, 2.00003, -5.00001, -2.99998, 2.99998, -5.00001, 0.999964, -10, 4.99996, -12, 7.99997, -9.00003, 8.99999, -2.00003, 9.00001, 3.99997, 6.00002, 5.99998)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 light_mask = 32
 visibility_layer = 63
+material = SubResource("ShaderMaterial_s68n0")
 position = Vector2(-1, -0.500001)
 rotation = 1.5708
 scale = Vector2(0.171875, 0.179688)
 sprite_frames = SubResource("SpriteFrames_ly25j")
-animation = &"attack"
+animation = &"idle"
 autoplay = "idle"
-frame = 3
-frame_progress = 0.266455
 
 [node name="AnimatedShape2D" type="Node" parent="." node_paths=PackedStringArray("animated_sprite", "collision_shape")]
 script = ExtResource("2_4j3ca")
@@ -131,9 +145,9 @@ collision_shape = NodePath("../CollisionShape2D")
 shape_frames = SubResource("Resource_6osfw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, -1)
+position = Vector2(-1.00001, 0.500002)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_ybdhr")
+shape = SubResource("RectangleShape2D_gx0fn")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(5, 5)
@@ -147,9 +161,9 @@ occluder = SubResource("OccluderPolygon2D_0fr6m")
 occluder_light_mask = 32
 
 [node name="HealthComponent" parent="." instance=ExtResource("6_fwcjf")]
+MAX_HEALTH = 200.0
 
 [node name="CrumbTimer" type="Timer" parent="."]
-wait_time = 1.5
+wait_time = 0.5
 
-[connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
 [connection signal="timeout" from="CrumbTimer" to="." method="_on_crumb_timer_timeout"]

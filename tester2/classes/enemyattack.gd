@@ -14,11 +14,12 @@ func Enter():
 	
 func Physics_Update(_delta: float):
 	var direction = player.global_position - enemy.global_position
-	
+	enemy.velocity = Vector2.ZERO
 	
 	animated_sprite.rotation = direction.angle()
 	
 	animated_sprite.play("attack")
+	enemy.attack(player)
 	await animated_sprite.animation_finished
 	
 	Transitioned.emit(self, "follow")

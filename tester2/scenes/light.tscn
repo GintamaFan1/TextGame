@@ -5,6 +5,8 @@
 [node name="light" type="PointLight2D"]
 light_mask = 32
 visibility_layer = 63
+position = Vector2(-6.00003, -4)
+scale = Vector2(6.1875, 5.53125)
 range_item_cull_mask = 32
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.537255)

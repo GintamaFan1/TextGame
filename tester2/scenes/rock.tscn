@@ -29,13 +29,15 @@ visibility_layer = 63
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxComponent"]
-visible = false
 light_mask = 32
 visibility_layer = 49
+position = Vector2(-2.98023e-07, -2.98023e-07)
+scale = Vector2(0.859375, 0.859375)
 polygon = PackedVector2Array(-8, -6, -8, -8, 7, -8, 7, -7, 8, -7, 8, -5, 7, -5, 7, -3, 6, -3, 6, -1, 8, -1, 8, 8, -6, 8, -6, 7, -7, 7, -7, 5, -8, 5)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-visible = false
+position = Vector2(5.96046e-07, -1.19209e-07)
+scale = Vector2(0.859375, 0.859375)
 polygon = PackedVector2Array(-7, -8, 8, -8, 8, 8, -6, 8, -8, 5, -8, -6)
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]

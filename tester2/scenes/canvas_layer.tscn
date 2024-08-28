@@ -1,0 +1,138 @@
+[gd_scene load_steps=10 format=3 uid="uid://cf5x07yej7cv6"]
+
+[ext_resource type="Script" path="res://addons/GameGUI/GGButton.gd" id="1_gj7qj"]
+[ext_resource type="Script" path="res://scenes/User_UI.gd" id="1_p0xj5"]
+[ext_resource type="Script" path="res://addons/GameGUI/GGHBox.gd" id="3_soovr"]
+
+[sub_resource type="Gradient" id="Gradient_jp2w0"]
+offsets = PackedFloat32Array(0, 0.401408)
+colors = PackedColorArray(0, 0, 0, 1, 0.824103, 0.343237, 0.50875, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nl7xy"]
+gradient = SubResource("Gradient_jp2w0")
+width = 256
+height = 24
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.524272, 0.533981)
+fill_to = Vector2(0.572816, 0.354369)
+
+[sub_resource type="Gradient" id="Gradient_7wa3b"]
+offsets = PackedFloat32Array(0, 0.373239)
+colors = PackedColorArray(0, 0, 0, 1, 0.269187, 0.599086, 0.548845, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1uwxd"]
+gradient = SubResource("Gradient_7wa3b")
+width = 256
+height = 24
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.524272, 0.533981)
+fill_to = Vector2(0.572816, 0.354369)
+
+[sub_resource type="Gradient" id="Gradient_uet5f"]
+offsets = PackedFloat32Array(0, 0.266234)
+colors = PackedColorArray(0, 0, 0, 1, 0.787714, 0.155267, 0.206528, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4brhc"]
+gradient = SubResource("Gradient_uet5f")
+width = 4
+height = 24
+
+[node name="UserUI" type="CanvasLayer"]
+script = ExtResource("1_p0xj5")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.028
+anchor_top = 0.038
+anchor_right = 0.028
+anchor_bottom = 0.038
+offset_left = -0.240002
+offset_top = -0.360003
+offset_right = 52.76
+offset_bottom = 30.64
+
+[node name="GGButton" type="Button" parent="Control/MarginContainer"]
+layout_mode = 2
+text = "Menu"
+script = ExtResource("1_gj7qj")
+is_configured = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.048
+anchor_top = 0.947
+anchor_right = 0.048
+anchor_bottom = 0.947
+offset_left = 0.16
+offset_top = -29.84
+offset_right = 259.16
+offset_bottom = 0.159973
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="GGHBox" type="Container" parent="Control/MarginContainer2"]
+layout_mode = 2
+script = ExtResource("3_soovr")
+layout_size = Vector2(1, 1)
+parameters = {
+"safe_area_bottom_margin": 0.0,
+"safe_area_left_margin": 0.0,
+"safe_area_right_margin": 0.0,
+"safe_area_top_margin": 0.0
+}
+
+[node name="CharacterHealthBar" type="TextureProgressBar" parent="Control/MarginContainer2/GGHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+texture_under = SubResource("GradientTexture2D_nl7xy")
+texture_progress = SubResource("GradientTexture2D_1uwxd")
+tint_over = Color(0.0685477, 0.750132, 0.863055, 1)
+
+[node name="MarginContainer3" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.886
+anchor_top = 0.902
+anchor_right = 0.886
+anchor_bottom = 0.902
+offset_left = -48.8801
+offset_top = -35.4401
+offset_right = 10.1199
+offset_bottom = 9.55994
+
+[node name="GGHBox" type="Container" parent="Control/MarginContainer3"]
+layout_mode = 2
+script = ExtResource("3_soovr")
+parameters = {
+"safe_area_bottom_margin": 0.0,
+"safe_area_left_margin": 0.0,
+"safe_area_right_margin": 0.0,
+"safe_area_top_margin": 0.0
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer3/GGHBox"]
+layout_mode = 2
+
+[node name="RedQuartzImage" type="TextureRect" parent="Control/MarginContainer3/GGHBox/VBoxContainer"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_4brhc")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/MarginContainer3/GGHBox"]
+layout_mode = 2
+
+[node name="RedQuartzLabel" type="Label" parent="Control/MarginContainer3/GGHBox/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2

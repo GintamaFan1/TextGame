@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://b4ct7ojsycuxe" path="res://PixelPen/sprites/character-idle2.png" id="1_g6317"]
 [ext_resource type="Script" path="res://scenes/ranger1.gd" id="1_m01uq"]
-[ext_resource type="Shader" path="res://scenes/enemy_1.gdshader" id="2_8ndbd"]
 [ext_resource type="PackedScene" uid="uid://ubnb6ka8a74j" path="res://scenes/components/health_component.tscn" id="2_70elp"]
+[ext_resource type="Shader" path="res://themes/hit_shaders/enemy_1.gdshader" id="2_lo0sc"]
 [ext_resource type="Texture2D" uid="uid://daac14eisodpl" path="res://PixelPen/sprites/character-attack2.png" id="2_qbwc5"]
 [ext_resource type="PackedScene" uid="uid://b1fawvlsjo335" path="res://scenes/components/hitbox_component.tscn" id="3_r8pht"]
 [ext_resource type="Texture2D" uid="uid://ck8dlr0a6rvmk" path="res://PixelPen/sprites/character-attack2part 2.png" id="3_sflj6"]
@@ -13,7 +13,7 @@
 [ext_resource type="Script" path="res://classes/enemyattack.gd" id="9_frsee"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_emgm6"]
-shader = ExtResource("2_8ndbd")
+shader = ExtResource("2_lo0sc")
 shader_parameter/color = Color(0.970058, 0.663219, 0.820549, 1)
 shader_parameter/progress = 0.0
 

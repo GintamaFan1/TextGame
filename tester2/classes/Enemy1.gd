@@ -6,7 +6,8 @@ var player: CharacterBody2D
 var player_seen : bool = false
 var crumb_seen: bool = false
 var crumb_direction: Vector2
-
+var player_direction: Vector2
+var is_stunned: bool = false
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
@@ -16,7 +17,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	move_and_collide(velocity * delta)
 	
-	var player_direction = player.global_position - global_position
+	if player:
+		var player_global_position = player.global_position
+		var enemy_global_position = global_position
+		player_direction = player_global_position - enemy_global_position
 	var crumb = get_tree().get_first_node_in_group("crumbs")
 	
 	if crumb:
@@ -40,7 +44,8 @@ func _physics_process(delta: float) -> void:
 	
 	
 	for ray in $Rays.get_children():
-		ray.rotation = player_direction.angle()
+		if player_direction:
+			ray.rotation = player_direction.angle()
 	
 	
 		if ray.get_collider() == player:
@@ -49,21 +54,25 @@ func _physics_process(delta: float) -> void:
 		else:
 			player_seen = false
 			
-	if player_seen or crumb_seen:
-		if $StateMachine.current_state is EnemyIdle:
-				$StateMachine.on_child_transition($StateMachine.current_state, "follow")
-	else:
+			
+	if is_stunned == false:
+		if player_seen or crumb_seen:
+			if $StateMachine.current_state is EnemyIdle:
+					$StateMachine.on_child_transition($StateMachine.current_state, "follow")
+		else:
+			if $StateMachine.current_state is EnemyFollow:
+					$StateMachine.on_child_transition($StateMachine.current_state, "idle")
+			
+			
 		if $StateMachine.current_state is EnemyFollow:
-				$StateMachine.on_child_transition($StateMachine.current_state, "idle")
+			if player_seen:
+				$AnimatedSprite2D.rotation = player_direction.angle()
+			elif crumb_seen:
+				if crumb_direction:
+					$AnimatedSprite2D.rotation = crumb_direction.angle()
+		else:
+			if velocity.length() > 0.1:
+				$AnimatedSprite2D.rotation = velocity.angle()
 		
-		
-	if $StateMachine.current_state is EnemyFollow:
-		if player_seen:
-			$AnimatedSprite2D.rotation = player_direction.angle()
-		elif crumb_seen:
-			if crumb_direction:
-				$AnimatedSprite2D.rotation = crumb_direction.angle()
-	else:
-		if velocity.length() > 0.1:
-			$AnimatedSprite2D.rotation = velocity.angle()
-		
+func attack(player):
+	pass

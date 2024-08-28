@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="BuildingBlocks" load_steps=2 format=3 uid="uid://dvq7nu2ru0m0y"]
+
+[ext_resource type="Script" path="res://Quartz/resource/materials.gd" id="1_gce18"]
+
+[resource]
+script = ExtResource("1_gce18")

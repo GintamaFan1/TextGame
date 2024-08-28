@@ -174,4 +174,3 @@ func _resolve_child_sizes( available_size:Vector2, limited:bool=false ):
 
 		# Apply the scale factor to the child
 		_resolve_child_size( child, floor( child.size * scale ), limited )
-

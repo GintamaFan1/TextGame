@@ -156,4 +156,3 @@ func _on_update_size():
 func request_layout():
 	var top = get_top_level_component()
 	if top: top.request_layout()
-

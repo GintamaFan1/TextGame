@@ -1,12 +1,19 @@
 extends CharacterBody2D
 
 
-const SPEED = 300.0
+const SPEED = 200.0
 const JUMP_VELOCITY = -400.0
 var attacking: bool = false
-
-var attack_damage = 10
+var knock_back: float = 100
+var attack_damage:float = 10
+var stun_time: float = 0.5
 var crumb_scene: PackedScene = preload("res://scenes/bread_crumb.tscn")
+var is_stunned: bool = false
+var slash = null
+var slash_scene: PackedScene = preload("res://scenes/slash.tscn")
+
+
+
 
 func _ready():
 	$CrumbTimer.start()
@@ -14,36 +21,41 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	
+	if slash == null:
+		slash = slash_scene.instantiate()
+		slash.hitbox_hit.connect(_slash_hit)
 	var direction = Input.get_vector("left","right","up","down")
-	position += direction * SPEED * delta
+	
+	if is_stunned == false:
+		position += direction * SPEED * delta
+	
+	
 	
 	move_and_collide(velocity * delta)
 	
 	look_at(get_global_mouse_position())
 	
-	if Input.is_action_pressed("basic_attack"):
+	if Input.is_action_pressed("basic_attack") and is_stunned == false:
 		$AnimatedSprite2D.play("attack")
-		attacking = true
-		await $AnimatedSprite2D.animation_finished
-		attacking = false
+		
+			
+		if $AnimatedSprite2D.frame > 1:
+			_attack(slash)
+		if $AnimatedSprite2D.frame == 3:
+			Input.action_release("basic_attack")
 
 	else:
 		$AnimatedSprite2D.play("idle")
-		attacking = false
-
-
-func _on_hitbox_component_body_entered(body: Node2D) -> void:
-	if body is Enemy1 and attacking == true:
 		
-		var enemy_hitbox = body.get_node("HitboxComponent")
+	
+	if Input.is_action_just_released("basic_attack"):
+		if slash != null:
+			slash.queue_free()
+	
+	
+
+	
 		
-		if enemy_hitbox:
-			var attack = Attack.new()
-			attack.attack_damage = attack_damage
-			attack.stun_time = 0
-			enemy_hitbox.damage(attack)
-			
-			
 
 
 func _on_crumb_timer_timeout() -> void:
@@ -63,3 +75,35 @@ func _on_crumb_timer_timeout() -> void:
 					break
 			
 			break
+
+func _slash_hit(body):
+	if attacking:
+		if body is Enemy1:
+			
+			var enemy_hitbox = body.get_node("HitboxComponent")
+			
+			if enemy_hitbox:
+				var attack = Attack.new()
+				attack.attack_damage = attack_damage
+				attack.stun_time = stun_time
+				attack.knock_back = knock_back 
+				attack.attacker = self
+				attack.attacked_enemy = body
+				enemy_hitbox.damage(attack)
+				
+		elif body is Objects:
+			var enemy_hitbox = body.get_node("HitboxComponent")
+			
+			if enemy_hitbox:
+				var attack = Attack.new()
+				attack.attack_damage = attack_damage
+				attack.stun_time = stun_time
+				attack.knock_back = knock_back 
+				attack.attacker = self
+				attack.attacked_object = body
+				enemy_hitbox.damage(attack)
+
+func _attack(slash):
+	attacking = true
+	if not has_node("slash") and slash != null:
+		add_child(slash)
