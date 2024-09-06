@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtppsr1t8htle"]
+
+[ext_resource type="Texture2D" uid="uid://ctdk1ojd4ills" path="res://assets/sprites/speckled-rust-bl/speckled-rust_roughness.png" id="1_1nyk7"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_rh1rm"]
+
+[node name="MeshInstance2D" type="MeshInstance2D"]
+self_modulate = Color(0.886262, 0.886261, 0.886262, 1)
+light_mask = 32
+visibility_layer = 63
+position = Vector2(-0.999996, -0.999996)
+scale = Vector2(47.0533, 47)
+mesh = SubResource("SphereMesh_rh1rm")
+texture = ExtResource("1_1nyk7")

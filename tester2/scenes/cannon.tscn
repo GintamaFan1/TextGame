@@ -1,0 +1,77 @@
+[gd_scene load_steps=10 format=3 uid="uid://bebn4khemotr1"]
+
+[ext_resource type="Script" path="res://scenes/cannon.gd" id="1_q2hnx"]
+[ext_resource type="Texture2D" uid="uid://cottcqj8brxn4" path="res://PixelPen/sprites/cannon.png" id="1_wv4gb"]
+[ext_resource type="Script" path="res://scenes/state_machine.gd" id="3_7o03q"]
+[ext_resource type="Script" path="res://classes/sentry_idle.gd" id="4_lbw84"]
+[ext_resource type="Script" path="res://classes/sentry_aim.gd" id="5_3p4xc"]
+[ext_resource type="Script" path="res://classes/sentryshoot.gd" id="6_haqrf"]
+[ext_resource type="Script" path="res://scenes/components/hitbox_component.gd" id="7_leth5"]
+[ext_resource type="PackedScene" uid="uid://ubnb6ka8a74j" path="res://scenes/components/health_component.tscn" id="8_krwm6"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ss3va"]
+polygon = PackedVector2Array(-8, -12, -3, -12, 0, -10, 3, -8, 3, -6, 14, -6, 15, -5, 15, 5, 14, 6, 3, 6, 1, 10, -3, 12, -8, 12, -13, 9, -16, 3, -16, -3, -15, -6, -12, -10)
+
+[node name="Cannon" type="StaticBody2D" groups=["game_events"]]
+light_mask = 32
+visibility_layer = 63
+rotation = 3.14159
+collision_layer = 18
+collision_mask = 63
+script = ExtResource("1_q2hnx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_wv4gb")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(14, 6, 15, 5, 15, -5, 14, -6, 3, -6, 3, -8, -1, -11, -3, -12, -8, -12, -12, -10, -15, -6, -16, -3, -16, 3, -13, 9, -8, 12, -3, 12, 1, 10, 3, 6)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+show_behind_parent = true
+light_mask = 32
+visibility_layer = 63
+rotation = 3.14159
+occluder = SubResource("OccluderPolygon2D_ss3va")
+occluder_light_mask = 32
+
+[node name="TrackingRay" type="Node2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="TrackingRay"]
+target_position = Vector2(-250, 1.00002)
+collision_mask = 13
+
+[node name="RayCast2D2" type="RayCast2D" parent="TrackingRay"]
+target_position = Vector2(-244, -22)
+collision_mask = 13
+
+[node name="RayCast2D3" type="RayCast2D" parent="TrackingRay"]
+target_position = Vector2(-239, 25)
+collision_mask = 13
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_7o03q")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("4_lbw84")
+enemy = NodePath("../..")
+
+[node name="Aim" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("5_3p4xc")
+enemy = NodePath("../..")
+
+[node name="Shoot" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("6_haqrf")
+enemy = NodePath("../..")
+
+[node name="HitboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component") groups=["game_events"]]
+script = ExtResource("7_leth5")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxComponent"]
+polygon = PackedVector2Array(-3.00002, 6.99999, -15, 5.99996, -15, -7.00004, -3.99998, -7.00001, 3.00003, -13, 9.00003, -12, 15, -5.99996, 16, 4.00004, 11, 11, 6.99997, 13, -3.04222e-05, 12)
+
+[node name="HealthComponent" parent="." instance=ExtResource("8_krwm6")]
+position = Vector2(1737.44, -1571.46)
+MAX_HEALTH = 10.0

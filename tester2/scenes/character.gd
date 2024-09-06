@@ -11,7 +11,7 @@ var crumb_scene: PackedScene = preload("res://scenes/bread_crumb.tscn")
 var is_stunned: bool = false
 var slash = null
 var slash_scene: PackedScene = preload("res://scenes/slash.tscn")
-
+var bag:Bag = Bag.new()
 
 
 
@@ -52,9 +52,21 @@ func _physics_process(delta: float) -> void:
 		if slash != null:
 			slash.queue_free()
 	
-	
+	if Input.is_action_just_pressed("scroll up"):
+		$Camera2D.zoom.x += 1
+		$Camera2D.zoom.x = clamp($Camera2D.zoom.x, 2, 7)
+		$Camera2D.zoom.y += 1
+		$Camera2D.zoom.y = clamp($Camera2D.zoom.y, 2, 7)
+		
+		
 
-	
+
+	if Input.is_action_just_pressed("scroll down"):
+		$Camera2D.zoom.x -= 1
+		$Camera2D.zoom.x = clamp($Camera2D.zoom.x, 2, 7)
+		$Camera2D.zoom.y -= 1
+		$Camera2D.zoom.y = clamp($Camera2D.zoom.y, 2, 7)
+
 		
 
 
@@ -102,8 +114,24 @@ func _slash_hit(body):
 				attack.attacker = self
 				attack.attacked_object = body
 				enemy_hitbox.damage(attack)
+		elif body is Enemy2:
+			var enemy_hitbox = body.get_node("HitboxComponent")
+			
+			if enemy_hitbox:
+				var attack = Attack.new()
+				attack.attack_damage = attack_damage
+				attack.stun_time = stun_time
+				attack.knock_back = knock_back 
+				attack.attacker = self
+				attack.attacked_enemy = body
+				enemy_hitbox.damage(attack)
+			
 
-func _attack(slash):
+func _attack(slash1):
 	attacking = true
-	if not has_node("slash") and slash != null:
-		add_child(slash)
+	if not has_node("slash") and slash1 != null:
+		add_child(slash1)
+
+	
+func on_pickup(item: Item):
+	bag.add_item(item)

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://jn8yveovj7mx"]
+
+[ext_resource type="Script" path="res://scenes/item_slot.gd" id="1_cot03"]
+
+[node name="ItemSlot" type="PanelContainer"]
+anchors_preset = -1
+anchor_right = 0.102
+anchor_bottom = 0.133
+offset_right = -0.160004
+offset_bottom = 0.239998
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cot03")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2

@@ -3,6 +3,8 @@ extends Node2D
 class_name Quartz
 
 signal materials_added
+@export var icon: Texture2D
+
 
 var area: Area2D
 func _ready():

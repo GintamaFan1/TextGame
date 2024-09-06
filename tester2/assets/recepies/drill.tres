@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Recepie" load_steps=5 format=3 uid="uid://dvnpnp5sejtde"]
+
+[ext_resource type="Script" path="res://classes/item.gd" id="1_wvuya"]
+[ext_resource type="Resource" uid="uid://baddl2km8uecy" path="res://assets/items/Machinary.tres" id="3_aj8yx"]
+[ext_resource type="Resource" uid="uid://bqoi6ylg5eqam" path="res://assets/items/drill.tres" id="3_ojnxv"]
+[ext_resource type="Script" path="res://classes/recepies.gd" id="4_pqrj5"]
+
+[resource]
+script = ExtResource("4_pqrj5")
+name = "Drill"
+ingridients = Array[ExtResource("1_wvuya")]([ExtResource("3_aj8yx"), ExtResource("3_aj8yx"), ExtResource("3_aj8yx")])
+results = Array[ExtResource("1_wvuya")]([ExtResource("3_ojnxv")])

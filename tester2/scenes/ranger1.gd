@@ -2,23 +2,23 @@ extends Enemy1
 class_name Ranger
 
 var attack_damage:float = 10
-var knock_back:float  = 100
+var knock_back:float  = 50
 var stun_time: float = .7
 
-func attack(player):
-	var attack = Attack.new()
+func attack(player1):
+	var attack1 = Attack.new()
 	
-	attack.attack_damage = attack_damage
-	attack.knock_back = knock_back
-	attack.stun_time = stun_time
-	attack.attacker = self
-	attack.attacked_enemy = player
+	attack1.attack_damage = attack_damage
+	attack1.knock_back = knock_back
+	attack1.stun_time = stun_time
+	attack1.attacker = self
+	attack1.attacked_enemy = player
 
-	if player.name == "Character":
-		if player.has_node("HitboxComponent"):
+	if player1.name == "Character":
+		if player1.has_node("HitboxComponent"):
 			var hitbox = player.get_node("HitboxComponent")
 			if hitbox:
-				hitbox.damage(attack)
+				hitbox.damage(attack1)
 	
 	
 

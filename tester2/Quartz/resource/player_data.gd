@@ -2,5 +2,7 @@ extends Resource
 
 class_name PlayerData
 
-var position: Vector2
-var health: float
+@export var position: Vector2
+@export var health: float
+@export var zoom: Vector2
+@export var save_data: Array[SavedData] = []

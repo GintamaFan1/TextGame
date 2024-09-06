@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://chkdbv1pvi5m3"]
+
+[ext_resource type="Texture2D" uid="uid://ctdk1ojd4ills" path="res://assets/sprites/speckled-rust-bl/speckled-rust_roughness.png" id="1_17fo5"]
+[ext_resource type="Script" path="res://scenes/cannonball.gd" id="1_dtjqa"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_8rkfm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ccn87"]
+radius = 8.0
+
+[sub_resource type="Curve" id="Curve_yer2x"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0, -257.143), 0.0, 0.0, 0, 0, Vector2(0.567416, -225.495), 0.0, 0.0, 0, 0, Vector2(0.769663, 185.934), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_ao8rn"]
+min_value = -500.0
+max_value = 500.0
+_data = [Vector2(0.0168539, 412.088), 0.0, 0.0, 0, 0, Vector2(0.516854, -269.231), 0.0, 0.0, 0, 0, Vector2(0.97191, -346.154), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_5spub"]
+max_value = 100.0
+_data = [Vector2(0.0337079, 17.5824), 0.0, 7.82417, 0, 0, Vector2(0.477528, 4.39561), 0.0, 0.0, 0, 0, Vector2(0.994382, 25.2747), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="CannonBall" type="Area2D" groups=["game_events"]]
+light_mask = 32
+visibility_layer = 63
+collision_layer = 16
+collision_mask = 15
+script = ExtResource("1_dtjqa")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+position = Vector2(5.96046e-07, 1.78814e-06)
+scale = Vector2(16.0181, 16)
+mesh = SubResource("SphereMesh_8rkfm")
+texture = ExtResource("1_17fo5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ccn87")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emission_shape = 1
+emission_sphere_radius = 11.34
+spread = 23.18
+gravity = Vector2(0, 100)
+angular_velocity_max = 43.64
+angular_velocity_curve = SubResource("Curve_yer2x")
+orbit_velocity_curve = SubResource("Curve_ao8rn")
+damping_max = 7.071
+damping_curve = SubResource("Curve_5spub")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

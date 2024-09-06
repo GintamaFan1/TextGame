@@ -1,14 +1,15 @@
 [gd_scene load_steps=2 format=3 uid="uid://clnx5hisbnxyv"]
 
-[ext_resource type="Texture2D" uid="uid://cdba1i1fbpv1m" path="res://PixelPen/sprites/light_circle1.png" id="2_3c8iy"]
+[ext_resource type="Texture2D" uid="uid://b1eiodafbr2f5" path="res://PixelPen/sprites/light_circle2.png" id="1_lscrf"]
 
 [node name="light" type="PointLight2D"]
 light_mask = 32
 visibility_layer = 63
 position = Vector2(-6.00003, -4)
 scale = Vector2(6.1875, 5.53125)
+energy = 1.5
 range_item_cull_mask = 32
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.537255)
 shadow_item_cull_mask = 32
-texture = ExtResource("2_3c8iy")
+texture = ExtResource("1_lscrf")

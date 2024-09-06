@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnapk4n2xt7fi"]
+
+[ext_resource type="Texture2D" uid="uid://c5pbrndoksq5e" path="res://PixelPen/sprites/Machinary.png" id="1_86fwb"]
+
+[node name="Machinary" type="Sprite2D"]
+texture = ExtResource("1_86fwb")

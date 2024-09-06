@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bco0xwr13gmmo"]
+
+[ext_resource type="Texture2D" uid="uid://bq42rvhd647yd" path="res://PixelPen/sprites/metal shard.png" id="1_swddc"]
+
+[node name="MetalShard" type="Sprite2D"]
+position = Vector2(7.5, -2)
+scale = Vector2(2.5625, 2.625)
+texture = ExtResource("1_swddc")

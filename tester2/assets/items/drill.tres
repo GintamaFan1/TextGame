@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://bqoi6ylg5eqam"]
+
+[ext_resource type="Texture2D" uid="uid://b5la2yctujn55" path="res://PixelPen/sprites/drill.png" id="1_h1kp4"]
+[ext_resource type="PackedScene" uid="uid://bhd75674s3vq6" path="res://scenes/drill.tscn" id="2_kmtjc"]
+[ext_resource type="Script" path="res://classes/item.gd" id="3_4eluf"]
+
+[resource]
+script = ExtResource("3_4eluf")
+name = "Drill"
+scene = ExtResource("2_kmtjc")
+icon = ExtResource("1_h1kp4")

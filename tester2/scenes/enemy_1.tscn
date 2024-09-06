@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://curt1qejcgww"]
+[gd_scene load_steps=28 format=3 uid="uid://curt1qejcgww"]
 
 [ext_resource type="Texture2D" uid="uid://b4ct7ojsycuxe" path="res://PixelPen/sprites/character-idle2.png" id="1_g6317"]
 [ext_resource type="Script" path="res://scenes/ranger1.gd" id="1_m01uq"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://classes/enemyidle.gd" id="6_pjeuw"]
 [ext_resource type="Script" path="res://classes/enemyfollow.gd" id="7_yt7tp"]
 [ext_resource type="Script" path="res://classes/enemyattack.gd" id="9_frsee"]
+[ext_resource type="PackedScene" uid="uid://bo7tafe43ljek" path="res://scenes/components/recharge_component.tscn" id="12_4lda2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_emgm6"]
 shader = ExtResource("2_lo0sc")
@@ -105,7 +106,7 @@ height = 24
 use_hdr = true
 fill_to = Vector2(0, 0.239316)
 
-[node name="Ranger1" type="CharacterBody2D" groups=["enemies"]]
+[node name="Ranger1" type="CharacterBody2D" groups=["enemies", "game_events"]]
 light_mask = 32
 visibility_layer = 63
 rotation = 1.5708
@@ -222,3 +223,7 @@ fill_mode = 3
 texture_under = SubResource("GradientTexture2D_d07oi")
 texture_progress = SubResource("GradientTexture2D_p8ptn")
 tint_progress = Color(0.38937, 0.84813, 0.530095, 1)
+
+[node name="RechargeComponent" parent="." node_paths=PackedStringArray("user") instance=ExtResource("12_4lda2")]
+wait_time = 1.7
+user = NodePath("..")

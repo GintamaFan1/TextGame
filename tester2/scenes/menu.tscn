@@ -1,0 +1,126 @@
+[gd_scene load_steps=2 format=3 uid="uid://bh3qmkclbnjlp"]
+
+[ext_resource type="Script" path="res://scenes/menu.gd" id="1_7xykh"]
+
+[node name="Menu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7xykh")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -204.0
+offset_right = 204.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SaveSlotLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Save SLot:"
+horizontal_alignment = 1
+
+[node name="SlotButton" type="OptionButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+selected = 0
+item_count = 4
+popup/item_0/text = "0"
+popup/item_1/text = "1"
+popup/item_1/id = 1
+popup/item_2/text = "2"
+popup/item_2/id = 2
+popup/item_3/text = "3"
+popup/item_3/id = 3
+
+[node name="SaveButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Save"
+
+[node name="LoadSlotLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Load SLot:"
+horizontal_alignment = 1
+
+[node name="SlotButton2" type="OptionButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+selected = 0
+item_count = 4
+popup/item_0/text = "0"
+popup/item_1/text = "1"
+popup/item_1/id = 1
+popup/item_2/text = "2"
+popup/item_2/id = 2
+popup/item_3/text = "3"
+popup/item_3/id = 3
+
+[node name="LoadButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Load"
+
+[node name="ExitButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Exit game"
+
+[node name="SlotButton3" type="OptionButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+selected = 0
+item_count = 4
+popup/item_0/text = "0"
+popup/item_1/text = "1"
+popup/item_1/id = 1
+popup/item_2/text = "2"
+popup/item_2/id = 2
+popup/item_3/text = "3"
+popup/item_3/id = 3
+
+[node name="DeleteButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Delete Save"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.944
+anchor_right = 0.5
+anchor_bottom = 0.944
+offset_left = -25.0
+offset_top = -18.6801
+offset_right = 25.0
+offset_bottom = 21.3199
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="CloseButton" type="Button" parent="Panel/VBoxContainer2"]
+layout_mode = 2
+text = "Close"
+
+[connection signal="pressed" from="Panel/VBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer2/CloseButton" to="." method="_on_close_button_pressed"]

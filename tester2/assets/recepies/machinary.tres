@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Recepie" load_steps=5 format=3 uid="uid://c07tj7b0qowbq"]
+
+[ext_resource type="Script" path="res://classes/item.gd" id="1_mlpwe"]
+[ext_resource type="Script" path="res://classes/recepies.gd" id="2_ou8lx"]
+[ext_resource type="Resource" uid="uid://ogf8nx5vleaj" path="res://assets/items/metal_shard.tres" id="2_pqpr6"]
+[ext_resource type="Resource" uid="uid://baddl2km8uecy" path="res://assets/items/Machinary.tres" id="3_cunhg"]
+
+[resource]
+script = ExtResource("2_ou8lx")
+name = "Machinary"
+ingridients = Array[ExtResource("1_mlpwe")]([ExtResource("2_pqpr6"), ExtResource("2_pqpr6"), ExtResource("2_pqpr6")])
+results = Array[ExtResource("1_mlpwe")]([ExtResource("3_cunhg")])

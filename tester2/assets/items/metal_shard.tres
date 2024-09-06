@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://ogf8nx5vleaj"]
+
+[ext_resource type="Script" path="res://classes/item.gd" id="1_8mog6"]
+[ext_resource type="Texture2D" uid="uid://bq42rvhd647yd" path="res://PixelPen/sprites/metal shard.png" id="1_nugo7"]
+[ext_resource type="PackedScene" uid="uid://bco0xwr13gmmo" path="res://scenes/metal_shard.tscn" id="2_3pvu4"]
+
+[resource]
+script = ExtResource("1_8mog6")
+name = "shard"
+scene = ExtResource("2_3pvu4")
+icon = ExtResource("1_nugo7")

@@ -20,8 +20,9 @@ func Physics_Update(_delta: float):
 	if enemy.is_stunned == false:
 		if direction.length() > 30:
 			enemy.velocity = direction.normalized() * move_speed
-		else:            
-			Transitioned.emit(self, "attack")
+		else:
+			if enemy.charging == false:            
+				Transitioned.emit(self, "attack")
 			
 		
 		if crumb:

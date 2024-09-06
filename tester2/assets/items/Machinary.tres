@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://baddl2km8uecy"]
+
+[ext_resource type="Script" path="res://classes/item.gd" id="1_kfj66"]
+[ext_resource type="Texture2D" uid="uid://c5pbrndoksq5e" path="res://PixelPen/sprites/Machinary.png" id="1_osyws"]
+[ext_resource type="PackedScene" uid="uid://cnapk4n2xt7fi" path="res://scenes/machinary.tscn" id="2_edrck"]
+
+[resource]
+script = ExtResource("1_kfj66")
+name = "Machinary"
+scene = ExtResource("2_edrck")
+icon = ExtResource("1_osyws")
